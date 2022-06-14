@@ -85,8 +85,8 @@ Helps you create a playlist of the year by notifying you daily to add a song to 
 * Use tab navigations to go to respective screens
 
 ## Wireframes
-[fbu app - wireframe.pdf](https://github.com/samanthashih/Capstore/files/8902960/fbu.app.-.wireframe.pdf)
-
+[Add picture of your hand sketched wireframes in this section]
+<img src="[fbu app - wireframe](https://user-images.githubusercontent.com/54146286/173664656-32555895-a132-4e31-ae87-9f3147e40e0f.jpg)" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 

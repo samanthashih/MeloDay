@@ -85,8 +85,7 @@ Helps you create a playlist of the year by notifying you daily to add a song to 
 * Use tab navigations to go to respective screens
 
 ## Wireframes
-[Add picture of your hand sketched wireframes in this section]
-<img src="https://user-images.githubusercontent.com/54146286/173664656-32555895-a132-4e31-ae87-9f3147e40e0f.jpg" width=600>
+<img src="https://user-images.githubusercontent.com/54146286/173664939-bd2f1685-2668-44f0-a1eb-b63e31143b2d.jpg" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 

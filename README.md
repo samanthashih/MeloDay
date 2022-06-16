@@ -43,6 +43,9 @@ Create a playlist of the year by notifying you daily to add a song to the playli
 * Suggest friends to follow based on contacts list, Facebook friends, Spotify friends
 * Play song snippets when you click on song cover
 
+**Planned Problems**
+* Filter timeline to only see songs from a certain date range
+
 **Optional Nice-to-have Stories**
 
 * Map of where you are when you added song

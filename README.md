@@ -41,10 +41,11 @@ Create a playlist of the year by notifying you daily to add a song to the playli
     * Maybe have the user be able to add a song any time of the day but have a notify reminder at end of day if user did not add a song?
 * Modern UI with color theme
 * Suggest friends to follow based on contacts list, Facebook friends, Spotify friends
-* Play song snippets when you click on song cover
 
 **Planned Problems**
 * Filter timeline to only see songs from a certain date range
+* Play song snippets when you click on song cover
+* Suggest popular songs based on your location
 
 **Optional Nice-to-have Stories**
 

@@ -94,7 +94,62 @@ Helps you create a playlist of the year by notifying you daily to add a song to 
 ## Schema 
 [This section will be completed in Unit 9]
 ### Models
-[Add table of models]
+#### User
+
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | objectId      | String   | unique id for the user (default field) |
+   | username      | String   | unique username |
+   | password      | String   | user's password |
+   | profilePic    | File     | user's profile image |
+   | playlist      | JSONObject? | user's playlist |
+   | createdAt     | DateTime | date when post is created (default field) |
+   | updatedAt     | DateTime | date when post is last updated (default field) |
+   
+#### Post
+
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | objectId      | String   | unique id for the user post (default field) |
+   | user          | Pointer to User| post author |
+   | song          | JSONObject? | song that user posts |
+   | caption       | String   | post caption by author |
+   | commentsCount | Number   | number of comments on post |
+   | likesCount    | Number   | number of likes for the post |
+   | createdAt     | DateTime | date when post is created (default field) |
+   | updatedAt     | DateTime | date when post is last updated (default field) |
+   
+#### Comments
+
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | objectId      | String   | unique id for the comment (default field) |
+   | post          | Pointer to Post| post that is commented on |
+   | commentUser   | Pointer to User| comment author |
+   | createdAt     | DateTime | date when post is created (default field) |
+   | updatedAt     | DateTime | date when post is last updated (default field) |
+   
+#### Likes
+
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | objectId      | String   | unique id for the comment (default field) |
+   | post          | Pointer to Post| post that is commented on |
+   | likeUser      | Pointer to User| like author |
+   | createdAt     | DateTime | date when post is created (default field) |
+   | updatedAt     | DateTime | date when post is last updated (default field) |
+  
+#### Friends
+
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | objectId      | String   | unique id for the comment (default field) |
+   | friend1       | Pointer to User| first user in friendship |
+   | friend2       | Pointer to User| second user in friendship |
+   | createdAt     | DateTime | date when post is created (default field) |
+   | updatedAt     | DateTime | date when post is last updated (default field) |
+
+
 ### Networking
 - Login
     - Google

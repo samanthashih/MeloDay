@@ -31,16 +31,17 @@ Create a playlist of the year by notifying you daily to add a song to the playli
 * Individual user accounts
     * Username, display name, profile picture
     * Remember user's login
-*  Be able to notify user daily to add a song
-    * Maybe have the user be able to add a song any time of the day but have a notify reminder at end of day if user did not add a song?
 * Add daily song to playlist
-    * Spotify API
+    * Be able to search for songs
+    * Add caption to song post
 * Timeline to see other people's songs
     * See their year playlist
-* Add caption to song post
-* Be able to like & comment other people's songs
+    * Be able to like & comment other people's songs
+*  Be able to notify user daily to add a song
+    * Maybe have the user be able to add a song any time of the day but have a notify reminder at end of day if user did not add a song?
 * Modern UI with color theme
 * Suggest friends to follow based on contacts list, Facebook friends, Spotify friends
+* Play song snippets when you click on song cover
 
 **Optional Nice-to-have Stories**
 
@@ -49,40 +50,47 @@ Create a playlist of the year by notifying you daily to add a song to the playli
     * Can see other friends locations also
     * Global map feature to see people around world
 * Use Shazam (or some music recognition software) to recognize songs and ask user if they want to add it to playlist
-* Be able to login via Google, Facebook, etc.
+* Be able to login via Spotify, Google, Facebook.
 * Share daily song post via text message, post to IG story
 * Categorize songs into their respective categories of music (pop, indie, rap, etc.) and create a visualization of your accumulated songs
-    * Pie chart?
-* Play song snippets when you click on song cover
-
+    * Pie chart
 
 ### 2. Screen Archetypes
 * Login
    * Individual user accounts
-       * Username, display name, profile picture
+       * Username, password, profile picture
+       * Playlist
+       * Friends
+       * Settings for notifications
 * Timeline
-* Comment on friend's posts
-* Choose & post song
+   * See other users' posts
+       * Username, profile picture
+       * Song post
+       * Like/comment on others' posts
+* Post
+   * Search for song
 
 ### 3. Navigation
 
-**Tab Navigation** (Tab to Screen)
-
-* Home Timeline
-* Post song (middle tab) (song recognition feature would go here)
-* See current playlist & details (song category display would also go here)
-* Profile
-
-**Flow Navigation** (Screen to Screen)
+**Flow/Tab Navigation** (Tab/Screen to Screen)
 
 * Login
-   * First screen
-* Timeline
-   * From login screen to timeline screen
-   * When click on home timeline tab
-* Notification to add song
-    * Open app on post song screen
-* Use tab navigations to go to respective screens
+   * Opening screen
+* Home timeline
+   * From login screen to home timeline fragment
+   * When click on home timeline tab on bottom navigation bar
+* Post
+   * To post fragment
+   * When click on post tab on bottom navigation bar
+* Playlist
+   * Display current playlist
+* Profile
+   * To profile fragment
+   * When click on post tab on bottom navigation bar
+* Settings
+    * From profile fragment to settings fragment
+    * Notification settings
+    * Logout
 
 ## Wireframes
 <img src="https://user-images.githubusercontent.com/54146286/173664939-bd2f1685-2668-44f0-a1eb-b63e31143b2d.jpg" width=600>

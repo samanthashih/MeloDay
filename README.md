@@ -11,7 +11,7 @@ Original App Design Project - README Template
 
 ## Overview
 ### Description
-Helps you create a playlist of the year by notifying you daily to add a song to the playlist. There will be a timeline where you can follow people and see their song of the day, like it, comment, react.
+Create a playlist of the year by notifying you daily to add a song to the playlist. There will be a home timeline where you can follow people and see their song of the day, like and comment on the post.
 
 ### App Evaluation
 [Evaluation of your app across the following attributes]

@@ -151,6 +151,30 @@ Create a playlist of the year by notifying you daily to add a song to the playli
 
 
 ### Networking
+#### List of network requests by screen
+   - Home Timeline Screen
+      - (Read/GET) Query all posts
+         ```java
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.setLimit(10);
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> queryPosts, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "issue with getting posts", e);
+                    return;
+                }
+                posts.addAll(queryPosts);
+                adapter.notifyDataSetChanged();
+            }
+        });
+         ```
+      - (Create/POST) Create a new post object
+      - (Delete) Delete existing post
+
+#### APIs
 - Login
     - Google
     - Facebook

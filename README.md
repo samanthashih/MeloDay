@@ -133,7 +133,7 @@ Helps you create a playlist of the year by notifying you daily to add a song to 
 
    | Property      | Type     | Description |
    | ------------- | -------- | ------------|
-   | objectId      | String   | unique id for the comment (default field) |
+   | objectId      | String   | unique id for the like (default field) |
    | post          | Pointer to Post| post that is commented on |
    | likeUser      | Pointer to User| like author |
    | createdAt     | DateTime | date when post is created (default field) |
@@ -143,7 +143,7 @@ Helps you create a playlist of the year by notifying you daily to add a song to 
 
    | Property      | Type     | Description |
    | ------------- | -------- | ------------|
-   | objectId      | String   | unique id for the comment (default field) |
+   | objectId      | String   | unique id for the friendship (default field) |
    | friend1       | Pointer to User| first user in friendship |
    | friend2       | Pointer to User| second user in friendship |
    | createdAt     | DateTime | date when post is created (default field) |

@@ -43,6 +43,7 @@ Create a playlist of the year by notifying you daily to add a song to the playli
 
 **Planned Problems**
 * Filter timeline to only see songs from a certain date range
+* Suggest songs based on filtering user’s listening history, top artists, etc. (planned problem)
 * Play song snippets when you click on song cover
 * Suggest popular songs based on your location
 

@@ -1,7 +1,7 @@
 Original App Design Project - README Template
 ===
 
-# 📝 App Name in Progress...
+# MeloDay 🎶
 
 ## Table of Contents
 1. [Overview](#Overview)

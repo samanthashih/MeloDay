@@ -31,6 +31,7 @@ Create a playlist of the year by notifying you daily to add a song to the playli
 * Individual user accounts
     * Username, display name, profile picture
     * Remember user's login
+* Be able to login via Spotify
 * Add daily song to playlist
     * Be able to search for songs
     * Add caption to song post
@@ -39,8 +40,6 @@ Create a playlist of the year by notifying you daily to add a song to the playli
     * Be able to like & comment other people's songs
 *  Be able to notify user daily to add a song
     * Maybe have the user be able to add a song any time of the day but have a notify reminder at end of day if user did not add a song?
-* Modern UI with color theme
-* Suggest friends to follow based on contacts list, Facebook friends, Spotify friends
 
 **Planned Problems**
 * Filter timeline to only see songs from a certain date range
@@ -49,12 +48,13 @@ Create a playlist of the year by notifying you daily to add a song to the playli
 
 **Optional Nice-to-have Stories**
 
+* Modern UI with color theme
+* Suggest friends to follow based on contacts list, Facebook friends, Spotify friends
 * Map of where you are when you added song
     * Google Maps API
     * Can see other friends locations also
     * Global map feature to see people around world
 * Use Shazam (or some music recognition software) to recognize songs and ask user if they want to add it to playlist
-* Be able to login via Spotify, Google, Facebook.
 * Share daily song post via text message, post to IG story
 * Categorize songs into their respective categories of music (pop, indie, rap, etc.) and create a visualization of your accumulated songs
     * Pie chart

@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         accessToken = getIntent().getStringExtra("accessToken");
-        Log.e(TAG, accessToken);
+//        Log.e(TAG, accessToken);
         spotifyApi = new SpotifyApi(accessToken);
         new MyTask().execute();
 

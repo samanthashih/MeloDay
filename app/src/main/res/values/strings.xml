@@ -2,7 +2,6 @@
     <string name="app_name">Meloday 2.0</string>
     <string name="acces_token">token</string>
     <string name="back4app_server_url">https://parseapi.back4app.com/</string>
-    <!-- Paste BOTH strings as required -->
     <string name="back4app_app_id">FgD5jDjVHCpBAcTFk3mhJstzfrG7eM4YjWGoj8Xr</string>
     <string name="back4app_client_key">9fYIA0xK1sc4GYPgKKZWxnUOtxCvyb5xJJlNQ85o</string>
 </resources>

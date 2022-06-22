@@ -3,19 +3,35 @@ package com.example.meloday20;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
-public class LoginActivity extends AppCompatActivity {
-    private static final String TAG = "LoginActivity";
+import java.util.List;
+
+import spotify.api.spotify.SpotifyApi;
+
+public class SpotifyLoginActivity extends AppCompatActivity {
+    private static final String TAG = "SpotifyLoginActivity";
     private static final int REQUEST_CODE = 1337;
     private static final String CLIENT_ID = "f739c53578ef4b98b5ec6e8068bc4ec6";
     private static final String CLIENT_SECRET = "16e6e2b17da84d3d9ebabac507a1a537";
     private final String REDIRECT_URI = "com.example.meloday20://callback";
+    private SpotifyApi spotifyApi;
+    private String accessToken;
 
 
     @Override
@@ -46,7 +62,9 @@ public class LoginActivity extends AppCompatActivity {
                 // Response was successful and contains auth token
                 case TOKEN:
                     // Handle successful response
-                    String accessToken = response.getAccessToken();
+                    accessToken = response.getAccessToken();
+                    spotifyApi = new SpotifyApi(accessToken);
+                    new createParseUser().execute();
                     Intent toMain = new Intent(this, MainActivity.class);
                     toMain.putExtra("accessToken", accessToken);
                     startActivity(toMain);
@@ -63,4 +81,31 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
+
+
+    private class createParseUser extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            ParseUser user = new ParseUser();
+            String username = spotifyApi.getCurrentUser().getId();
+            String password = accessToken;
+            user.setUsername(username);
+            user.setPassword(password);
+            user.signUpInBackground(new SignUpCallback() {
+                @Override
+                public void done(ParseException e) {
+                    Intent intent = new Intent(SpotifyLoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            return null;
+        }
+        @Override
+        protected void onPostExecute(String result)
+        {
+            super.onPostExecute(result);
+        }
+    }
+
 }

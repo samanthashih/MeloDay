@@ -6,8 +6,9 @@
         <entry key="app/src/main/res/drawable/ic_baseline_add_box_24.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.1835" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.21603260869565216" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.2742250525433084" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20625" />
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.22708333333333333" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1609375" />
         <entry key="app/src/main/res/layout/fragment_playlist.xml" value="0.2717391304347826" />
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.21603260869565216" />

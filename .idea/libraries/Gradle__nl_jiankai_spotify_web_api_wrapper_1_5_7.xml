@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: nl.jiankai:spotify-web-api-wrapper:1.5.7">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/nl.jiankai/spotify-web-api-wrapper/1.5.7/221b5c08ad89809efe56a612cde535c56e8be5c4/spotify-web-api-wrapper-1.5.7.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/nl.jiankai/spotify-web-api-wrapper/1.5.7/4bb2bd7af3991f4b622f71498897f411e730ca40/spotify-web-api-wrapper-1.5.7-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/nl.jiankai/spotify-web-api-wrapper/1.5.7/85e882160804e02a4bcbd6aa2bb490a2ea3cbd7/spotify-web-api-wrapper-1.5.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

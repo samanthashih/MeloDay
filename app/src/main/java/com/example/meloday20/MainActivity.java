@@ -7,9 +7,11 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.meloday20.fragments.HomeFragment;
+import com.example.meloday20.fragments.PlaylistFragment;
 import com.example.meloday20.fragments.PostFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         accessToken = getIntent().getStringExtra("accessToken");
-//        Log.e(TAG, accessToken);
+        Log.e(TAG, accessToken);
         spotifyApi = new SpotifyApi(accessToken);
         new MyTask().execute();
 
@@ -47,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_post:
                         fragment = new PostFragment();
                         break;
-//                    case R.id.action_profile:
-//                        fragment = new ProfileFragment();
-//                        break;
+                    case R.id.action_playlist:
+                        fragment = new PlaylistFragment();
+                        break;
                     case R.id.action_home:
                     default:
                         fragment = new HomeFragment();

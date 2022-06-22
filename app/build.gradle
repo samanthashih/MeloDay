@@ -42,5 +42,6 @@ dependencies {
 //    implementation 'com.github.kaaes:spotify-web-api-android:0.4.1' -- it won't import the library, maybe bc the gradle version is old?
     implementation 'nl.jiankai:spotify-web-api-wrapper:1.5.7'
 //    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation "com.github.parse-community.Parse-SDK-Android:parse:4.0.0"
 
 }

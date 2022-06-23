@@ -22,7 +22,12 @@ import com.spotify.sdk.android.auth.AuthorizationResponse;
 
 import java.util.List;
 
-import spotify.api.spotify.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Album;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class SpotifyLoginActivity extends AppCompatActivity {
     private static final String TAG = "SpotifyLoginActivity";
@@ -63,16 +68,30 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                 case TOKEN:
                     // Handle successful response
                     accessToken = response.getAccessToken();
-                    spotifyApi = new SpotifyApi(accessToken);
-                    new createParseUser().execute();
-                    Intent toMain = new Intent(this, MainActivity.class);
-                    toMain.putExtra("accessToken", accessToken);
-                    startActivity(toMain);
+                    SpotifyApi api = new SpotifyApi();
+                    api.setAccessToken(accessToken);
+                    SpotifyService spotify = api.getService();
+
+                    spotify.getAlbum("2dIGnmEIy1WZIcZCFSj6i8", new Callback<Album>() {
+                        @Override
+                        public void success(Album album, Response response) {
+                            Log.d("Album success", album.name);
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            Log.d("Album failure", error.toString());
+                        }
+                    });
+//                    new createParseUser().execute();
+//                    Intent toMain = new Intent(this, MainActivity.class);
+//                    toMain.putExtra("accessToken", accessToken);
+//                    startActivity(toMain);
                     break;
 
                 // Auth flow returned an error
                 case ERROR:
-                    // Handle error response
+                    // Handle error response==
                     break;
 
                 // Most likely auth flow was cancelled
@@ -83,29 +102,29 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     }
 
 
-    private class createParseUser extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-            ParseUser user = new ParseUser();
-            String username = spotifyApi.getCurrentUser().getId();
-            String password = accessToken;
-            user.setUsername(username);
-            user.setPassword(password);
-            user.signUpInBackground(new SignUpCallback() {
-                @Override
-                public void done(ParseException e) {
-                    Intent intent = new Intent(SpotifyLoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            });
-            return null;
-        }
-        @Override
-        protected void onPostExecute(String result)
-        {
-            super.onPostExecute(result);
-        }
-    }
+//    private class createParseUser extends AsyncTask<String, Void, String> {
+//        @Override
+//        protected String doInBackground(String... params) {
+//            ParseUser user = new ParseUser();
+//            String username = spotifyApi.getCurrentUser().getId();
+//            String password = accessToken;
+//            user.setUsername(username);
+//            user.setPassword(password);
+//            user.signUpInBackground(new SignUpCallback() {
+//                @Override
+//                public void done(ParseException e) {
+//                    Intent intent = new Intent(SpotifyLoginActivity.this, MainActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                }
+//            });
+//            return null;
+//        }
+//        @Override
+//        protected void onPostExecute(String result)
+//        {
+//            super.onPostExecute(result);
+//        }
+//    }
 
 }

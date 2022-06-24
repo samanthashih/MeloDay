@@ -5,9 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".fragments.PostFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="post fragment" />
-
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Search" />
 </FrameLayout>

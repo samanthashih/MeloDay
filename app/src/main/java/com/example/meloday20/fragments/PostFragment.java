@@ -9,10 +9,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.meloday20.R;
 
 public class PostFragment extends Fragment {
+    private EditText etSearch;
+
     public PostFragment() {
         // Required empty public constructor
     }
@@ -32,18 +35,7 @@ public class PostFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        // post
-//        btnPost.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                post();
-//            }
-//        });
-
-    }
-
-    private void post() {
+        etSearch = view.findViewById(R.id.etSearch);
     }
 
 }

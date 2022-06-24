@@ -1,6 +1,5 @@
 package com.example.meloday20.fragments;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -13,29 +12,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.EditText;
 
 import com.example.meloday20.MainActivity;
-import com.example.meloday20.ParseApplication;
 import com.example.meloday20.R;
-import com.example.meloday20.SpotifyLoginActivity;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import com.parse.SignUpCallback;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import spotify.api.enums.QueryType;
 import spotify.api.spotify.SpotifyApi;
-import spotify.models.paging.Paging;
 import spotify.models.playlists.PlaylistSimplified;
 import spotify.models.playlists.requests.CreateUpdatePlaylistRequestBody;
+import spotify.models.search.SearchQueryResult;
+import spotify.models.tracks.TrackFull;
 
 public class PlaylistFragment extends Fragment {
     private static final String TAG = "PlaylistFragment";
-    private String accessToken;
+//    private String accessToken;
     SpotifyApi spotifyApi = MainActivity.spotifyApi;
     private String userId;
     private String displayName;
@@ -64,7 +63,6 @@ public class PlaylistFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btnCreatePlaylist = view.findViewById(R.id.btnCreatePlaylist);
-
         btnCreatePlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +70,7 @@ public class PlaylistFragment extends Fragment {
             }
         });
     }
+
 
     // Spotify API Tasks
     private class createPlaylist extends AsyncTask<String, Void, String> {

@@ -24,7 +24,14 @@ import com.spotify.sdk.android.auth.AuthorizationResponse;
 
 import java.util.List;
 
-import spotify.api.spotify.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.UserPrivate;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+//import spotify.api.spotify.SpotifyApi;
 
 public class SpotifyLoginActivity extends AppCompatActivity {
     private static final String TAG = "SpotifyLoginActivity";
@@ -32,8 +39,8 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     private static final String CLIENT_ID = "f739c53578ef4b98b5ec6e8068bc4ec6";
     private static final String CLIENT_SECRET = "16e6e2b17da84d3d9ebabac507a1a537";
     private final String REDIRECT_URI = "com.example.meloday20://callback";
-    SpotifyApi spotifyApi;
-    String accessToken;
+    public static SpotifyService spotify;
+    public static String accessToken;
     String username;
 
     @Override
@@ -63,39 +70,35 @@ public class SpotifyLoginActivity extends AppCompatActivity {
             switch (response.getType()) {
                 // Response was successful and contains auth token
                 case TOKEN:
-                    // Handle successful response
+                    // Handle successful response -- set up network client
                     accessToken = response.getAccessToken();
-                    spotifyApi = new SpotifyApi(accessToken);
-                    new getUserDetails().execute();
+                    SpotifyApi api = new SpotifyApi();
+                    api.setAccessToken(accessToken);
+                    SpotifyService spotify = api.getService();
+
+                    spotify.getMe(new Callback<UserPrivate>() {
+                        @Override
+                        public void success(UserPrivate userPrivate, Response response) {
+                            username = userPrivate.id;
+                            loginUser(username, "password");
+                        }
+                        @Override
+                        public void failure(RetrofitError error) {
+                            Log.d(TAG, error.toString());
+                        }
+                    });
                     Intent toMain = new Intent(this, MainActivity.class);
                     toMain.putExtra("accessToken", accessToken);
                     startActivity(toMain);
                     break;
-
                 // Auth flow returned an error
                 case ERROR:
                     // Handle error response
                     break;
-
                 // Most likely auth flow was cancelled
                 default:
                     // Handle other cases
             }
-        }
-    }
-
-    private class getUserDetails extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-            username = spotifyApi.getCurrentUser().getId();
-            loginUser(username, "password");
-           // Log.e(TAG, username);
-            return null;
-        }
-        @Override
-        protected void onPostExecute(String result)
-        {
-            super.onPostExecute(result);
         }
     }
 
@@ -104,7 +107,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
-                if (e!= null) {
+                if (e != null) {
                     signUpUser(username, password);
                     return;
                 }
@@ -119,10 +122,27 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
-                Log.i(TAG, "signed up user: "+username);
+                Log.i(TAG, "signed up user: " + username);
                 return;
             }
         });
     }
+
+
+
+//    private class getUserDetails extends AsyncTask<String, Void, String> {
+//        @Override
+//        protected String doInBackground(String... params) {
+//            username = spotifyApi.getCurrentUser().getId();
+//            loginUser(username, "password");
+//           // Log.e(TAG, username);
+//            return null;
+//        }
+//        @Override
+//        protected void onPostExecute(String result)
+//        {
+//            super.onPostExecute(result);
+//        }
+//    }
 
 }

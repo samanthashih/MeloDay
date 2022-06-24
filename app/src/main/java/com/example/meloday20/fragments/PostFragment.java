@@ -20,15 +20,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import spotify.api.enums.QueryType;
-import spotify.api.spotify.SpotifyApi;
-import spotify.models.search.SearchQueryResult;
-import spotify.models.tracks.TrackFull;
+//
+//import spotify.api.enums.QueryType;
+//import spotify.api.spotify.SpotifyApi;
+//import spotify.models.search.SearchQueryResult;
+//import spotify.models.tracks.TrackFull;
 
 public class PostFragment extends Fragment {
     private final static String TAG = "PostFragment";
-    SpotifyApi spotifyApi = MainActivity.spotifyApi;
+//    SpotifyApi spotifyApi = MainActivity.spotifyApi;
     private EditText etSearch;
     Map<String, String> searchItemParams = new HashMap<>();
 
@@ -55,30 +55,30 @@ public class PostFragment extends Fragment {
 
     }
 
-    private class searchTracks extends AsyncTask<String, Void, List<String>> {
-        @Override
-        protected List<String> doInBackground(String... params) {
-            String trackQuery = params[0];
-            String query = "track:" + trackQuery + "artist:" + trackQuery;
-            List<QueryType> queryTypes = new ArrayList<QueryType>();
-            queryTypes.add(QueryType.TRACK);
-            searchItemParams.put("limit", "5");
-            searchItemParams.put("offset", params[1]);
-            SearchQueryResult result = spotifyApi.searchItem(query, queryTypes, searchItemParams);
-            List<TrackFull> tracks = result.getTracks().getItems();
-            List<String> trackIds = new ArrayList<>();
-            for (TrackFull track: tracks) {
-                trackIds.add(track.getId());
-            }
-            return trackIds;
-        }
-        @Override
-        protected void onPostExecute(List<String> result) {
-            super.onPostExecute(result);
-            for (String trackId: result) {
-                Log.i(TAG, trackId);
-            }
-        }
-    }
+//    private class searchTracks extends AsyncTask<String, Void, List<String>> {
+//        @Override
+//        protected List<String> doInBackground(String... params) {
+//            String trackQuery = params[0];
+//            String query = "track:" + trackQuery + "artist:" + trackQuery;
+//            List<QueryType> queryTypes = new ArrayList<QueryType>();
+//            queryTypes.add(QueryType.TRACK);
+//            searchItemParams.put("limit", "5");
+//            searchItemParams.put("offset", params[1]);
+//            SearchQueryResult result = spotifyApi.searchItem(query, queryTypes, searchItemParams);
+//            List<TrackFull> tracks = result.getTracks().getItems();
+//            List<String> trackIds = new ArrayList<>();
+//            for (TrackFull track: tracks) {
+//                trackIds.add(track.getId());
+//            }
+//            return trackIds;
+//        }
+//        @Override
+//        protected void onPostExecute(List<String> result) {
+//            super.onPostExecute(result);
+//            for (String trackId: result) {
+//                Log.i(TAG, trackId);
+//            }
+//        }
+//    }
 
 }

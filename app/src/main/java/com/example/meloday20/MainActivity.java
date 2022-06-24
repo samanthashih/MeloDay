@@ -18,20 +18,18 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.HashMap;
 import java.util.Map;
 
+import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Album;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import spotify.api.spotify.SpotifyApi;
-import spotify.models.albums.AlbumFull;
 
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    private static String accessToken;
-    public static SpotifyApi spotifyApi;
+//    SpotifyService spotify = SpotifyLoginActivity.spotify;
     private BottomNavigationView bottomNavigationView;
     final FragmentManager fts = getSupportFragmentManager();
 
@@ -39,30 +37,39 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        accessToken = getIntent().getStringExtra(getString(R.string.KEY_ACCESS_TOKEN));
-        spotifyApi = new SpotifyApi(accessToken);
-        new MyTask().execute();
+
+//        SpotifyApi api = new SpotifyApi();
+//        api.setAccessToken(SpotifyLoginActivity.accessToken);
+//        SpotifyService spotify = api.getService();
+//        spotify.getAlbum("2dIGnmEIy1WZIcZCFSj6i8", new Callback<Album>() {
+//            @Override
+//            public void success(Album album, Response response) {
+//                Log.d("Album success", album.name);
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                Log.d("Album failure", error.toString());
+//            }
+//        });
+
+//        new MyTask().execute();
 
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
-                Bundle bundle = new Bundle();
-                bundle.putString(getString(R.string.KEY_ACCESS_TOKEN), accessToken);
                 switch (item.getItemId()) {
                     case R.id.action_post:
                         fragment = new PostFragment();
-                        fragment.setArguments(bundle);
                         break;
                     case R.id.action_playlist:
                         fragment = new PlaylistFragment();
-                        fragment.setArguments(bundle);
                         break;
                     case R.id.action_home:
                     default:
                         fragment = new HomeFragment();
-                        fragment.setArguments(bundle);
                         break;
                 }
                 fts.beginTransaction().replace(R.id.flContainer, fragment).commit();

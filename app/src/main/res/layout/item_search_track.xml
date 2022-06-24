@@ -7,7 +7,7 @@
     android:background="#152229">
 
     <ImageView
-        android:id="@+id/ivCover"
+        android:id="@+id/ivCoverImage"
         android:layout_width="72dp"
         android:layout_height="69dp"
         tools:layout_editor_absoluteX="1dp"

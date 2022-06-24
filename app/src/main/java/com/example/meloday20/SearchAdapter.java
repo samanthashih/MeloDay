@@ -3,6 +3,7 @@ package com.example.meloday20;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,16 +12,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.example.meloday20.fragments.PostFragment;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
+import kaaes.spotify.webapi.android.models.ArtistSimple;
+import kaaes.spotify.webapi.android.models.Image;
 import kaaes.spotify.webapi.android.models.Track;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder>{
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
+    private static final String TAG = "SearchAdapter";
     private final Context context;
     private final List<Track> tracks;
 
@@ -28,36 +37,66 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         this.context = context;
         this.tracks = tracks;
     }
+
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+    public SearchAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // inflate view
+        View view = LayoutInflater.from(context).inflate(R.layout.item_search_track, parent, false); // pass it a “blueprint” of the view (reference to XML layout file)
+        return new ViewHolder(view); // wrap view in viewholder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull SearchAdapter.ViewHolder holder, int position) {
+        Track track = tracks.get(position);
+        holder.bind(track);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return tracks.size();
     }
-
-
 
     // viewholder class
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView tvTitle;
+        TextView tvArtist;
+        ImageView ivCoverImage;
+        String artistsString;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
+            tvArtist = itemView.findViewById(R.id.tvArtist);
+            ivCoverImage = itemView.findViewById(R.id.ivCoverImage);
+            artistsString = "";
         }
 
         public void bind(Track track) {
+            tvTitle.setText(track.name);
+            for (ArtistSimple artist: track.artists) {
+                artistsString += artist.name;
+            }
+            tvArtist.setText(artistsString);
+            Image coverImage = track.album.images.get(0);
+            if (coverImage != null) {
+                Glide.with(context)
+                        .load(coverImage.url)
+                        .transform(new RoundedCorners(100))
+                        .into(ivCoverImage);
+            }
         }
-
 
         @Override
         public void onClick(View v) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) { //if position valid, get that post
+                Track track = tracks.get(position);
+                Log.i(TAG,"search tracks position: " + position);
+                Intent intent = new Intent(context, PostFragment.class);
+                intent.putExtra("track", Parcels.wrap(track));
+                context.startActivity(intent);
+            }
         }
     }
 }

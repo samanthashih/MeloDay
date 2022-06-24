@@ -55,12 +55,26 @@ public class PlaylistFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         btnCreatePlaylist = view.findViewById(R.id.btnCreatePlaylist);
 
-//        btnCreatePlaylist.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                new createPlaylist().execute();
-//            }
-//        });
+        btnCreatePlaylist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new createPlaylist().execute();
+            }
+        });
+    }
+
+    private class createPlaylist extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            CreateUpdatePlaylistRequestBody body = new CreateUpdatePlaylistRequestBody(displayName + "'s meloday", "my description", true, false);
+            spotifyApi.createPlaylist(userId, body);
+            return null;
+        }
+        @Override
+        protected void onPostExecute(String result)
+        {
+            super.onPostExecute(result);
+        }
     }
 
 

@@ -39,8 +39,8 @@ dependencies {
     // Added dependencies
     implementation 'com.spotify.android:auth:1.2.5' // Maven dependency
     implementation 'androidx.browser:browser:1.0.0'
-    implementation 'com.github.kaaes:spotify-web-api-android:0.4.1'
-//    implementation 'nl.jiankai:spotify-web-api-wrapper:1.5.7'
+//    implementation 'com.github.kaaes:spotify-web-api-android:0.4.1'
+    implementation 'nl.jiankai:spotify-web-api-wrapper:1.5.7'
 //    implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "com.github.parse-community.Parse-SDK-Android:parse:4.0.0"
 

@@ -8,11 +8,15 @@
         <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.1835" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2742250525433084" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20625" />
+        <entry key="app/src/main/res/layout/activity_search.xml" value="0.33957961062167563" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.22708333333333333" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1609375" />
         <entry key="app/src/main/res/layout/fragment_playlist.xml" value="0.2717391304347826" />
-        <entry key="app/src/main/res/layout/fragment_post.xml" value="0.533951004691746" />
+        <entry key="app/src/main/res/layout/fragment_post.xml" value="0.4770731707317073" />
+        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.2546875" />
+        <entry key="app/src/main/res/layout/item_search_track.xml" value="0.7498677571614584" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.37775878906250004" />
+        <entry key="app/src/main/res/menu/post_fragment_menu.xml" value="0.2833333333333333" />
       </map>
     </option>
   </component>

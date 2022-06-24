@@ -9,17 +9,22 @@ import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
+import com.example.meloday20.SpotifyServiceSingleton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import kaaes.spotify.webapi.android.SpotifyService;
 //
 //import spotify.api.enums.QueryType;
 //import spotify.api.spotify.SpotifyApi;
@@ -28,9 +33,9 @@ import java.util.Map;
 
 public class PostFragment extends Fragment {
     private final static String TAG = "PostFragment";
-//    SpotifyApi spotifyApi = MainActivity.spotifyApi;
+    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance();
     private EditText etSearch;
-    Map<String, String> searchItemParams = new HashMap<>();
+    private Map<String, String> searchItemParams = new HashMap<>();
 
     public PostFragment() {
         // Required empty public constructor
@@ -39,6 +44,8 @@ public class PostFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -51,9 +58,8 @@ public class PostFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        etSearch = view.findViewById(R.id.etSearch);
-
     }
+
 
 //    private class searchTracks extends AsyncTask<String, Void, List<String>> {
 //        @Override

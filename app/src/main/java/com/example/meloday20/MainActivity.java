@@ -29,7 +29,7 @@ import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-//    SpotifyService spotify = SpotifyLoginActivity.spotify;
+    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance();
     private BottomNavigationView bottomNavigationView;
     final FragmentManager fts = getSupportFragmentManager();
 
@@ -52,9 +52,10 @@ public class MainActivity extends AppCompatActivity {
 //                Log.d("Album failure", error.toString());
 //            }
 //        });
+        initBottomNav();
+    }
 
-//        new MyTask().execute();
-
+    private void initBottomNav() {
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
@@ -79,22 +80,20 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.action_home);
     }
 
-    private class MyTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-//            Map<String, String> optionalParameters = new HashMap<>();
-//            AlbumFull albumFull = spotifyApi.getAlbum("2dIGnmEIy1WZIcZCFSj6i8", optionalParameters);
-//            String name = spotifyApi.getCurrentUser().getId();
-            return null;
-        }
-        @Override
-        protected void onPostExecute(String result)
-        {
-            super.onPostExecute(result);
-        }
-    }
-
-
-
+//
+//    private class MyTask extends AsyncTask<String, Void, String> {
+//        @Override
+//        protected String doInBackground(String... params) {
+////            Map<String, String> optionalParameters = new HashMap<>();
+////            AlbumFull albumFull = spotifyApi.getAlbum("2dIGnmEIy1WZIcZCFSj6i8", optionalParameters);
+////            String name = spotifyApi.getCurrentUser().getId();
+//            return null;
+//        }
+//        @Override
+//        protected void onPostExecute(String result)
+//        {
+//            super.onPostExecute(result);
+//        }
+//    }
 
 }

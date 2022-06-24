@@ -4,9 +4,18 @@ import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 
 public class SpotifyServiceSingleton {
-    public static SpotifyService spotify;
+    private static SpotifyService spotify = null;
+
     private SpotifyServiceSingleton() {
-        // private constructor so that class cannot be instantiated from outside
-//        spotify.;
+        SpotifyApi api = new SpotifyApi();
+        api.setAccessToken(SpotifyLoginActivity.accessToken);
+        spotify = api.getService();
+    }
+
+    public synchronized static SpotifyService getInstance() {
+        if (spotify == null) {
+            new SpotifyServiceSingleton();
+        }
+        return spotify;
     }
 }

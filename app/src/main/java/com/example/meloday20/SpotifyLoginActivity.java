@@ -39,7 +39,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     private static final String CLIENT_ID = "f739c53578ef4b98b5ec6e8068bc4ec6";
     private static final String CLIENT_SECRET = "16e6e2b17da84d3d9ebabac507a1a537";
     private final String REDIRECT_URI = "com.example.meloday20://callback";
-    public static SpotifyService spotify;
+    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance();
     public static String accessToken;
     String username;
 
@@ -72,10 +72,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                 case TOKEN:
                     // Handle successful response -- set up network client
                     accessToken = response.getAccessToken();
-                    SpotifyApi api = new SpotifyApi();
-                    api.setAccessToken(accessToken);
-                    SpotifyService spotify = api.getService();
-
                     spotify.getMe(new Callback<UserPrivate>() {
                         @Override
                         public void success(UserPrivate userPrivate, Response response) {

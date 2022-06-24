@@ -1,5 +1,6 @@
 package com.example.meloday20.fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,13 @@ public class PostFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         etSearch = view.findViewById(R.id.etSearch);
+    }
+
+    private class search extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            return null;
+        }
     }
 
 }

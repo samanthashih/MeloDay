@@ -36,7 +36,7 @@ import spotify.models.playlists.requests.CreateUpdatePlaylistRequestBody;
 public class PlaylistFragment extends Fragment {
     private static final String TAG = "PlaylistFragment";
     private String accessToken;
-    private SpotifyApi spotifyApi;
+    SpotifyApi spotifyApi = MainActivity.spotifyApi;
     private String userId;
     private String displayName;
     private Button btnCreatePlaylist;
@@ -50,10 +50,6 @@ public class PlaylistFragment extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            accessToken = getArguments().getString("accessToken");
-        }
-        spotifyApi = new SpotifyApi(accessToken);
         new setUserDetails().execute();
     }
 

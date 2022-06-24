@@ -25,16 +25,15 @@ import spotify.models.albums.AlbumFull;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static String accessToken;
-    SpotifyApi spotifyApi;
-
+    public static SpotifyApi spotifyApi;
     private BottomNavigationView bottomNavigationView;
     final FragmentManager fts = getSupportFragmentManager();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        accessToken = getIntent().getStringExtra("accessToken");
+        accessToken = getIntent().getStringExtra(getString(R.string.KEY_ACCESS_TOKEN));
         spotifyApi = new SpotifyApi(accessToken);
         new MyTask().execute();
 
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
                 Bundle bundle = new Bundle();
-                bundle.putString("accessToken", accessToken);
+                bundle.putString(getString(R.string.KEY_ACCESS_TOKEN), accessToken);
                 switch (item.getItemId()) {
                     case R.id.action_post:
                         fragment = new PostFragment();

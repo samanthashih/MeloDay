@@ -19,6 +19,7 @@ import com.example.meloday20.R;
 import com.example.meloday20.SpotifyLoginActivity;
 import com.example.meloday20.SpotifyServiceSingleton;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -101,9 +102,11 @@ public class PlaylistFragment extends Fragment {
     }
 
     private void savePlaylistIdParse() {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        currentUser.put("playlistId", playlistId);
-        currentUser.saveInBackground(new SaveCallback() {
+        String currentUserId = ParseUser.getCurrentUser().getObjectId();
+        ParseObject playlist = new ParseObject("Playlist");
+        playlist.put("user", ParseObject.createWithoutData("_User", currentUserId));
+        playlist.put("playlistId", playlistId);
+        playlist.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e != null) {

@@ -1,14 +1,18 @@
 package com.example.meloday20;
 
+import com.parse.ParseUser;
+
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 
 public class SpotifyServiceSingleton {
     private static SpotifyService spotify = null;
+    private static String accessToken;
 
     private SpotifyServiceSingleton() {
         SpotifyApi api = new SpotifyApi();
-        api.setAccessToken(SpotifyLoginActivity.accessToken);
+        accessToken = ParseUser.getCurrentUser().getString("accessToken");
+        api.setAccessToken(accessToken);
         spotify = api.getService();
     }
 

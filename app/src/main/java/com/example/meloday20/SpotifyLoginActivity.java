@@ -88,7 +88,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                     });
                     setParseUserAccessToken();
                     Intent toMain = new Intent(this, MainActivity.class);
-                    toMain.putExtra("accessToken", accessToken);
                     startActivity(toMain);
                     break;
                 // Auth flow returned an error

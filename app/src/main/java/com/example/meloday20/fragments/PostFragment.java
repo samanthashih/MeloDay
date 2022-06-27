@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,9 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 
 import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
+import com.example.meloday20.SearchAdapter;
 import com.example.meloday20.SearchTracksActivity;
 import com.example.meloday20.SpotifyServiceSingleton;
 import com.parse.ParseUser;
@@ -30,8 +34,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kaaes.spotify.webapi.android.SpotifyCallback;
+import kaaes.spotify.webapi.android.SpotifyError;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Track;
+import kaaes.spotify.webapi.android.models.TracksPager;
+import retrofit.client.Response;
 //
 //import spotify.api.enums.QueryType;
 //import spotify.api.spotify.SpotifyApi;
@@ -43,6 +51,11 @@ public class PostFragment extends Fragment {
     public static SpotifyService spotify = SpotifyServiceSingleton.getInstance();
     private Button btnSearch;
     private Track track;
+    private SearchView svSearch2;
+    private RecyclerView rvResults2;
+    private SearchAdapter adapter;
+    private List<Track> tracks;
+    LinearLayoutManager linearLayoutManager;
 
     public PostFragment() {
         // Required empty public constructor
@@ -67,41 +80,54 @@ public class PostFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btnSearch = view.findViewById(R.id.btnSearch);
-        btnSearch.setOnClickListener(new View.OnClickListener() {
+        svSearch2 = view.findViewById(R.id.svSearch2);
+        rvResults2 = view.findViewById(R.id.rvResults2);
+        tracks = new ArrayList<>();
+        adapter = new SearchAdapter(getContext(), tracks);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        rvResults2.setAdapter(adapter);
+        rvResults2.setLayoutManager(linearLayoutManager);
+
+
+        // Setup search field
+        svSearch2.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), SearchTracksActivity.class);
-                startActivity(intent);
+            public boolean onQueryTextSubmit(String query) {
+                tracks.clear();
+                Map<String, Object> options = new HashMap<>();
+//                options.put(SpotifyService.OFFSET, offset);
+                options.put(SpotifyService.LIMIT, 20);
+                spotify.searchTracks(query, options, new SpotifyCallback<TracksPager>() {
+                    @Override
+                    public void success(TracksPager tracksPager, Response response) {
+                        Log.i(TAG, "Search tracks success");
+                        tracks.addAll(tracksPager.tracks.items);
+//                        for (Track t: tracks) {
+//                            Log.i(TAG, t.name + " by: " + t.artists.get(0).name);
+//                        }
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void failure(SpotifyError error) {
+                        Log.e(TAG, "Search tracks error");
+                    }
+                });
+
+                // Reset SearchView
+                svSearch2.clearFocus();
+                svSearch2.setQuery("", false);
+                svSearch2.setIconified(true);
+                // Set activity title to search query
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
             }
         });
     }
 
-
-//    private class searchTracks extends AsyncTask<String, Void, List<String>> {
-//        @Override
-//        protected List<String> doInBackground(String... params) {
-//            String trackQuery = params[0];
-//            String query = "track:" + trackQuery + "artist:" + trackQuery;
-//            List<QueryType> queryTypes = new ArrayList<QueryType>();
-//            queryTypes.add(QueryType.TRACK);
-//            searchItemParams.put("limit", "5");
-//            searchItemParams.put("offset", params[1]);
-//            SearchQueryResult result = spotifyApi.searchItem(query, queryTypes, searchItemParams);
-//            List<TrackFull> tracks = result.getTracks().getItems();
-//            List<String> trackIds = new ArrayList<>();
-//            for (TrackFull track: tracks) {
-//                trackIds.add(track.getId());
-//            }
-//            return trackIds;
-//        }
-//        @Override
-//        protected void onPostExecute(List<String> result) {
-//            super.onPostExecute(result);
-//            for (String trackId: result) {
-//                Log.i(TAG, trackId);
-//            }
-//        }
-//    }
 
 }

@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_add_box_24.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.1835" />
+        <entry key="app/src/main/res/layout/activity_add_track.xml" value="0.1621376811594203" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2742250525433084" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.28263702392578116" />
         <entry key="app/src/main/res/layout/activity_search.xml" value="0.33957961062167563" />

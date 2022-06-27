@@ -17,6 +17,7 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
@@ -85,6 +86,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                             Log.d(TAG, error.toString());
                         }
                     });
+                    setParseUserAccessToken();
                     Intent toMain = new Intent(this, MainActivity.class);
                     toMain.putExtra("accessToken", accessToken);
                     startActivity(toMain);
@@ -99,6 +101,18 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                     // Handle other cases
             }
         }
+    }
+
+    private void setParseUserAccessToken() {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        currentUser.put("accessToken", accessToken);
+        currentUser.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Parse Error while saving accessToken", e);
+                }}
+        });
     }
 
     private void loginUser(String username, String password) {
@@ -126,22 +140,5 @@ public class SpotifyLoginActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
-//    private class getUserDetails extends AsyncTask<String, Void, String> {
-//        @Override
-//        protected String doInBackground(String... params) {
-//            username = spotifyApi.getCurrentUser().getId();
-//            loginUser(username, "password");
-//           // Log.e(TAG, username);
-//            return null;
-//        }
-//        @Override
-//        protected void onPostExecute(String result)
-//        {
-//            super.onPostExecute(result);
-//        }
-//    }
 
 }

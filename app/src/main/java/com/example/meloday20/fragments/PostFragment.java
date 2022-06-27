@@ -1,5 +1,6 @@
 package com.example.meloday20.fragments;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -13,11 +14,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
+import com.example.meloday20.SearchTracksActivity;
 import com.example.meloday20.SpotifyServiceSingleton;
+import com.parse.ParseUser;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Track;
 //
 //import spotify.api.enums.QueryType;
 //import spotify.api.spotify.SpotifyApi;
@@ -34,8 +41,8 @@ import kaaes.spotify.webapi.android.SpotifyService;
 public class PostFragment extends Fragment {
     private final static String TAG = "PostFragment";
     public static SpotifyService spotify = SpotifyServiceSingleton.getInstance();
-    private EditText etSearch;
-    private Map<String, String> searchItemParams = new HashMap<>();
+    private Button btnSearch;
+    private Track track;
 
     public PostFragment() {
         // Required empty public constructor
@@ -44,20 +51,30 @@ public class PostFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        if (getArguments() != null) {
+            track = (Track) getArguments().getParcelable("track");
+            Log.i(TAG, track.name);
+        }
         return inflater.inflate(R.layout.fragment_post, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        btnSearch = view.findViewById(R.id.btnSearch);
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), SearchTracksActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

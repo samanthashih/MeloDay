@@ -2,6 +2,7 @@ package com.example.meloday20;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -53,6 +57,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         return tracks.size();
     }
 
+    public void goToPostFragment() {
+    }
+
     // viewholder class
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvTitle;
@@ -62,6 +69,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvArtist = itemView.findViewById(R.id.tvArtist);
             ivCoverImage = itemView.findViewById(R.id.ivCoverImage);
@@ -70,28 +78,42 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
         public void bind(Track track) {
             tvTitle.setText(track.name);
-            for (ArtistSimple artist: track.artists) {
-                artistsString += artist.name;
+            artistsString = track.artists.get(0).name;
+            if (track.artists.size() > 1) {
+                for (int i = 1; i < track.artists.size(); i++) {
+                    artistsString = artistsString + ", " + track.artists.get(i).name;
+                }
             }
+            Log.i(TAG, track.name + " by: " + artistsString);
             tvArtist.setText(artistsString);
+
             Image coverImage = track.album.images.get(0);
             if (coverImage != null) {
                 Glide.with(context)
                         .load(coverImage.url)
-                        .transform(new RoundedCorners(100))
                         .into(ivCoverImage);
             }
         }
 
         @Override
         public void onClick(View v) {
+            Log.i(TAG, "Clicked searched track!");
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) { //if position valid, get that post
                 Track track = tracks.get(position);
-                Log.i(TAG,"search tracks position: " + position);
-                Intent intent = new Intent(context, PostFragment.class);
-                intent.putExtra("track", Parcels.wrap(track));
-                context.startActivity(intent);
+                Log.i(TAG,"Search tracks position: " + position);
+
+//                AppCompatActivity activity = MainActivity;
+//                PostFragment myFragment = new PostFragment();
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelable("track", Parcels.wrap(track));
+//                myFragment.setArguments(bundle);
+//                activity.getChildFragmentManager().beginTransaction().replace(R.id.flContainer, myFragment).addToBackStack(null).commit();
+//                ((SearchTracksActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, myFragment).addToBackStack(null).commit();
+//                activity.getChildFragmentManager().beginTransaction().replace(R.id.flContainer, myFragment).addToBackStack(null).commit();
+//                Intent intent = new Intent(context, PostFragment.class);
+//                intent.putExtra("track", Parcels.wrap(track));
+//                context.startActivity(intent);
             }
         }
     }

@@ -4,31 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#152229">
+    android:background="#152229"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
 
     <ImageView
         android:id="@+id/ivCoverImage"
         android:layout_width="72dp"
         android:layout_height="69dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
-
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Daylight"
-        tools:layout_editor_absoluteX="73dp"
-        tools:layout_editor_absoluteY="2dp"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff"
+        app:layout_constraintStart_toEndOf="@+id/ivCoverImage"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvArtist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
         android:text="Harry Styles"
-        tools:layout_editor_absoluteX="73dp"
-        tools:layout_editor_absoluteY="22dp"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff"
+        app:layout_constraintStart_toEndOf="@+id/ivCoverImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

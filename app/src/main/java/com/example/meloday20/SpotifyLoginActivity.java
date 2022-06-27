@@ -39,7 +39,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     private static final String CLIENT_ID = "f739c53578ef4b98b5ec6e8068bc4ec6";
     private static final String CLIENT_SECRET = "16e6e2b17da84d3d9ebabac507a1a537";
     private final String REDIRECT_URI = "com.example.meloday20://callback";
-    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance();
+    public static SpotifyService spotify;
     public static String accessToken;
     String username;
 
@@ -72,6 +72,8 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                 case TOKEN:
                     // Handle successful response -- set up network client
                     accessToken = response.getAccessToken();
+                    spotify = SpotifyServiceSingleton.getInstance();
+                    Log.i(TAG, accessToken);
                     spotify.getMe(new Callback<UserPrivate>() {
                         @Override
                         public void success(UserPrivate userPrivate, Response response) {
@@ -89,6 +91,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                     break;
                 // Auth flow returned an error
                 case ERROR:
+                    Log.e(TAG, "Spotify auth error");
                     // Handle error response
                     break;
                 // Most likely auth flow was cancelled
@@ -99,7 +102,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(String username, String password) {
-        Log.e(TAG, "Login attempt for user: " + username);
+        Log.i(TAG, "Login attempt for user: " + username);
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {

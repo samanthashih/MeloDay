@@ -17,6 +17,7 @@ import android.widget.EditText;
 import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
 import com.example.meloday20.SpotifyLoginActivity;
+import com.example.meloday20.SpotifyServiceSingleton;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -48,8 +49,8 @@ public class PlaylistFragment extends Fragment {
     private Button btnCreatePlaylist;
     private String playlistId;
     private Map<String, Object> createPlaylistParams = new HashMap<>();
-    SpotifyApi api;
-    SpotifyService spotify;
+    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance();
+
 
     public PlaylistFragment() {
         // Required empty public constructor
@@ -57,9 +58,6 @@ public class PlaylistFragment extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        api = new SpotifyApi();
-        api.setAccessToken(SpotifyLoginActivity.accessToken);
-        spotify = api.getService();
     }
 
     @Override

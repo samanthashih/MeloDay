@@ -58,7 +58,7 @@ public class PostFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         if (getArguments() != null) {
-            track = (Track) getArguments().getParcelable("track");
+            track = (Track) Parcels.unwrap(getArguments().getParcelable("track"));
             Log.i(TAG, track.name);
         }
         return inflater.inflate(R.layout.fragment_post, container, false);

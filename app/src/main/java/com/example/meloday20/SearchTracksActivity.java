@@ -1,12 +1,20 @@
 package com.example.meloday20;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.widget.SearchView;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+
+import com.example.meloday20.fragments.PostFragment;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +29,7 @@ import kaaes.spotify.webapi.android.models.TracksPager;
 import retrofit.client.Response;
 
 public class SearchTracksActivity extends AppCompatActivity {
-    private static final String TAG = "SearchFragment";
+    private static final String TAG = "SearchTracksActivity";
     public static SpotifyService spotify = SpotifyServiceSingleton.getInstance();
     private SearchView svSearch;
     private RecyclerView rvResults;

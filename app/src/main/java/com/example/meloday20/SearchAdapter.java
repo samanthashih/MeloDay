@@ -111,9 +111,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 //                activity.getChildFragmentManager().beginTransaction().replace(R.id.flContainer, myFragment).addToBackStack(null).commit();
 //                ((SearchTracksActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, myFragment).addToBackStack(null).commit();
 //                activity.getChildFragmentManager().beginTransaction().replace(R.id.flContainer, myFragment).addToBackStack(null).commit();
-//                Intent intent = new Intent(context, PostFragment.class);
-//                intent.putExtra("track", Parcels.wrap(track));
-//                context.startActivity(intent);
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.putExtra("track", Parcels.wrap(track));
+                context.startActivity(intent);
             }
         }
     }

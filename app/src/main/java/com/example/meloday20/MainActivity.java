@@ -15,12 +15,15 @@ import com.example.meloday20.fragments.PlaylistFragment;
 import com.example.meloday20.fragments.PostFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.parceler.Parcels;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Album;
+import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -53,6 +56,21 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
         initBottomNav();
+
+        Track track = (Track) Parcels.unwrap(getIntent().getParcelableExtra("track"));
+        if (track != null) {
+            Log.i(TAG, track.name + " by: " + track.artists.get(0).name);
+
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("track", Parcels.wrap(track));
+            PostFragment fragment = new PostFragment();
+            fragment.setArguments(bundle);
+            fts.beginTransaction().replace(R.id.flContainer, fragment).commit();
+            bottomNavigationView.setSelectedItemId(R.id.action_post);
+        } else {
+            Log.i(TAG, "Not from search activity");
+        }
+
     }
 
     private void initBottomNav() {

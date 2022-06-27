@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             PostFragment fragment = new PostFragment();
             fragment.setArguments(bundle);
             fts.beginTransaction().replace(R.id.flContainer, fragment).commit();
-            bottomNavigationView.setSelectedItemId(R.id.action_post);
+//            bottomNavigationView.setSelectedItemId(R.id.action_post);
         } else {
             Log.i(TAG, "Not from search activity");
         }

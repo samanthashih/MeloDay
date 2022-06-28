@@ -48,7 +48,8 @@ import retrofit.client.Response;
 
 public class PostFragment extends Fragment {
     private final static String TAG = PostFragment.class.getSimpleName();
-    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance();
+    private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
+    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
     private Button btnSearch;
     private Track track;
     private SearchView svSearch2;

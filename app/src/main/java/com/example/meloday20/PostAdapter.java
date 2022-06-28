@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -56,7 +57,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
     // viewholder class
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        SpotifyService spotify = SpotifyServiceSingleton.getInstance();
+        String accessToken = ParseUser.getCurrentUser().getString("accessToken");
+        SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
         String trackTitle;
         List<ArtistSimple> trackArtists;
         String artistsString;

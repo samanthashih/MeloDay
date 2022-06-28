@@ -26,7 +26,8 @@ import retrofit.client.Response;
 @ParseClassName("Post")
 public class Post extends ParseObject {
     private static final String TAG = Post.class.getSimpleName();
-    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance();
+    private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
+    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
     public static final String KEY_USER = "user";
     public static final String KEY_TRACK_ID = "trackId";
     public static final String KEY_CREATED_AT = "createdAt";

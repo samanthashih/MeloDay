@@ -15,6 +15,7 @@ import com.example.meloday20.fragments.PlaylistFragment;
 import com.example.meloday20.fragments.PostFragment;
 import com.example.meloday20.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -33,7 +34,8 @@ import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
-    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance();
+    private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
+    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
     private BottomNavigationView bottomNavigationView;
     final FragmentManager fts = getSupportFragmentManager();
 

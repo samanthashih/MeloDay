@@ -7,18 +7,16 @@ import kaaes.spotify.webapi.android.SpotifyService;
 
 public class SpotifyServiceSingleton {
     private static SpotifyService spotify = null;
-    private static String accessToken = SpotifyLoginActivity.accessToken;
 
-    private SpotifyServiceSingleton() {
+    private SpotifyServiceSingleton(String accessToken) {
         SpotifyApi api = new SpotifyApi();
-//        accessToken = ParseUser.getCurrentUser().getString("accessToken");
         api.setAccessToken(accessToken);
         spotify = api.getService();
     }
 
-    public synchronized static SpotifyService getInstance() {
+    public synchronized static SpotifyService getInstance(String accessToken) {
         if (spotify == null) {
-            new SpotifyServiceSingleton();
+            new SpotifyServiceSingleton(accessToken);
         }
         return spotify;
     }

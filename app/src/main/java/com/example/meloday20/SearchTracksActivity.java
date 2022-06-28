@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.meloday20.fragments.PostFragment;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -30,7 +31,8 @@ import retrofit.client.Response;
 
 public class SearchTracksActivity extends AppCompatActivity {
     private static final String TAG = "SearchTracksActivity";
-    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance();
+    private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
+    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
     private SearchView svSearch;
     private RecyclerView rvResults;
     private SearchAdapter adapter;

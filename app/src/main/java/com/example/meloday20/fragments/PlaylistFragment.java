@@ -52,7 +52,8 @@ public class PlaylistFragment extends Fragment {
     private Button btnCreatePlaylist;
     private String playlistId;
     private Map<String, Object> createPlaylistParams = new HashMap<>();
-    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance();
+    private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
+    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
 
 
     public PlaylistFragment() {

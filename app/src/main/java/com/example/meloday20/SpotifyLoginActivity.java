@@ -38,11 +38,9 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     private static final String TAG = "SpotifyLoginActivity";
     private static final int REQUEST_CODE = 1337;
     private static final String CLIENT_ID = "f739c53578ef4b98b5ec6e8068bc4ec6";
-    private static final String CLIENT_SECRET = "16e6e2b17da84d3d9ebabac507a1a537";
+    private static String username;
     private final String REDIRECT_URI = "com.example.meloday20://callback";
     public static SpotifyService spotify;
-    public static String accessToken;
-    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +61,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-
         // Check if result comes from the correct activity
         if (requestCode == REQUEST_CODE) {
             AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, intent);
@@ -71,22 +68,23 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                 // Response was successful and contains auth token
                 case TOKEN:
                     // Handle successful response -- set up network client
-                    accessToken = response.getAccessToken();
-                    spotify = SpotifyServiceSingleton.getInstance();
+                    String accessToken = response.getAccessToken();
+
+                    spotify = SpotifyServiceSingleton.getInstance(accessToken);
                     Log.i(TAG, accessToken);
                     spotify.getMe(new Callback<UserPrivate>() {
                         @Override
                         public void success(UserPrivate userPrivate, Response response) {
                             username = userPrivate.id;
-                            loginUser(username, "password");
+                            loginUser(username, "password", accessToken);
+                            Intent toMain = new Intent(SpotifyLoginActivity.this, MainActivity.class);
+                            startActivity(toMain);
                         }
                         @Override
                         public void failure(RetrofitError error) {
                             Log.d(TAG, error.toString());
                         }
                     });
-                    Intent toMain = new Intent(this, MainActivity.class);
-                    startActivity(toMain);
                     break;
                 // Auth flow returned an error
                 case ERROR:
@@ -100,7 +98,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         }
     }
 
-    private void setParseUserAccessToken() {
+    private void setParseUserAccessToken(String accessToken) {
         ParseUser currentUser = ParseUser.getCurrentUser();
         currentUser.put("accessToken", accessToken);
         currentUser.saveInBackground(new SaveCallback() {
@@ -112,28 +110,28 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         });
     }
 
-    private void loginUser(String username, String password) {
+    private void loginUser(String username, String password, String accessToken) {
         Log.i(TAG, "Login attempt for user: " + username);
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e != null) {
-                    signUpUser(username, password);
+                    signUpUser(username, password, accessToken);
                     return;
                 }
-                setParseUserAccessToken();
+                setParseUserAccessToken(accessToken);
             }
         });
     }
 
-    private void signUpUser(String username, String password) {
+    private void signUpUser(String username, String password, String accessToken) {
         ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
-                setParseUserAccessToken();
+                setParseUserAccessToken(accessToken);
                 Log.i(TAG, "signed up user: " + username);
                 return;
             }

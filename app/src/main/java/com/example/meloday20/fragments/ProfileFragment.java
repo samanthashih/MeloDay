@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,9 @@ import android.widget.Button;
 
 import com.example.meloday20.R;
 import com.example.meloday20.SpotifyLoginActivity;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 public class ProfileFragment extends Fragment {
     Button btnLogout;
@@ -43,9 +46,21 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ParseUser.logOutInBackground();
+
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                currentUser.put("accessToken", "");
+                currentUser.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                        }}
+                });
+
                 Intent intent = new Intent(getContext(), SpotifyLoginActivity.class);
                 startActivity(intent);
             }
         });
+
+
     }
 }

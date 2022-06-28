@@ -33,7 +33,8 @@ import retrofit.client.Response;
 
 public class AddTrackActivity extends AppCompatActivity {
     private static final String TAG = AddTrackActivity.class.getSimpleName();
-    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance();
+    private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
+    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
     private static ParseUser currentUser;
     private static String userId;
     private static String playlistId;

@@ -78,11 +78,6 @@ public class HomeFragment extends Fragment {
                     return;
                 }
                 // no error
-                // logs all the posts returned
-                for (Post post: queryPosts) {
-                    Log.i(TAG, "caption: " + post.getTrackId());
-                }
-
                 // save received posts to list and notify adapter of new data
                 posts.addAll(queryPosts);
                 adapter.notifyDataSetChanged();

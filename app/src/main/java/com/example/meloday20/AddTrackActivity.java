@@ -8,19 +8,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +25,6 @@ import java.util.Map;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Image;
 import kaaes.spotify.webapi.android.models.Pager;
-import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.Track;
 import retrofit.Callback;
@@ -55,26 +51,22 @@ public class AddTrackActivity extends AppCompatActivity {
         track = Parcels.unwrap(getIntent().getParcelableExtra("track"));
         initViews();
         setViewValues();
-
     }
 
     private void createTrackPost() {
         Post post = new Post();
-//        post.setCaption(caption);
-//        post.setImage(new ParseFile(photoFile));
-//        post.setUser(currentUser);
-//        post.saveInBackground(new SaveCallback() {
-//            @Override
-//            public void done(ParseException e) {
-//                if (e != null) {
-//                    Log.e(TAG, "error while saving post", e);
-//                    Toast.makeText(getContext(), "error while saving post", Toast.LENGTH_SHORT).show();
-//                }
-//                Log.i(TAG, "post save success");
-//                etCaption.setText(""); // set caption box back to empty
-//                ivPostImage.setImageResource(0); // set image back to empty (resource id 0 = empty resource)
-//            }
-//        });
+        post.setUser(currentUser);
+        post.setTrackId(track.id);
+
+        post.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "error while saving post", e);
+                }
+                Log.i(TAG, "post save success");
+            }
+        });
     }
 
     private void setViewValues() {
@@ -104,6 +96,7 @@ public class AddTrackActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addTrackToPlaylist();
+                createTrackPost();
             }
         });
     }

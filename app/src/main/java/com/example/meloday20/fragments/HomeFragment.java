@@ -13,18 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.meloday20.Post;
-import com.example.meloday20.PostAdapter;
+import com.example.meloday20.models.Post;
+import com.example.meloday20.adapters.PostAdapter;
 import com.example.meloday20.R;
-import com.example.meloday20.SearchAdapter;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import kaaes.spotify.webapi.android.models.Track;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = HomeFragment.class.getSimpleName();

@@ -24,9 +24,6 @@
             android:name=".AddTrackActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchTracksActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="false" />
 

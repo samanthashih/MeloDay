@@ -1,6 +1,8 @@
 package com.example.meloday20;
 import android.app.Application;
 
+import com.example.meloday20.models.ParsePlaylist;
+import com.example.meloday20.models.Post;
 import com.parse.Parse;
 import com.parse.ParseObject;
 

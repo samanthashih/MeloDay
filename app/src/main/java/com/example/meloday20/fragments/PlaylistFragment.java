@@ -1,6 +1,5 @@
 package com.example.meloday20.fragments;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,31 +11,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 
-import com.example.meloday20.MainActivity;
-import com.example.meloday20.ParsePlaylist;
+import com.example.meloday20.models.ParsePlaylist;
 import com.example.meloday20.R;
-import com.example.meloday20.SpotifyLoginActivity;
 import com.example.meloday20.SpotifyServiceSingleton;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.http.Body;
 
 //import spotify.api.enums.QueryType;
 //import spotify.api.spotify.SpotifyApi;

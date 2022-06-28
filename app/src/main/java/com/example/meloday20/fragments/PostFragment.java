@@ -1,7 +1,5 @@
 package com.example.meloday20.fragments;
 
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,18 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.SearchView;
 
-import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
-import com.example.meloday20.SearchAdapter;
-import com.example.meloday20.SearchTracksActivity;
+import com.example.meloday20.adapters.SearchAdapter;
 import com.example.meloday20.SpotifyServiceSingleton;
 import com.parse.ParseUser;
 

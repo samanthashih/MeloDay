@@ -1,7 +1,6 @@
-package com.example.meloday20;
+package com.example.meloday20.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.meloday20.R;
+import com.example.meloday20.SpotifyServiceSingleton;
+import com.example.meloday20.models.Post;
 import com.parse.ParseUser;
-
-import org.parceler.Parcels;
 
 import java.util.List;
 

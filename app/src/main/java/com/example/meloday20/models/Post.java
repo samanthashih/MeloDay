@@ -1,9 +1,10 @@
-package com.example.meloday20;
+package com.example.meloday20.models;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.meloday20.SpotifyServiceSingleton;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -13,15 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.ArtistSimple;
-import kaaes.spotify.webapi.android.models.Image;
-import kaaes.spotify.webapi.android.models.Track;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 @ParseClassName("Post")
 public class Post extends ParseObject {

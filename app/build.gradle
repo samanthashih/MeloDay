@@ -50,4 +50,5 @@ dependencies {
     annotationProcessor 'org.parceler:parceler:1.1.12'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
     implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 }

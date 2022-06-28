@@ -31,8 +31,8 @@ import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-
-//import spotify.api.spotify.SpotifyApi;
+import androidx.core.splashscreen.SplashScreen;
+//import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen;
 
 public class SpotifyLoginActivity extends AppCompatActivity {
     private static final String TAG = "SpotifyLoginActivity";
@@ -47,6 +47,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         setContentView(R.layout.activity_spotify_login);
     }
 

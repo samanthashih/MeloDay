@@ -82,6 +82,7 @@ public class AddTrackActivity extends AppCompatActivity {
 
     private void addTrackToPlaylist() {
         ParseUser currentUser = ParseUser.getCurrentUser();
+        userId = currentUser.getUsername();
         ParseQuery<ParsePlaylist> query = ParseQuery.getQuery(ParsePlaylist.class); // specify what type of data we want to query - Post.class
         query.whereEqualTo(ParsePlaylist.KEY_USER, ParseUser.getCurrentUser());
         query.include(ParsePlaylist.KEY_PLAYLIST_ID); // include data referred by current user
@@ -95,22 +96,25 @@ public class AddTrackActivity extends AppCompatActivity {
                 Log.i(TAG, ParseUser.getCurrentUser().getUsername());
                 playlistId = queryPlaylists.get(0).getPlaylistId();
                 Log.i(TAG, playlistId);
+
+                Map<String, Object> addTrackQueryMap = new HashMap<>();
+                Map<String, Object> addTrackBody = new HashMap<>();
+                addTrackBody.put("uris", new String[]{"spotify:track:" + track.id});
+
+                spotify.addTracksToPlaylist(userId, playlistId, addTrackQueryMap, addTrackBody, new Callback<Pager<PlaylistTrack>> () {
+                    @Override
+                    public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {
+                        Log.i(TAG, "Added song to playlist");
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d(TAG, error.toString());
+                    }
+                });
             }
         });
 
-//        Map<String, Object> addTrackParams1 = new HashMap<>();
-//        Map<String, Object> addTrackParams2 = new HashMap<>();
-//        addTrackParams1.put("spotify:track:", "4iV5W9uYEdYUVa79Axb7Rh");
 
-//        spotify.addTracksToPlaylist(userId, playlistId, addTrackParams1, addTrackParams2, new Callback<Pager<PlaylistTrack>> () {
-//            @Override
-//            public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                Log.d(TAG, error.toString());
-//            }
-//        });
     }
 }

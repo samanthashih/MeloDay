@@ -4,7 +4,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-@ParseClassName("Playlist")
+@ParseClassName("ParsePlaylist")
 public class ParsePlaylist extends ParseObject {
     public static final String KEY_PLAYLIST_ID = "playlistId";
     public static final String KEY_USER = "user";

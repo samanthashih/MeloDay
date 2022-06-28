@@ -8,15 +8,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +38,7 @@ import retrofit.client.Response;
 public class AddTrackActivity extends AppCompatActivity {
     private static final String TAG = AddTrackActivity.class.getSimpleName();
     public static SpotifyService spotify = SpotifyServiceSingleton.getInstance();
+    private static ParseUser currentUser;
     private static String userId;
     private static String playlistId;
     private static Track track;
@@ -50,6 +55,26 @@ public class AddTrackActivity extends AppCompatActivity {
         track = Parcels.unwrap(getIntent().getParcelableExtra("track"));
         initViews();
         setViewValues();
+
+    }
+
+    private void createTrackPost() {
+        Post post = new Post();
+//        post.setCaption(caption);
+//        post.setImage(new ParseFile(photoFile));
+//        post.setUser(currentUser);
+//        post.saveInBackground(new SaveCallback() {
+//            @Override
+//            public void done(ParseException e) {
+//                if (e != null) {
+//                    Log.e(TAG, "error while saving post", e);
+//                    Toast.makeText(getContext(), "error while saving post", Toast.LENGTH_SHORT).show();
+//                }
+//                Log.i(TAG, "post save success");
+//                etCaption.setText(""); // set caption box back to empty
+//                ivPostImage.setImageResource(0); // set image back to empty (resource id 0 = empty resource)
+//            }
+//        });
     }
 
     private void setViewValues() {
@@ -70,6 +95,7 @@ public class AddTrackActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        currentUser = ParseUser.getCurrentUser();
         tvAddTrackTitle = findViewById(R.id.tvAddTrackTitle);
         tvAddTrackArtist = findViewById(R.id.tvAddTrackArtist);
         ivAddTrackCover = findViewById(R.id.ivAddTrackCover);
@@ -83,7 +109,6 @@ public class AddTrackActivity extends AppCompatActivity {
     }
 
     private void addTrackToPlaylist() {
-        ParseUser currentUser = ParseUser.getCurrentUser();
         userId = currentUser.getUsername();
         ParseQuery<ParsePlaylist> query = ParseQuery.getQuery(ParsePlaylist.class); // specify what type of data we want to query - Post.class
         query.whereEqualTo(ParsePlaylist.KEY_USER, ParseUser.getCurrentUser());

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.meloday20.MainActivity;
+import com.example.meloday20.ParsePlaylist;
 import com.example.meloday20.R;
 import com.example.meloday20.SpotifyLoginActivity;
 import com.example.meloday20.SpotifyServiceSingleton;
@@ -114,10 +115,9 @@ public class PlaylistFragment extends Fragment {
     }
 
     private void savePlaylistIdParse() {
-        String currentUserId = ParseUser.getCurrentUser().getObjectId();
-        ParseObject playlist = new ParseObject("ParsePlaylist");
-        playlist.put("user", ParseObject.createWithoutData("_User", currentUserId));
-        playlist.put("playlistId", playlistId);
+        ParsePlaylist playlist = new ParsePlaylist();
+        playlist.setUser(ParseUser.getCurrentUser());
+        playlist.setPlaylistId(playlistId);
         playlist.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

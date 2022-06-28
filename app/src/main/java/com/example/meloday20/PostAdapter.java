@@ -59,43 +59,49 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         SpotifyService spotify = SpotifyServiceSingleton.getInstance();
         String trackTitle;
         List<ArtistSimple> trackArtists;
+        String artistsString;
         Image trackCoverImage;
 
         TextView tvPostUsername;
+        TextView tvPostDate;
         TextView tvPostTitle;
         TextView tvPostArtist;
         ImageView ivPostCoverImage;
-        String artistsString;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            initViewsAndValues(itemView);
+
+        }
+
+        private void initViewsAndValues(@NonNull View itemView) {
             itemView.setOnClickListener(this);
             tvPostUsername = itemView.findViewById(R.id.tvPostUsername);
+            tvPostDate = itemView.findViewById(R.id.tvPostDate);
             tvPostTitle = itemView.findViewById(R.id.tvPostTitle);
             tvPostArtist = itemView.findViewById(R.id.tvPostArtist);
             ivPostCoverImage = itemView.findViewById(R.id.ivPostCoverImage);
             artistsString = "";
-
         }
 
         public void bind(Post post) {
-
             spotify.getTrack(post.getTrackId(), new Callback<Track>() {
                 @Override
                 public void success(Track track, Response response) {
                     trackTitle = track.name;
                     trackArtists = track.artists;
-                    trackCoverImage = track.album.images.get(0);
-
-                    tvPostTitle.setText(trackTitle);
                     artistsString = trackArtists.get(0).name;
                     if (trackArtists.size() > 1) {
                         for (int i = 1; i < trackArtists.size(); i++) {
                             artistsString = artistsString + ", " + trackArtists.get(i).name;
                         }
                     }
-                    tvPostArtist.setText(artistsString);
+                    trackCoverImage = track.album.images.get(0);
 
+                    tvPostUsername.setText(post.getUsername());
+                    tvPostDate.setText(post.getCreatedAtDate());
+                    tvPostTitle.setText(trackTitle);
+                    tvPostArtist.setText(artistsString);
                     if (trackCoverImage != null) {
                         Glide.with(context)
                                 .load(trackCoverImage.url)

@@ -106,7 +106,7 @@ public class AddTrackActivity extends AppCompatActivity {
 
     private void addTrackToPlaylist() {
         userId = currentUser.getUsername();
-        ParseQuery<ParsePlaylist> query = ParseQuery.getQuery(ParsePlaylist.class); // specify what type of data we want to query - Post.class
+        ParseQuery<ParsePlaylist> query = ParseQuery.getQuery(ParsePlaylist.class); // specify what type of data we want to query - ParsePlaylist.class
         query.whereEqualTo(ParsePlaylist.KEY_USER, ParseUser.getCurrentUser());
         query.include(ParsePlaylist.KEY_PLAYLIST_ID); // include data referred by current user
         query.findInBackground(new FindCallback<ParsePlaylist>() {

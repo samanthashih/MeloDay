@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/ivCoverImage"
-        android:layout_width="72dp"
-        android:layout_height="69dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />

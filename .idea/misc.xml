@@ -13,11 +13,12 @@
         <entry key="app/src/main/res/layout/activity_search_tracks.xml" value="0.11924119241192412" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.22708333333333333" />
         <entry key="app/src/main/res/layout/activity_spotify_login.xml" value="0.10663627152988855" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1609375" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.255401611328125" />
         <entry key="app/src/main/res/layout/fragment_playlist.xml" value="0.2717391304347826" />
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.25791756184895837" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.479970605822577" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.2546875" />
+        <entry key="app/src/main/res/layout/item_post_track.xml" value="0.6988738379821469" />
         <entry key="app/src/main/res/layout/item_search_track.xml" value="0.8372823079427084" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.37775878906250004" />
         <entry key="app/src/main/res/menu/menu_toolbar.xml" value="0.3458333333333333" />

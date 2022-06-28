@@ -57,9 +57,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         return tracks.size();
     }
 
-    public void goToPostFragment() {
-    }
-
     // viewholder class
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvTitle;

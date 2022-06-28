@@ -47,7 +47,7 @@ import retrofit.client.Response;
 //import spotify.models.tracks.TrackFull;
 
 public class PostFragment extends Fragment {
-    private final static String TAG = "PostFragment";
+    private final static String TAG = PostFragment.class.getSimpleName();
     public static SpotifyService spotify = SpotifyServiceSingleton.getInstance();
     private Button btnSearch;
     private Track track;

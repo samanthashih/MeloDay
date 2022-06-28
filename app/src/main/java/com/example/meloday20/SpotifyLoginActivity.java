@@ -53,7 +53,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     public void onLoginClick(View view) {
         AuthorizationRequest.Builder builder =
                 new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
-
+        builder.setShowDialog(true);
         builder.setScopes(new String[]{"streaming", "ugc-image-upload", "playlist-read-collaborative", "playlist-modify-public" , "playlist-read-private" , "playlist-modify-private", "user-read-email",
                 "user-read-private", "user-library-modify", "user-library-read", "user-read-recently-played", "user-read-playback-position", "user-top-read" });
         AuthorizationRequest request = builder.build();
@@ -67,7 +67,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         // Check if result comes from the correct activity
         if (requestCode == REQUEST_CODE) {
             AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, intent);
-
             switch (response.getType()) {
                 // Response was successful and contains auth token
                 case TOKEN:
@@ -86,7 +85,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                             Log.d(TAG, error.toString());
                         }
                     });
-                    setParseUserAccessToken();
                     Intent toMain = new Intent(this, MainActivity.class);
                     startActivity(toMain);
                     break;
@@ -123,6 +121,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                     signUpUser(username, password);
                     return;
                 }
+                setParseUserAccessToken();
             }
         });
     }
@@ -134,6 +133,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
+                setParseUserAccessToken();
                 Log.i(TAG, "signed up user: " + username);
                 return;
             }

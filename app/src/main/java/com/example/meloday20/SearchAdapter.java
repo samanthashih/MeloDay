@@ -84,7 +84,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                     artistsString = artistsString + ", " + track.artists.get(i).name;
                 }
             }
-            Log.i(TAG, track.name + " by: " + artistsString);
             tvArtist.setText(artistsString);
 
             Image coverImage = track.album.images.get(0);
@@ -103,14 +102,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 Track track = tracks.get(position);
                 Log.i(TAG,"Search tracks position: " + position);
 
-//                AppCompatActivity activity = MainActivity;
-//                PostFragment myFragment = new PostFragment();
-//                Bundle bundle = new Bundle();
-//                bundle.putParcelable("track", Parcels.wrap(track));
-//                myFragment.setArguments(bundle);
-//                activity.getChildFragmentManager().beginTransaction().replace(R.id.flContainer, myFragment).addToBackStack(null).commit();
-//                ((SearchTracksActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, myFragment).addToBackStack(null).commit();
-//                activity.getChildFragmentManager().beginTransaction().replace(R.id.flContainer, myFragment).addToBackStack(null).commit();
                 Intent intent = new Intent(context, AddTrackActivity.class);
                 intent.putExtra("track", Parcels.wrap(track));
                 context.startActivity(intent);

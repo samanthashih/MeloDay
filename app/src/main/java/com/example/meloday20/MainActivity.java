@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.example.meloday20.fragments.HomeFragment;
 import com.example.meloday20.fragments.PlaylistFragment;
 import com.example.meloday20.fragments.PostFragment;
+import com.example.meloday20.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.parceler.Parcels;
@@ -31,7 +32,7 @@ import retrofit.client.Response;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
+    private static final String TAG = MainActivity.class.getSimpleName();
     public static SpotifyService spotify = SpotifyServiceSingleton.getInstance();
     private BottomNavigationView bottomNavigationView;
     final FragmentManager fts = getSupportFragmentManager();
@@ -40,37 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        SpotifyApi api = new SpotifyApi();
-//        api.setAccessToken(SpotifyLoginActivity.accessToken);
-//        SpotifyService spotify = api.getService();
-//        spotify.getAlbum("2dIGnmEIy1WZIcZCFSj6i8", new Callback<Album>() {
-//            @Override
-//            public void success(Album album, Response response) {
-//                Log.d("Album success", album.name);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                Log.d("Album failure", error.toString());
-//            }
-//        });
         initBottomNav();
-
-        Track track = (Track) Parcels.unwrap(getIntent().getParcelableExtra("track"));
-        if (track != null) {
-            Log.i(TAG, track.name + " by: " + track.artists.get(0).name);
-
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("track", Parcels.wrap(track));
-            PostFragment fragment = new PostFragment();
-            fragment.setArguments(bundle);
-            fts.beginTransaction().replace(R.id.flContainer, fragment).commit();
-//            bottomNavigationView.setSelectedItemId(R.id.action_post);
-        } else {
-            Log.i(TAG, "Not from search activity");
-        }
-
     }
 
     private void initBottomNav() {
@@ -86,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_playlist:
                         fragment = new PlaylistFragment();
                         break;
+                    case R.id.action_profile:
+                        fragment = new ProfileFragment();
+                        break;
                     case R.id.action_home:
                     default:
                         fragment = new HomeFragment();
@@ -97,21 +71,5 @@ public class MainActivity extends AppCompatActivity {
         });
         bottomNavigationView.setSelectedItemId(R.id.action_home);
     }
-
-//
-//    private class MyTask extends AsyncTask<String, Void, String> {
-//        @Override
-//        protected String doInBackground(String... params) {
-////            Map<String, String> optionalParameters = new HashMap<>();
-////            AlbumFull albumFull = spotifyApi.getAlbum("2dIGnmEIy1WZIcZCFSj6i8", optionalParameters);
-////            String name = spotifyApi.getCurrentUser().getId();
-//            return null;
-//        }
-//        @Override
-//        protected void onPostExecute(String result)
-//        {
-//            super.onPostExecute(result);
-//        }
-//    }
 
 }

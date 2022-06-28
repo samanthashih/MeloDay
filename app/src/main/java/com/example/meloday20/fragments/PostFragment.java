@@ -102,9 +102,6 @@ public class PostFragment extends Fragment {
                     public void success(TracksPager tracksPager, Response response) {
                         Log.i(TAG, "Search tracks success");
                         tracks.addAll(tracksPager.tracks.items);
-//                        for (Track t: tracks) {
-//                            Log.i(TAG, t.name + " by: " + t.artists.get(0).name);
-//                        }
                         adapter.notifyDataSetChanged();
                     }
 
@@ -118,7 +115,6 @@ public class PostFragment extends Fragment {
                 svSearch2.clearFocus();
                 svSearch2.setQuery("", false);
                 svSearch2.setIconified(true);
-                // Set activity title to search query
                 return true;
             }
 

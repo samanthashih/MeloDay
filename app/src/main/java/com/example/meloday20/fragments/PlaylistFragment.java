@@ -103,7 +103,7 @@ public class PlaylistFragment extends Fragment {
 
     private void savePlaylistIdParse() {
         String currentUserId = ParseUser.getCurrentUser().getObjectId();
-        ParseObject playlist = new ParseObject("Playlist");
+        ParseObject playlist = new ParseObject("ParsePlaylist");
         playlist.put("user", ParseObject.createWithoutData("_User", currentUserId));
         playlist.put("playlistId", playlistId);
         playlist.saveInBackground(new SaveCallback() {

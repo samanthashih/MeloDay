@@ -47,8 +47,29 @@ public class AddTrackActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_track);
-        track = (Track) Parcels.unwrap(getIntent().getParcelableExtra("track"));
+        track = Parcels.unwrap(getIntent().getParcelableExtra("track"));
+        initViews();
+        setViewValues();
+    }
 
+    private void setViewValues() {
+        tvAddTrackTitle.setText(track.name);
+        artistsString = track.artists.get(0).name;
+        if (track.artists.size() > 1) {
+            for (int i = 1; i < track.artists.size(); i++) {
+                artistsString = artistsString + ", " + track.artists.get(i).name;
+            }
+        }
+        tvAddTrackArtist.setText(artistsString);
+        Image coverImage = track.album.images.get(0);
+        if (coverImage != null) {
+            Glide.with(this)
+                    .load(coverImage.url)
+                    .into(ivAddTrackCover);
+        }
+    }
+
+    private void initViews() {
         tvAddTrackTitle = findViewById(R.id.tvAddTrackTitle);
         tvAddTrackArtist = findViewById(R.id.tvAddTrackArtist);
         ivAddTrackCover = findViewById(R.id.ivAddTrackCover);
@@ -59,25 +80,6 @@ public class AddTrackActivity extends AppCompatActivity {
                 addTrackToPlaylist();
             }
         });
-
-        tvAddTrackTitle.setText(track.name);
-
-        artistsString = track.artists.get(0).name;
-        if (track.artists.size() > 1) {
-            for (int i = 1; i < track.artists.size(); i++) {
-                artistsString = artistsString + ", " + track.artists.get(i).name;
-            }
-        }
-        tvAddTrackArtist.setText(artistsString);
-
-        Image coverImage = track.album.images.get(0);
-        if (coverImage != null) {
-            Glide.with(this)
-                    .load(coverImage.url)
-                    .into(ivAddTrackCover);
-        }
-
-
     }
 
     private void addTrackToPlaylist() {
@@ -93,14 +95,11 @@ public class AddTrackActivity extends AppCompatActivity {
                     Log.e(TAG, "Issue with getting playlist id", e);
                     return;
                 }
-                Log.i(TAG, ParseUser.getCurrentUser().getUsername());
                 playlistId = queryPlaylists.get(0).getPlaylistId();
-                Log.i(TAG, playlistId);
 
                 Map<String, Object> addTrackQueryMap = new HashMap<>();
                 Map<String, Object> addTrackBody = new HashMap<>();
                 addTrackBody.put("uris", new String[]{"spotify:track:" + track.id});
-
                 spotify.addTracksToPlaylist(userId, playlistId, addTrackQueryMap, addTrackBody, new Callback<Pager<PlaylistTrack>> () {
                     @Override
                     public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {

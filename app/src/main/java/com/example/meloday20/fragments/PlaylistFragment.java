@@ -31,6 +31,7 @@ import java.util.Map;
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Playlist;
+import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -72,18 +73,29 @@ public class PlaylistFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btnCreatePlaylist = view.findViewById(R.id.btnCreatePlaylist);
+        userId = ParseUser.getCurrentUser().getUsername();
+        spotify.getMe(new Callback<UserPrivate>() {
+            @Override
+            public void success(UserPrivate userPrivate, Response response) {
+                displayName = userPrivate.display_name;
+            }
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(TAG, error.toString());
+            }
+        });
+
         btnCreatePlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userId = ParseUser.getCurrentUser().getUsername();
                 createNewPlaylist();
             }
         });
     }
 
     private void createNewPlaylist() {
-        createPlaylistParams.put("name", "new meloday save playlist id parse");
-        createPlaylistParams.put("description", "wow");
+        createPlaylistParams.put("name", displayName + "'s MeloDay");
+        createPlaylistParams.put("description", "Your playlist of the year");
         createPlaylistParams.put("public", true);
 
         spotify.createPlaylist(userId, createPlaylistParams, new Callback<Playlist>() {
@@ -114,50 +126,4 @@ public class PlaylistFragment extends Fragment {
                 }}
         });
     }
-
-
-    // Spotify API Tasks
-//    private class createPlaylist extends AsyncTask<String, Void, String> {
-//        @Override
-//        protected String doInBackground(String... params) {
-//            setNewPlaylistId();
-//            parseSavePlaylistId();
-//            return null;
-//        }
-//
-//        private void setNewPlaylistId() {
-//            CreateUpdatePlaylistRequestBody body = new CreateUpdatePlaylistRequestBody(displayName + "'s meloday", "my description", true, false);
-//            spotifyApi.createPlaylist(userId, body);
-//            getPlaylistsParams.put("limit", "1");
-//            PlaylistSimplified playlist =  spotifyApi.getPlaylists(getPlaylistsParams).getItems().get(0);
-//            playlistId = playlist.getId();
-//        }
-//
-//        private void parseSavePlaylistId() {
-//            ParseUser currentUser = ParseUser.getCurrentUser();
-//            currentUser.put("playlistId", playlistId);
-//            currentUser.saveInBackground(new SaveCallback() {
-//                @Override
-//                public void done(ParseException e) {
-//                    if (e != null) {
-//                        Log.e(TAG, "Parse Error while saving playlistId", e);
-//                    }}
-//            });
-//        }
-//    }
-//
-//
-//    private class setUserDetails extends AsyncTask<String, Void, String> {
-//        @Override
-//        protected String doInBackground(String... params) {
-//            userId = spotifyApi.getCurrentUser().getId();
-//            displayName = spotifyApi.getCurrentUser().getDisplayName();
-//            return null;
-//        }
-//        @Override
-//        protected void onPostExecute(String result)
-//        {
-//            super.onPostExecute(result);
-//        }
-//    }
 }

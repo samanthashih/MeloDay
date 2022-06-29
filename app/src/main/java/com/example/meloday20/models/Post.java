@@ -1,18 +1,11 @@
 package com.example.meloday20.models;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
 import com.example.meloday20.SpotifyServiceSingleton;
+import com.example.meloday20.utils.GetDetails;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.time.Month;
-import java.util.Calendar;
 import java.util.Date;
 
 import kaaes.spotify.webapi.android.SpotifyService;
@@ -42,30 +35,12 @@ public class Post extends ParseObject {
 
     public String getCreatedAtDate() {
         Date date = this.getCreatedAt();
-        String dateString = calculateTimeAgo(date);
+        String dateString = GetDetails.getDateString(date);
         return dateString;
     }
 
     public String getUsername() {
         ParseUser postUser = getUser();
         return postUser.getUsername();
-    }
-
-    @NonNull
-    public static String calculateTimeAgo(Date createdAt) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(createdAt);
-
-        try {
-            int monthNum = calendar.get(Calendar.MONTH)+1;
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            int year = calendar.get(Calendar.YEAR);
-            String month = StringUtils.capitalize(Month.of(monthNum).name().toLowerCase());
-            return month + " " + String.valueOf(day) + ", " + String.valueOf(year);
-        } catch (Exception e) {
-            Log.i("Error:", "getRelativeTimeAgo failed", e);
-            e.printStackTrace();
-        }
-        return "";
     }
 }

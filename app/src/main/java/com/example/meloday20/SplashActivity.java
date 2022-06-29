@@ -18,6 +18,7 @@ import retrofit.client.Response;
 
 
 public class SplashActivity extends AppCompatActivity {
+    private static final String TAG = SplashActivity.class.getSimpleName();
     Handler handler;
 
     @Override
@@ -53,15 +54,18 @@ public class SplashActivity extends AppCompatActivity {
             spotify.getMe(new Callback<UserPrivate>() {
                 @Override
                 public void success(UserPrivate userPrivate, Response response) {
+                    Log.e(TAG, "Already logged in -  go to main");
                     routeToMainActivity();
                 }
                 @Override
                 public void failure(RetrofitError error) {
+                    Log.e(TAG, "Need to login to Spotify - go to login");
                     routeToLoginActivity();
                 }
             });
         }
         catch(Exception e) {
+            Log.e(TAG, "Need to login to Parse - go to login");
             routeToLoginActivity();
         }
     }

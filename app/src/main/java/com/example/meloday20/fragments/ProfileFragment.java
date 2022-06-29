@@ -20,6 +20,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 public class ProfileFragment extends Fragment {
+    private static final String TAG = ProfileFragment.class.getSimpleName();
     Button btnLogout;
 
     public ProfileFragment() {
@@ -53,7 +54,9 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void done(ParseException e) {
                         if (e != null) {
-                        }}
+                            Log.e(TAG, "Could not delete accessToken");
+                        }
+                    }
                 });
 
                 Intent intent = new Intent(getContext(), SpotifyLoginActivity.class);

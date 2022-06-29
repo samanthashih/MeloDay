@@ -41,6 +41,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     private static String username;
     private final String REDIRECT_URI = "com.example.meloday20://callback";
     public static SpotifyService spotify;
+    public String accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +69,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                 // Response was successful and contains auth token
                 case TOKEN:
                     // Handle successful response -- set up network client
-                    String accessToken = response.getAccessToken();
-
+                    accessToken = response.getAccessToken();
                     spotify = SpotifyServiceSingleton.getInstance(accessToken);
                     Log.i(TAG, accessToken);
                     spotify.getMe(new Callback<UserPrivate>() {
@@ -106,7 +106,9 @@ public class SpotifyLoginActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Parse Error while saving accessToken", e);
-                }}
+                }
+                Log.i(TAG, "Logged in: " + currentUser.getUsername());
+            }
         });
     }
 

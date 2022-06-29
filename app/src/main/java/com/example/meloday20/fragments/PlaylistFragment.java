@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.meloday20.adapters.PlaylistAdapter;
 import com.example.meloday20.models.ParsePlaylist;
 import com.example.meloday20.R;
 import com.example.meloday20.SpotifyServiceSingleton;
@@ -22,12 +26,16 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
+import kaaes.spotify.webapi.android.models.PlaylistTrack;
+import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -47,12 +55,15 @@ public class PlaylistFragment extends Fragment {
     private String userId;
     private String displayName;
     private Button btnCreatePlaylist;
-    private TextView tvHasPlaylist;
+    private RecyclerView rvPlaylistTracks;
     private String playlistId;
     private Map<String, Object> createPlaylistParams = new HashMap<>();
     private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
     public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
     private boolean hasPlaylist;
+    private List<PlaylistTrack> playlistTracks;
+    private PlaylistAdapter adapter;
+    LinearLayoutManager linearLayoutManager;
 
 
     public PlaylistFragment() {
@@ -96,8 +107,13 @@ public class PlaylistFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (hasPlaylist) {
-            tvHasPlaylist = view.findViewById(R.id.tvHasPlaylist);
-            tvHasPlaylist.setText("user has a playlist!!");
+            rvPlaylistTracks = view.findViewById(R.id.rvPlaylistTracks);
+            playlistTracks = new ArrayList<>();
+            adapter = new PlaylistAdapter(getContext(), playlistTracks);
+            linearLayoutManager = new LinearLayoutManager(getContext());
+            rvPlaylistTracks.setAdapter(adapter);
+            rvPlaylistTracks.setLayoutManager(linearLayoutManager);
+            getPlaylistTracks();
         } else {
             btnCreatePlaylist = view.findViewById(R.id.btnCreatePlaylist);
             userId = ParseUser.getCurrentUser().getUsername();
@@ -119,6 +135,19 @@ public class PlaylistFragment extends Fragment {
                 }
             });
         }
+    }
+
+    private void getPlaylistTracks() {
+        spotify.getPlaylistTracks(userId, playlistId, new Callback<Pager<PlaylistTrack>>() {
+            @Override
+            public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {
+                playlistTracks = playlistTrackPager.items;
+            }
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e(TAG, "Error getting track details.", error);
+            }
+        });
     }
 
     private void createNewPlaylist() {

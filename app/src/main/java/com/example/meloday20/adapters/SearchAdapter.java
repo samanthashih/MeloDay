@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.meloday20.AddTrackActivity;
 import com.example.meloday20.R;
+import com.example.meloday20.utils.GetDetails;
 
 import org.parceler.Parcels;
 
@@ -57,7 +58,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         TextView tvTitle;
         TextView tvArtist;
         ImageView ivCoverImage;
-        String artistsString;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,19 +65,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvArtist = itemView.findViewById(R.id.tvArtist);
             ivCoverImage = itemView.findViewById(R.id.ivCoverImage);
-            artistsString = "";
         }
 
         public void bind(Track track) {
             tvTitle.setText(track.name);
-            artistsString = track.artists.get(0).name;
-            if (track.artists.size() > 1) {
-                for (int i = 1; i < track.artists.size(); i++) {
-                    artistsString = artistsString + ", " + track.artists.get(i).name;
-                }
-            }
-            tvArtist.setText(artistsString);
-
+            tvArtist.setText(GetDetails.getArtistsString(track.artists));
             Image coverImage = track.album.images.get(0);
             if (coverImage != null) {
                 Glide.with(context)

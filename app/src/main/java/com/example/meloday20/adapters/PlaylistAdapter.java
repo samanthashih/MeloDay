@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.example.meloday20.R;
 import com.example.meloday20.SpotifyServiceSingleton;
 import com.example.meloday20.models.Post;
+import com.example.meloday20.utils.GetDetails;
 import com.parse.ParseUser;
 
 import java.util.List;
@@ -85,8 +86,9 @@ public class PlaylistAdapter  extends RecyclerView.Adapter<PlaylistAdapter.ViewH
         }
 
         public void bind(PlaylistTrack playlistTrack) {
-
-
+            Track track = playlistTrack.track;
+            tvPlaylistTitle.setText(track.name);
+            tvPlaylistArtist.setText(GetDetails.getArtistsString(track.artists));
         }
 
         @Override

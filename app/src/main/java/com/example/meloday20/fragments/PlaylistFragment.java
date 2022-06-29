@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -20,7 +21,6 @@ import com.example.meloday20.adapters.PlaylistAdapter;
 import com.example.meloday20.models.ParsePlaylist;
 import com.example.meloday20.R;
 import com.example.meloday20.SpotifyServiceSingleton;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -32,30 +32,29 @@ import java.util.List;
 import java.util.Map;
 
 import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Image;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
-import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-//import spotify.api.enums.QueryType;
-//import spotify.api.spotify.SpotifyApi;
-//import spotify.models.playlists.PlaylistSimplified;
-//import spotify.models.playlists.requests.CreateUpdatePlaylistRequestBody;
-//import spotify.models.search.SearchQueryResult;
-//import spotify.models.tracks.TrackFull;
-
 public class PlaylistFragment extends Fragment {
-    private static final String TAG = "PlaylistFragment";
+    private static final String TAG = PlaylistFragment.class.getSimpleName();
     private ParseUser currentUser;
     private ParsePlaylist usersPlaylist;
     private String userId;
     private String displayName;
     private Button btnCreatePlaylist;
     private RecyclerView rvPlaylistTracks;
+    private ImageView ivPlaylistImage;
+    private TextView tvPlaylistName;
+    private TextView tvPlaylistDescription;
+    private ImageView ivPlaylistProfilePic;
+    private TextView tvPlaylistDisplayName;
+    private Image spotifyProfilePic;
     private String playlistId;
     private Map<String, Object> createPlaylistParams = new HashMap<>();
     private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
@@ -64,6 +63,7 @@ public class PlaylistFragment extends Fragment {
     private List<PlaylistTrack> playlistTracks;
     private PlaylistAdapter adapter;
     LinearLayoutManager linearLayoutManager;
+    List<ParsePlaylist> parsePlaylists;
 
 
     public PlaylistFragment() {
@@ -74,8 +74,9 @@ public class PlaylistFragment extends Fragment {
         super.onCreate(savedInstanceState);
         currentUser = ParseUser.getCurrentUser();
         getParsePlaylist();
-        if (usersPlaylist != null) {
+        if (parsePlaylists != null) {
             hasPlaylist = true;
+            playlistId = parsePlaylists.get(0).getPlaylistId();
         } else {
             hasPlaylist = false;
         }
@@ -92,25 +93,50 @@ public class PlaylistFragment extends Fragment {
         }
     }
 
-    private void getParsePlaylist() {
-        ParseQuery<ParsePlaylist> query = ParseQuery.getQuery(ParsePlaylist.class); // specify what type of data we want to query - ParsePlaylist.class
-        query.whereEqualTo(ParsePlaylist.KEY_USER, currentUser);
-        query.include(ParsePlaylist.KEY_PLAYLIST_ID); // include data referred by current user
-        try {
-            usersPlaylist = query.find().get(0);
-            playlistId = usersPlaylist.getPlaylistId();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         userId = ParseUser.getCurrentUser().getUsername();
+        setUserValues();
+        if (hasPlaylist) {
+            initHasPlaylistViews(view);
+            getPlaylistTracks();
+            spotify.getPlaylist(userId, playlistId, new Callback<Playlist>() {
+                @Override
+                public void success(Playlist playlist, Response response) {
+                    tvPlaylistName.setText(playlist.name);
+                    tvPlaylistDescription.setText(playlist.description);
+                    if (playlist.images.size() > 0) {
+                        Glide.with(getContext())
+                                .load(playlist.images.get(0).url)
+                                .into(ivPlaylistImage);
+                    } else{
+                        Glide.with(getContext())
+                                .load(R.drawable.default_playlist_cover)
+                                .into(ivPlaylistImage);
+                    }
+
+                    if (spotifyProfilePic != null) {
+                        Glide.with(getContext())
+                                .load(spotifyProfilePic.url)
+                                .into(ivPlaylistProfilePic);
+                    }
+                }
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.e(TAG, "Could not retrieve playlist from Spotify.", error);
+                }
+            });
+        } else {
+            initNoPlaylistViews(view);
+        }
+    }
+
+    private void setUserValues() {
         spotify.getMe(new Callback<UserPrivate>() {
             @Override
             public void success(UserPrivate userPrivate, Response response) {
+                spotifyProfilePic = userPrivate.images.get(0);
                 displayName = userPrivate.display_name;
             }
             @Override
@@ -118,23 +144,41 @@ public class PlaylistFragment extends Fragment {
                 Log.d(TAG, error.toString());
             }
         });
-        if (hasPlaylist) {
-            rvPlaylistTracks = view.findViewById(R.id.rvPlaylistTracks);
-            playlistTracks = new ArrayList<>();
-            adapter = new PlaylistAdapter(getContext(), playlistTracks);
-            linearLayoutManager = new LinearLayoutManager(getContext());
-            rvPlaylistTracks.setAdapter(adapter);
-            rvPlaylistTracks.setLayoutManager(linearLayoutManager);
-            getPlaylistTracks();
-        } else {
-            btnCreatePlaylist = view.findViewById(R.id.btnCreatePlaylist);
-            btnCreatePlaylist.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    createNewPlaylist();
-                }
-            });
+    }
+
+    private void initNoPlaylistViews(@NonNull View view) {
+        btnCreatePlaylist = view.findViewById(R.id.btnCreatePlaylist);
+        btnCreatePlaylist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewPlaylist();
+            }
+        });
+    }
+
+    private void getParsePlaylist() {
+        ParseQuery<ParsePlaylist> query = ParseQuery.getQuery(ParsePlaylist.class); // specify what type of data we want to query - ParsePlaylist.class
+        query.whereEqualTo(ParsePlaylist.KEY_USER, currentUser);
+        query.include(ParsePlaylist.KEY_PLAYLIST_ID); // include data referred by current user
+        try {
+            parsePlaylists = query.find();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+    }
+
+    private void initHasPlaylistViews(@NonNull View view) {
+        tvPlaylistName = view.findViewById(R.id.tvPlaylistName);
+        tvPlaylistDescription = view.findViewById(R.id.tvPlaylistDescription);
+        ivPlaylistImage = view.findViewById(R.id.ivPlaylistImage);
+        ivPlaylistProfilePic = view.findViewById(R.id.ivPlaylistProfilePic);
+        tvPlaylistDisplayName = view.findViewById(R.id.tvPlaylistDisplayName);
+        rvPlaylistTracks = view.findViewById(R.id.rvPlaylistTracks);
+        playlistTracks = new ArrayList<>();
+        adapter = new PlaylistAdapter(getContext(), playlistTracks);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        rvPlaylistTracks.setAdapter(adapter);
+        rvPlaylistTracks.setLayoutManager(linearLayoutManager);
     }
 
     private void getPlaylistTracks() {

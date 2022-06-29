@@ -35,8 +35,7 @@ public class Post extends ParseObject {
 
     public String getCreatedAtDate() {
         Date date = this.getCreatedAt();
-        String dateString = GetDetails.getDateString(date);
-        return dateString;
+        return GetDetails.getDateString(date);
     }
 
     public String getUsername() {

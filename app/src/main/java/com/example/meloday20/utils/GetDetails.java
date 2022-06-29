@@ -8,6 +8,8 @@ import com.bumptech.glide.Glide;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,9 +30,9 @@ public class GetDetails {
     }
 
     @NonNull
-    public static String getDateString(Date createdAt) {
+    public static String getDateString(Date date) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(createdAt);
+        calendar.setTime(date);
         try {
             int monthNum = calendar.get(Calendar.MONTH)+1;
             int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -38,9 +40,15 @@ public class GetDetails {
             String month = StringUtils.capitalize(Month.of(monthNum).name().toLowerCase());
             return month + " " + day + ", " + year;
         } catch (Exception e) {
-            Log.i("Error:", "getRelativeTimeAgo failed", e);
+            Log.i("Error:", "getDateString failed", e);
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static String getSpotifyDateString(String date) throws ParseException {
+        date = date.substring(0, 10);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return getDateString(dateFormat.parse(date));
     }
 }

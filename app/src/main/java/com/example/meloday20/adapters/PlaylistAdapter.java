@@ -18,6 +18,7 @@ import com.example.meloday20.models.Post;
 import com.example.meloday20.utils.GetDetails;
 import com.parse.ParseUser;
 
+import java.text.ParseException;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyService;
@@ -49,7 +50,11 @@ public class PlaylistAdapter  extends RecyclerView.Adapter<PlaylistAdapter.ViewH
     @Override
     public void onBindViewHolder(@NonNull PlaylistAdapter.ViewHolder holder, int position) {
         PlaylistTrack playlistTrack = playlistTracks.get(position);
-        holder.bind(playlistTrack);
+        try {
+            holder.bind(playlistTrack);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -77,9 +82,9 @@ public class PlaylistAdapter  extends RecyclerView.Adapter<PlaylistAdapter.ViewH
             ivPlaylistCoverImage = itemView.findViewById(R.id.ivPlaylistCoverImage);
         }
 
-        public void bind(PlaylistTrack playlistTrack) {
+        public void bind(PlaylistTrack playlistTrack) throws ParseException {
             Track track = playlistTrack.track;
-            tvPlaylistTrackDate.setText(playlistTrack.added_at);
+            tvPlaylistTrackDate.setText(GetDetails.getSpotifyDateString(playlistTrack.added_at));
             tvPlaylistTitle.setText(track.name);
             tvPlaylistArtist.setText(GetDetails.getArtistsString(track.artists));
             Image coverImage = track.album.images.get(0);

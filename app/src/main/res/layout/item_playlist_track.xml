@@ -13,8 +13,8 @@
 
     <ImageView
         android:id="@+id/ivPlaylistCoverImage"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPlaylistTrackDate"
@@ -24,9 +24,11 @@
         android:id="@+id/tvPlaylistTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="Red (Taylor's Version)"
         android:textColor="#ffffff"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/ivPlaylistCoverImage"
         app:layout_constraintTop_toBottomOf="@+id/tvPlaylistTrackDate" />
 
@@ -34,9 +36,11 @@
         android:id="@+id/tvPlaylistArtist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
         android:text="Taylor Swift"
         android:textColor="#ffffff"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/ivPlaylistCoverImage"
         app:layout_constraintTop_toBottomOf="@+id/tvPlaylistTitle" />
 
@@ -46,6 +50,7 @@
         android:layout_height="wrap_content"
         android:text="June 10, 2022"
         android:textColor="#ffffff"
+        android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

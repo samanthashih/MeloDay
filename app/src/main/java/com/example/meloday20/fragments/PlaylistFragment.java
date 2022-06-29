@@ -98,6 +98,7 @@ public class PlaylistFragment extends Fragment {
         query.include(ParsePlaylist.KEY_PLAYLIST_ID); // include data referred by current user
         try {
             usersPlaylist = query.find().get(0);
+            playlistId = usersPlaylist.getPlaylistId();
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -106,6 +107,17 @@ public class PlaylistFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        userId = ParseUser.getCurrentUser().getUsername();
+        spotify.getMe(new Callback<UserPrivate>() {
+            @Override
+            public void success(UserPrivate userPrivate, Response response) {
+                displayName = userPrivate.display_name;
+            }
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(TAG, error.toString());
+            }
+        });
         if (hasPlaylist) {
             rvPlaylistTracks = view.findViewById(R.id.rvPlaylistTracks);
             playlistTracks = new ArrayList<>();
@@ -116,18 +128,6 @@ public class PlaylistFragment extends Fragment {
             getPlaylistTracks();
         } else {
             btnCreatePlaylist = view.findViewById(R.id.btnCreatePlaylist);
-            userId = ParseUser.getCurrentUser().getUsername();
-            spotify.getMe(new Callback<UserPrivate>() {
-                @Override
-                public void success(UserPrivate userPrivate, Response response) {
-                    displayName = userPrivate.display_name;
-                }
-                @Override
-                public void failure(RetrofitError error) {
-                    Log.d(TAG, error.toString());
-                }
-            });
-
             btnCreatePlaylist.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -141,7 +141,8 @@ public class PlaylistFragment extends Fragment {
         spotify.getPlaylistTracks(userId, playlistId, new Callback<Pager<PlaylistTrack>>() {
             @Override
             public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {
-                playlistTracks = playlistTrackPager.items;
+                playlistTracks.addAll(playlistTrackPager.items);
+                adapter.notifyDataSetChanged();
             }
             @Override
             public void failure(RetrofitError error) {

@@ -1,7 +1,10 @@
 package com.example.meloday20;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.meloday20.fragments.HomeFragment;
 import com.example.meloday20.models.ParsePlaylist;
 import com.example.meloday20.models.Post;
 import com.parse.FindCallback;
@@ -46,6 +50,7 @@ public class AddTrackActivity extends AppCompatActivity {
     TextView tvAddTrackArtist;
     ImageView ivAddTrackCover;
     Button btnAddTrackToPlaylist;
+    final FragmentManager fts = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,7 +129,7 @@ public class AddTrackActivity extends AppCompatActivity {
                 spotify.addTracksToPlaylist(userId, playlistId, addTrackQueryMap, addTrackBody, new Callback<Pager<PlaylistTrack>> () {
                     @Override
                     public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {
-                        Log.i(TAG, "Added song to playlist");
+                        goToMainActivity();
                     }
 
                     @Override
@@ -134,7 +139,11 @@ public class AddTrackActivity extends AppCompatActivity {
                 });
             }
         });
+    }
 
-
+    private void goToMainActivity() {
+        Intent intent = new Intent(AddTrackActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

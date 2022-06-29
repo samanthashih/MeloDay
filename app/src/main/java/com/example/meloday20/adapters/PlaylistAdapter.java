@@ -43,7 +43,7 @@ public class PlaylistAdapter  extends RecyclerView.Adapter<PlaylistAdapter.ViewH
     @Override
     public PlaylistAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_playlist_track, parent, false); // pass it a “blueprint” of the view (reference to XML layout file)
-        return new PlaylistAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -59,13 +59,6 @@ public class PlaylistAdapter  extends RecyclerView.Adapter<PlaylistAdapter.ViewH
 
     // viewholder class
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        String accessToken = ParseUser.getCurrentUser().getString("accessToken");
-        SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
-        String trackTitle;
-        List<ArtistSimple> trackArtists;
-        String artistsString;
-        Image trackCoverImage;
-
         TextView tvPlaylistTrackDate;
         TextView tvPlaylistTitle;
         TextView tvPlaylistArtist;
@@ -82,18 +75,24 @@ public class PlaylistAdapter  extends RecyclerView.Adapter<PlaylistAdapter.ViewH
             tvPlaylistTitle = itemView.findViewById(R.id.tvPlaylistTitle);
             tvPlaylistArtist = itemView.findViewById(R.id.tvPlaylistArtist);
             ivPlaylistCoverImage = itemView.findViewById(R.id.ivPlaylistCoverImage);
-            artistsString = "";
         }
 
         public void bind(PlaylistTrack playlistTrack) {
             Track track = playlistTrack.track;
+            tvPlaylistTrackDate.setText(playlistTrack.added_at);
             tvPlaylistTitle.setText(track.name);
             tvPlaylistArtist.setText(GetDetails.getArtistsString(track.artists));
+            Image coverImage = track.album.images.get(0);
+            if (coverImage != null) {
+                Glide.with(context)
+                        .load(coverImage.url)
+                        .into(ivPlaylistCoverImage);
+            }
         }
 
         @Override
         public void onClick(View v) {
-            Log.i(TAG, "Clicked a track!");
+            Log.i(TAG, "Clicked a playlist track!");
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) { //if position valid, get that post
                 PlaylistTrack playlistTrack = playlistTracks.get(position);

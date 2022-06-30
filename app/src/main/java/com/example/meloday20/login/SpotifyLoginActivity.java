@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
@@ -28,8 +29,9 @@ import retrofit.client.Response;
 //import spotify.api.spotify.SpotifyApi;
 
 public class SpotifyLoginActivity extends AppCompatActivity {
-    private static final String TAG = "SpotifyLoginActivity";
+    private static final String TAG = SpotifyLoginActivity.class.getSimpleName();
     private static final int REQUEST_CODE = 1337;
+    private Button btnSpotifyLogin;
     private static final String CLIENT_ID = "f739c53578ef4b98b5ec6e8068bc4ec6";
     private static String username;
     private final String REDIRECT_URI = "com.example.meloday20://callback";
@@ -40,9 +42,16 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spotify_login);
+        btnSpotifyLogin = findViewById(R.id.btnSpotifyLogin);
+        btnSpotifyLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLoginClick();
+            }
+        });
     }
 
-    public void onLoginClick(View view) {
+    public void onLoginClick() {
         AuthorizationRequest.Builder builder =
                 new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
         builder.setShowDialog(true);

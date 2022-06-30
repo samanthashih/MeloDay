@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment {
         rvPosts.setAdapter(adapter);
         rvPosts.setLayoutManager(linearLayoutManager);
 
-        viewModel.queryPosts(0);
+        viewModel.queryPosts(homePosts.size());
         Observer<List<Post>> postObserver = new Observer<List<Post>>() {
             @Override
             public void onChanged(List<Post> posts) {

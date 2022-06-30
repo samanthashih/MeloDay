@@ -13,7 +13,7 @@
         <entry key="app/src/main/res/layout/activity_search_tracks.xml" value="0.11924119241192412" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.22708333333333333" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.27717391304347827" />
-        <entry key="app/src/main/res/layout/activity_spotify_login.xml" value="0.3515581465298886" />
+        <entry key="app/src/main/res/layout/activity_spotify_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_has_playlist.xml" value="0.40350877192982454" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.255401611328125" />
         <entry key="app/src/main/res/layout/fragment_playlist.xml" value="0.2717391304347826" />

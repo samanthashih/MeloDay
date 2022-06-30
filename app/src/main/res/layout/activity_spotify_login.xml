@@ -14,7 +14,6 @@
         android:id="@+id/btnSpotifyLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onLoginClick"
         android:text="Spotify login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

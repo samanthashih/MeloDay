@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,6 +44,8 @@ import retrofit.client.Response;
 
 public class PlaylistFragment extends Fragment {
     private static final String TAG = PlaylistFragment.class.getSimpleName();
+    private PlaylistViewModel viewModel;
+
     private ParseUser currentUser;
     private ParsePlaylist usersPlaylist;
     private String userId;
@@ -63,6 +67,7 @@ public class PlaylistFragment extends Fragment {
     private PlaylistAdapter adapter;
     LinearLayoutManager linearLayoutManager;
     List<ParsePlaylist> parsePlaylists;
+    UserPrivate user;
 
 
     public PlaylistFragment() {
@@ -95,54 +100,59 @@ public class PlaylistFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        userId = ParseUser.getCurrentUser().getUsername();
-        setUserValues();
+        viewModel = new ViewModelProvider(this).get(PlaylistViewModel.class);
+
+        viewModel.getSpotifyUser();
+        Observer<UserPrivate> userObserver = new Observer<UserPrivate>() {
+            @Override
+            public void onChanged(UserPrivate userPrivate) {
+                userId = user.id;
+                displayName = user.display_name;
+                spotifyProfilePic = user.images.get(0);
+                initViews(view);
+
+            }
+        };
+        viewModel.user.observe(getViewLifecycleOwner(),userObserver);
+    }
+
+    private void initViews(@NonNull View view) {
         if (hasPlaylist) {
             initHasPlaylistViews(view);
             getPlaylistTracks();
-            spotify.getPlaylist(userId, playlistId, new Callback<Playlist>() {
-                @Override
-                public void success(Playlist playlist, Response response) {
-                    tvPlaylistName.setText(playlist.name);
-                    tvPlaylistDescription.setText(playlist.description);
-                    tvPlaylistDisplayName.setText(userId);
-                    if (playlist.images.size() > 0) {
-                        Glide.with(getContext())
-                                .load(playlist.images.get(0).url)
-                                .into(ivPlaylistImage);
-                    } else{
-                        Glide.with(getContext())
-                                .load(R.drawable.default_playlist_cover)
-                                .into(ivPlaylistImage);
-                    }
-
-                    if (spotifyProfilePic != null) {
-                        Glide.with(getContext())
-                                .load(spotifyProfilePic.url)
-                                .transform(new RoundedCorners(100))
-                                .into(ivPlaylistProfilePic);
-                    }
-                }
-                @Override
-                public void failure(RetrofitError error) {
-                    Log.e(TAG, "Could not retrieve playlist from Spotify.", error);
-                }
-            });
+            setPlaylistViewValues();
         } else {
             initNoPlaylistViews(view);
         }
     }
 
-    private void setUserValues() {
-        spotify.getMe(new Callback<UserPrivate>() {
+    private void setPlaylistViewValues() {
+        spotify.getPlaylist(userId, playlistId, new Callback<Playlist>() {
             @Override
-            public void success(UserPrivate userPrivate, Response response) {
-                spotifyProfilePic = userPrivate.images.get(0);
-                displayName = userPrivate.display_name;
+            public void success(Playlist playlist, Response response) {
+                tvPlaylistName.setText(playlist.name);
+                tvPlaylistDescription.setText(playlist.description);
+                tvPlaylistDisplayName.setText(userId);
+                if (playlist.images.size() > 0) {
+                    Glide.with(getContext())
+                            .load(playlist.images.get(0).url)
+                            .into(ivPlaylistImage);
+                } else {
+                    Glide.with(getContext())
+                            .load(R.drawable.default_playlist_cover)
+                            .into(ivPlaylistImage);
+                }
+
+                if (spotifyProfilePic != null) {
+                    Glide.with(getContext())
+                            .load(spotifyProfilePic.url)
+                            .transform(new RoundedCorners(100))
+                            .into(ivPlaylistProfilePic);
+                }
             }
             @Override
             public void failure(RetrofitError error) {
-                Log.d(TAG, error.toString());
+                Log.e(TAG, "Could not retrieve playlist from Spotify.", error);
             }
         });
     }
@@ -152,7 +162,7 @@ public class PlaylistFragment extends Fragment {
         btnCreatePlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createNewPlaylist();
+                viewModel.createNewPlaylist(displayName, userId);
             }
         });
     }
@@ -192,26 +202,6 @@ public class PlaylistFragment extends Fragment {
             @Override
             public void failure(RetrofitError error) {
                 Log.e(TAG, "Error getting track details.", error);
-            }
-        });
-    }
-
-    private void createNewPlaylist() {
-        createPlaylistParams.put("name", displayName + "'s MeloDay");
-        createPlaylistParams.put("description", "Your playlist of the year");
-        createPlaylistParams.put("public", true);
-
-        spotify.createPlaylist(userId, createPlaylistParams, new Callback<Playlist>() {
-            @Override
-            public void success(Playlist playlist, Response response) {
-                Log.d(TAG, playlist.id);
-                playlistId = playlist.id;
-                savePlaylistIdParse();
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.d(TAG, error.toString());
             }
         });
     }

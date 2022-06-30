@@ -23,7 +23,6 @@ public class HomeViewModel extends ViewModel {
         query.setLimit(20); // only want last 20 photos
         query.addDescendingOrder("createdAt"); // get the newer photos first so sort by createdAt column
         query.setSkip(skip);
-
         query.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> queryPosts, ParseException e) {

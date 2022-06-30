@@ -24,7 +24,7 @@ import kaaes.spotify.webapi.android.models.Image;
 import kaaes.spotify.webapi.android.models.Track;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
-    private static final String TAG = "SearchAdapter";
+    private static final String TAG = SearchAdapter.class.getSimpleName();
     private final Context context;
     private final List<Track> tracks;
 

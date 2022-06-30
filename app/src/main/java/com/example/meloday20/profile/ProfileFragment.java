@@ -1,4 +1,4 @@
-package com.example.meloday20.fragments;
+package com.example.meloday20.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.meloday20.R;
-import com.example.meloday20.SpotifyLoginActivity;
+import com.example.meloday20.login.SpotifyLoginActivity;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;

@@ -1,4 +1,4 @@
-package com.example.meloday20.fragments;
+package com.example.meloday20.playlist;
 
 import android.os.Bundle;
 
@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.RoundedCorner;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,10 +18,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.example.meloday20.adapters.PlaylistAdapter;
-import com.example.meloday20.models.ParsePlaylist;
 import com.example.meloday20.R;
-import com.example.meloday20.SpotifyServiceSingleton;
+import com.example.meloday20.utils.SpotifyServiceSingleton;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;

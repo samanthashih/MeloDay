@@ -16,7 +16,7 @@ import android.widget.Button;
 import android.widget.SearchView;
 
 import com.example.meloday20.R;
-import com.example.meloday20.SpotifyServiceSingleton;
+import com.example.meloday20.utils.SpotifyServiceSingleton;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;

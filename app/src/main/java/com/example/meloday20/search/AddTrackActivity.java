@@ -1,4 +1,4 @@
-package com.example.meloday20;
+package com.example.meloday20.search;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -12,7 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.meloday20.models.ParsePlaylist;
+import com.example.meloday20.MainActivity;
+import com.example.meloday20.R;
+import com.example.meloday20.utils.SpotifyServiceSingleton;
+import com.example.meloday20.playlist.ParsePlaylist;
 import com.example.meloday20.home.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;

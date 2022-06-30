@@ -1,4 +1,4 @@
-package com.example.meloday20.adapters;
+package com.example.meloday20.playlist;
 
 import android.content.Context;
 import android.util.Log;

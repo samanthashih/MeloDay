@@ -9,9 +9,10 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.meloday20.home.HomeFragment;
-import com.example.meloday20.fragments.PlaylistFragment;
+import com.example.meloday20.playlist.PlaylistFragment;
 import com.example.meloday20.search.SearchFragment;
-import com.example.meloday20.fragments.ProfileFragment;
+import com.example.meloday20.profile.ProfileFragment;
+import com.example.meloday20.utils.SpotifyServiceSingleton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 

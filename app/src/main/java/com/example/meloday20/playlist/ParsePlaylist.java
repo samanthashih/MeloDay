@@ -1,4 +1,4 @@
-package com.example.meloday20.models;
+package com.example.meloday20.playlist;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;

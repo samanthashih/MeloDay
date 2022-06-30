@@ -1,12 +1,10 @@
 package com.example.meloday20.home;
 
-import com.example.meloday20.SpotifyServiceSingleton;
+import com.example.meloday20.utils.SpotifyServiceSingleton;
 import com.example.meloday20.utils.GetDetails;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-
-import java.util.Date;
 
 import kaaes.spotify.webapi.android.SpotifyService;
 

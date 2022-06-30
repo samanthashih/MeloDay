@@ -1,6 +1,4 @@
-package com.example.meloday20;
-
-import com.parse.ParseUser;
+package com.example.meloday20.utils;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;

@@ -1,4 +1,4 @@
-package com.example.meloday20;
+package com.example.meloday20.utils;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;

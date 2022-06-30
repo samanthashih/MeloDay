@@ -7,9 +7,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import com.example.meloday20.login.SpotifyLoginActivity;
+import com.example.meloday20.utils.SpotifyServiceSingleton;
 import com.parse.ParseUser;
 
-import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.Callback;

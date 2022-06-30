@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.RoundedCorner;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.meloday20.adapters.PlaylistAdapter;
 import com.example.meloday20.models.ParsePlaylist;
 import com.example.meloday20.R;
@@ -106,6 +108,7 @@ public class PlaylistFragment extends Fragment {
                 public void success(Playlist playlist, Response response) {
                     tvPlaylistName.setText(playlist.name);
                     tvPlaylistDescription.setText(playlist.description);
+                    tvPlaylistName.setText(userId);
                     if (playlist.images.size() > 0) {
                         Glide.with(getContext())
                                 .load(playlist.images.get(0).url)
@@ -119,6 +122,7 @@ public class PlaylistFragment extends Fragment {
                     if (spotifyProfilePic != null) {
                         Glide.with(getContext())
                                 .load(spotifyProfilePic.url)
+                                .transform(new RoundedCorners(100))
                                 .into(ivPlaylistProfilePic);
                     }
                 }

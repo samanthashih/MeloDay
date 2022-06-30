@@ -9,15 +9,35 @@
     android:paddingTop="10dp"
     android:paddingBottom="10dp">
 
+    <TextView
+        android:id="@+id/tvPlaylistFinalDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="5dp"
+        android:text="DATE ADDED"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPlaylistImage" />
+
+    <View
+        android:id="@+id/viewDivider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="2dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlaylistFinalTitle"
+        tools:layout_editor_absoluteX="10dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPlaylistTracks"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPlaylistImage"
-        android:layout_marginTop="10dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/viewDivider" />
 
     <ImageView
         android:id="@+id/ivPlaylistImage"
@@ -31,7 +51,11 @@
         android:id="@+id/tvPlaylistPublic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Public Playlist"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="19dp"
+        android:text="PUBLIC PLAYLIST"
+        android:textSize="8sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/ivPlaylistImage"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,36 +63,78 @@
         android:id="@+id/tvPlaylistName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:text="sam shih's MeloDay"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivPlaylistImage"
-        app:layout_constraintTop_toBottomOf="@+id/tvPlaylistPublic" />
+        app:layout_constraintTop_toBottomOf="@+id/tvPlaylistPublic"
+        tools:fontFamily="sans-serif-medium" />
 
     <TextView
         android:id="@+id/tvPlaylistDescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
         android:text="my 2022 in songs"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivPlaylistImage"
         app:layout_constraintTop_toBottomOf="@+id/tvPlaylistName" />
 
     <ImageView
         android:id="@+id/ivPlaylistProfilePic"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="5dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
         app:layout_constraintStart_toEndOf="@+id/ivPlaylistImage"
         app:layout_constraintTop_toBottomOf="@+id/tvPlaylistDescription"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvPlaylistDisplayName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="3dp"
         android:text="sam shih"
+        android:textSize="8sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/ivPlaylistProfilePic"
         app:layout_constraintTop_toBottomOf="@+id/tvPlaylistDescription" />
+
+    <TextView
+        android:id="@+id/tvPlaylistSongCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="3dp"
+        android:text="5 songs"
+        android:textSize="8sp"
+        app:layout_constraintStart_toEndOf="@+id/tvPlaylistFinalDot"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlaylistDescription" />
+
+    <TextView
+        android:id="@+id/tvPlaylistFinalDot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:text="•"
+        app:layout_constraintBottom_toBottomOf="@+id/ivPlaylistProfilePic"
+        app:layout_constraintStart_toEndOf="@+id/tvPlaylistDisplayName"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlaylistDescription" />
+
+    <TextView
+        android:id="@+id/tvPlaylistFinalTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:text="TITLE"
+        android:textSize="8sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPlaylistImage" />
 </androidx.constraintlayout.widget.ConstraintLayout>

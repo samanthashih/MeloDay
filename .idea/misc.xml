@@ -14,15 +14,15 @@
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.22708333333333333" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.27717391304347827" />
         <entry key="app/src/main/res/layout/activity_spotify_login.xml" value="0.3515581465298886" />
-        <entry key="app/src/main/res/layout/fragment_has_playlist.xml" value="0.29983908669990406" />
+        <entry key="app/src/main/res/layout/fragment_has_playlist.xml" value="0.40350877192982454" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.255401611328125" />
         <entry key="app/src/main/res/layout/fragment_playlist.xml" value="0.2717391304347826" />
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.25791756184895837" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.4642272949218751" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.2546875" />
-        <entry key="app/src/main/res/layout/item_playlist_track.xml" value="0.47021236696105073" />
-        <entry key="app/src/main/res/layout/item_post_track.xml" value="0.5654059368631115" />
-        <entry key="app/src/main/res/layout/item_search_track.xml" value="0.8372823079427084" />
+        <entry key="app/src/main/res/layout/item_playlist_track.xml" value="0.7903930131004366" />
+        <entry key="app/src/main/res/layout/item_post_track.xml" value="0.40894039735099336" />
+        <entry key="app/src/main/res/layout/item_search_track.xml" value="0.3977455716586151" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.37775878906250004" />
         <entry key="app/src/main/res/menu/menu_toolbar.xml" value="0.3458333333333333" />
         <entry key="app/src/main/res/menu/post_fragment_menu.xml" value="0.2833333333333333" />

@@ -1,7 +1,6 @@
 package com.example.meloday20;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
@@ -13,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.meloday20.fragments.HomeFragment;
 import com.example.meloday20.models.ParsePlaylist;
 import com.example.meloday20.models.Post;
 import com.parse.FindCallback;

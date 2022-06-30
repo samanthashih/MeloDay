@@ -5,31 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
-import com.example.meloday20.fragments.HomeFragment;
+import com.example.meloday20.home.HomeFragment;
 import com.example.meloday20.fragments.PlaylistFragment;
 import com.example.meloday20.fragments.PostFragment;
 import com.example.meloday20.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
-import org.parceler.Parcels;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.Album;
-import kaaes.spotify.webapi.android.models.Track;
-import kaaes.spotify.webapi.android.models.UserPrivate;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 
 public class MainActivity extends AppCompatActivity {

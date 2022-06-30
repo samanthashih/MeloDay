@@ -108,7 +108,7 @@ public class PlaylistFragment extends Fragment {
                 public void success(Playlist playlist, Response response) {
                     tvPlaylistName.setText(playlist.name);
                     tvPlaylistDescription.setText(playlist.description);
-                    tvPlaylistName.setText(userId);
+                    tvPlaylistDisplayName.setText(userId);
                     if (playlist.images.size() > 0) {
                         Glide.with(getContext())
                                 .load(playlist.images.get(0).url)

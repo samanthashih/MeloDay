@@ -1,4 +1,4 @@
-package com.example.meloday20.adapters;
+package com.example.meloday20.home;
 
 import android.content.Context;
 import android.util.Log;
@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.meloday20.R;
 import com.example.meloday20.SpotifyServiceSingleton;
-import com.example.meloday20.models.Post;
 import com.example.meloday20.utils.GetDetails;
 import com.parse.ParseUser;
 

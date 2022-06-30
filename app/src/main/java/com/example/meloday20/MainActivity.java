@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import com.example.meloday20.home.HomeFragment;
 import com.example.meloday20.fragments.PlaylistFragment;
-import com.example.meloday20.fragments.PostFragment;
+import com.example.meloday20.search.SearchFragment;
 import com.example.meloday20.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
                 switch (item.getItemId()) {
-                    case R.id.action_post:
-                        fragment = new PostFragment();
+                    case R.id.action_search:
+                        fragment = new SearchFragment();
                         break;
                     case R.id.action_playlist:
                         fragment = new PlaylistFragment();

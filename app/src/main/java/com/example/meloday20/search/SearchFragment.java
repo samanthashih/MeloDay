@@ -1,4 +1,4 @@
-package com.example.meloday20.fragments;
+package com.example.meloday20.search;
 
 import android.os.Bundle;
 
@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.SearchView;
 
 import com.example.meloday20.R;
-import com.example.meloday20.adapters.SearchAdapter;
 import com.example.meloday20.SpotifyServiceSingleton;
 import com.parse.ParseUser;
 
@@ -39,8 +38,8 @@ import retrofit.client.Response;
 //import spotify.models.search.SearchQueryResult;
 //import spotify.models.tracks.TrackFull;
 
-public class PostFragment extends Fragment {
-    private final static String TAG = PostFragment.class.getSimpleName();
+public class SearchFragment extends Fragment {
+    private final static String TAG = SearchFragment.class.getSimpleName();
     private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
     public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
     private Button btnSearch;
@@ -51,7 +50,7 @@ public class PostFragment extends Fragment {
     private List<Track> tracks;
     LinearLayoutManager linearLayoutManager;
 
-    public PostFragment() {
+    public SearchFragment() {
         // Required empty public constructor
     }
 

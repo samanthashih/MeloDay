@@ -13,22 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.meloday20.R;
-import com.example.meloday20.SpotifyServiceSingleton;
-import com.example.meloday20.models.Post;
 import com.example.meloday20.utils.GetDetails;
-import com.parse.ParseUser;
 
 import java.text.ParseException;
 import java.util.List;
 
-import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.ArtistSimple;
 import kaaes.spotify.webapi.android.models.Image;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.Track;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class PlaylistAdapter  extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder>{
     private static final String TAG = PlaylistAdapter.class.getSimpleName();

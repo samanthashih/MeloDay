@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.meloday20.models.ParsePlaylist;
-import com.example.meloday20.models.Post;
+import com.example.meloday20.home.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;

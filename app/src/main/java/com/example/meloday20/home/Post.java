@@ -1,4 +1,4 @@
-package com.example.meloday20.models;
+package com.example.meloday20.home;
 
 import com.example.meloday20.SpotifyServiceSingleton;
 import com.example.meloday20.utils.GetDetails;
@@ -17,7 +17,6 @@ public class Post extends ParseObject {
     public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
     public static final String KEY_USER = "user";
     public static final String KEY_TRACK_ID = "trackId";
-    public static final String KEY_CREATED_AT = "createdAt";
 
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
@@ -34,12 +33,10 @@ public class Post extends ParseObject {
     }
 
     public String getCreatedAtDate() {
-        Date date = this.getCreatedAt();
-        return GetDetails.getDateString(date);
+        return GetDetails.getDateString(this.getCreatedAt());
     }
 
     public String getUsername() {
-        ParseUser postUser = getUser();
-        return postUser.getUsername();
+        return getUser().getUsername();
     }
 }

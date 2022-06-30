@@ -4,14 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SpotifyLoginActivity">
+    tools:context=".SpotifyLoginActivity"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
 
     <Button
         android:id="@+id/btnSpotifyLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onLoginClick"
         android:text="Spotify login"
-        tools:layout_editor_absoluteX="136dp"
-        tools:layout_editor_absoluteY="126dp"
-        android:onClick="onLoginClick"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,9 +14,9 @@ import java.util.List;
 
 public class HomeViewModel extends ViewModel {
     private static final String TAG = HomeViewModel.class.getSimpleName();
-    MutableLiveData<Post> posts = new MutableLiveData<>();
+    MutableLiveData<List<Post>> posts = new MutableLiveData<>();
 
-    private void queryPosts(int skip) {
+    public void queryPosts(int skip) {
         Log.i(TAG, "query posts");
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class); // specify what type of data we want to query - Post.class on parstagram database
         query.include(Post.KEY_USER); // include data referred by current user
@@ -30,10 +30,10 @@ public class HomeViewModel extends ViewModel {
             public void done(List<Post> queryPosts, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting posts.", e);
+                    posts.setValue(null);
                     return;
                 }
-                // no error
-                // save received posts to list and notify adapter of new data
+                posts.setValue(queryPosts);
             }
         });
     }

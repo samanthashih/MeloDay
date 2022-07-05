@@ -1,7 +1,11 @@
 package com.example.meloday20.home;
 
+import android.app.Application;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -11,9 +15,14 @@ import com.parse.ParseQuery;
 
 import java.util.List;
 
-public class HomeViewModel extends ViewModel {
+public class HomeViewModel extends AndroidViewModel {
     private static final String TAG = HomeViewModel.class.getSimpleName();
-    MutableLiveData<List<Post>> posts = new MutableLiveData<>();
+    private MutableLiveData<List<Post>> _posts = new MutableLiveData<>();
+    LiveData<List<Post>> posts = _posts;
+
+    public HomeViewModel(@NonNull Application application) {
+        super(application);
+    }
 
     public void queryPosts(int skip) {
         Log.i(TAG, "query posts");
@@ -29,10 +38,10 @@ public class HomeViewModel extends ViewModel {
             public void done(List<Post> queryPosts, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting posts.", e);
-                    posts.setValue(null);
+                    _posts.setValue(null);
                     return;
                 }
-                posts.setValue(queryPosts);
+                _posts.setValue(queryPosts);
             }
         });
     }

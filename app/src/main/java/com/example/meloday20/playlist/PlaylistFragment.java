@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
 import com.parse.ParseUser;
 
@@ -43,7 +44,11 @@ public class PlaylistFragment extends Fragment {
     private ImageView ivPlaylistProfilePic;
     private TextView tvPlaylistDisplayName;
     private TextView tvPlaylistSongCount;
-    private Map<String, Object> createPlaylistParams = new HashMap<>();
+    private TextView tvPlaylistTextDot;
+    private TextView tvPlaylistTextTitle;
+    private TextView tvPlaylistTextDate;
+    private TextView tvPlaylistTextPublic;
+    private View viewDivider;
     private List<PlaylistTrack> playlistTracks;
     private PlaylistAdapter adapter;
     LinearLayoutManager linearLayoutManager;
@@ -80,9 +85,37 @@ public class PlaylistFragment extends Fragment {
                 } else {
                     // set everything but button to gone
                     // create playlist stuff
+                    setNoPlaylistExistsVisibility();
+                    btnCreatePlaylist.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            viewModel.createNewPlaylist();
+                        }
+                    });
                 }
             }
         });
+    }
+
+    private void onCreatePlaylistClick() {
+        viewModel.createNewPlaylist();
+//        MainActivity.bottomNavigationView.setSelectedItemId(R.id.action_playlist);
+    }
+
+    private void setNoPlaylistExistsVisibility() {
+        btnCreatePlaylist.setVisibility(View.VISIBLE);
+        tvPlaylistName.setVisibility(View.GONE);
+        tvPlaylistDescription.setVisibility(View.GONE);
+        ivPlaylistImage.setVisibility(View.GONE);
+        ivPlaylistProfilePic.setVisibility(View.GONE);
+        tvPlaylistDisplayName.setVisibility(View.GONE);
+        tvPlaylistSongCount.setVisibility(View.GONE);
+        rvPlaylistTracks.setVisibility(View.GONE);
+        tvPlaylistTextDot.setVisibility(View.GONE);
+        tvPlaylistTextTitle.setVisibility(View.GONE);
+        tvPlaylistTextDate.setVisibility(View.GONE);
+        tvPlaylistTextPublic.setVisibility(View.GONE);
+        viewDivider.setVisibility(View.GONE);
     }
 
     private void displayUserDetails() {
@@ -133,6 +166,7 @@ public class PlaylistFragment extends Fragment {
 
     private void initViews(@NonNull View view) {
         btnCreatePlaylist = view.findViewById(R.id.btnCreatePlaylist);
+
         tvPlaylistName = view.findViewById(R.id.tvPlaylistName);
         tvPlaylistDescription = view.findViewById(R.id.tvPlaylistDescription);
         ivPlaylistImage = view.findViewById(R.id.ivPlaylistImage);
@@ -140,45 +174,17 @@ public class PlaylistFragment extends Fragment {
         tvPlaylistDisplayName = view.findViewById(R.id.tvPlaylistDisplayName);
         tvPlaylistSongCount = view.findViewById(R.id.tvPlaylistSongCount);
         rvPlaylistTracks = view.findViewById(R.id.rvPlaylistTracks);
+        tvPlaylistTextDot = view.findViewById(R.id.tvPlaylistTextDot);
+        tvPlaylistTextTitle = view.findViewById(R.id.tvPlaylistTextTitle);
+        tvPlaylistTextDate = view.findViewById(R.id.tvPlaylistTextDate);
+        tvPlaylistTextPublic = view.findViewById(R.id.tvPlaylistTextPublic);
+        viewDivider = view.findViewById(R.id.viewDivider);
 
-        playlistTracks = new ArrayList<>();
+
+                playlistTracks = new ArrayList<>();
         adapter = new PlaylistAdapter(getContext(), playlistTracks);
         linearLayoutManager = new LinearLayoutManager(getContext());
         rvPlaylistTracks.setAdapter(adapter);
         rvPlaylistTracks.setLayoutManager(linearLayoutManager);
     }
-
-
-//    private void createNewPlaylist() {
-//        createPlaylistParams.put("name", displayName + "'s MeloDay");
-//        createPlaylistParams.put("description", "Your playlist of the year");
-//        createPlaylistParams.put("public", true);
-//
-//        spotify.createPlaylist(userId, createPlaylistParams, new Callback<Playlist>() {
-//            @Override
-//            public void success(Playlist playlist, Response response) {
-//                Log.d(TAG, playlist.id);
-//                playlistId = playlist.id;
-//                savePlaylistIdParse();
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                Log.d(TAG, error.toString());
-//            }
-//        });
-//    }
-
-//    private void savePlaylistIdParse() {
-//        ParsePlaylist playlist = new ParsePlaylist();
-//        playlist.setUser(currentUser);
-//        playlist.setPlaylistId(playlistId);
-//        playlist.saveInBackground(new SaveCallback() {
-//            @Override
-//            public void done(ParseException e) {
-//                if (e != null) {
-//                    Log.e(TAG, "Parse Error while saving playlistId", e);
-//                }}
-//        });
-//    }
 }

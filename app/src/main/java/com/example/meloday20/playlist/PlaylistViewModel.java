@@ -7,17 +7,16 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.example.meloday20.home.Post;
 import com.example.meloday20.utils.SpotifyServiceSingleton;
-import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Pager;
@@ -43,11 +42,14 @@ public class PlaylistViewModel extends AndroidViewModel {
     LiveData<Playlist> playlistDetails = _playlistDetails;
     private MutableLiveData<UserPrivate> _userDetails = new MutableLiveData<>();
     LiveData<UserPrivate> userDetails = _userDetails;
+    private Map<String, Object> createPlaylistParams = new HashMap<>();
+    private String displayName;
 
 
     public PlaylistViewModel(@NonNull Application application) {
         super(application);
-        getParsePlaylistId();
+            getParsePlaylistId();
+            getUserDetails();
     }
 
     public void getParsePlaylistId() {
@@ -57,7 +59,7 @@ public class PlaylistViewModel extends AndroidViewModel {
         try {
             playlistId = query.find().get(0).getPlaylistId();
             _playlistExists.setValue(true);
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             _playlistExists.setValue(false);
         }
@@ -93,12 +95,44 @@ public class PlaylistViewModel extends AndroidViewModel {
         spotify.getMe(new Callback<UserPrivate>() {
             @Override
             public void success(UserPrivate userPrivate, Response response) {
+                displayName = userPrivate.display_name;
                 _userDetails.setValue(userPrivate);
             }
             @Override
             public void failure(RetrofitError error) {
                 Log.d(TAG, error.toString());
             }
+        });
+    }
+
+    public void createNewPlaylist() {
+        createPlaylistParams.put("name", displayName + "'s MeloDay");
+        createPlaylistParams.put("description", "Your playlist of the year");
+        createPlaylistParams.put("public", true);
+        spotify.createPlaylist(userId, createPlaylistParams, new Callback<Playlist>() {
+            @Override
+            public void success(Playlist playlist, Response response) {
+                Log.d(TAG, playlist.id);
+                playlistId = playlist.id;
+                savePlaylistIdInParse();
+            }
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(TAG, error.toString());
+            }
+        });
+    }
+
+    private void savePlaylistIdInParse() {
+        ParsePlaylist playlist = new ParsePlaylist();
+        playlist.setUser(currentUser);
+        playlist.setPlaylistId(playlistId);
+        playlist.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Parse Error while saving playlistId", e);
+                }}
         });
     }
 }

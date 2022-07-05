@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvPlaylistFinalDate"
+        android:id="@+id/tvPlaylistTextDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -37,7 +37,7 @@
         android:layout_height="0.5dp"
         android:layout_marginTop="2dp"
         android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@+id/tvPlaylistFinalTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlaylistTextTitle"
         tools:layout_editor_absoluteX="10dp" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -59,7 +59,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/tvPlaylistPublic"
+        android:id="@+id/tvPlaylistTextPublic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -80,7 +80,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivPlaylistImage"
-        app:layout_constraintTop_toBottomOf="@+id/tvPlaylistPublic"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlaylistTextPublic"
         tools:fontFamily="sans-serif-medium" />
 
     <TextView
@@ -125,11 +125,11 @@
         android:layout_marginTop="3dp"
         android:text="# songs"
         android:textSize="8sp"
-        app:layout_constraintStart_toEndOf="@+id/tvPlaylistFinalDot"
+        app:layout_constraintStart_toEndOf="@+id/tvPlaylistTextDot"
         app:layout_constraintTop_toBottomOf="@+id/tvPlaylistDescription" />
 
     <TextView
-        android:id="@+id/tvPlaylistFinalDot"
+        android:id="@+id/tvPlaylistTextDot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
@@ -139,7 +139,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvPlaylistDescription" />
 
     <TextView
-        android:id="@+id/tvPlaylistFinalTitle"
+        android:id="@+id/tvPlaylistTextTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"

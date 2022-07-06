@@ -4,19 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login.SpotifyLoginActivity"
+    android:background="@color/black"
     android:paddingLeft="10dp"
-    android:paddingRight="10dp"
     android:paddingTop="10dp"
-    android:paddingBottom="10dp">
+    android:paddingRight="10dp"
+    android:paddingBottom="10dp"
+    tools:context=".login.SpotifyLoginActivity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="-11dp">
+
+    <TextView
+        android:id="@+id/tvLoginASongADay"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="50dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="A song a day keeps the doctor away."
+        android:textColor="@color/white"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivLoginLogo" />
+
+    <ImageView
+        android:id="@+id/ivSpotifyLogo"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="55dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSpotifyLogin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnSpotifyLogin"
+        app:srcCompat="@drawable/spotify_logo" />
 
     <Button
         android:id="@+id/btnSpotifyLogin"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginStart="-50dp"
+        android:layout_marginTop="48dp"
+        android:backgroundTint="@color/spotify_green"
         android:onClick="onLoginClick"
-        android:text="Spotify login"
+        android:text="Continue with Spotify"
+        app:cornerRadius="50dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivSpotifyLogo"
+        app:layout_constraintTop_toBottomOf="@+id/tvLoginASongADay" />
+
+    <ImageView
+        android:id="@+id/ivLoginLogo"
+        android:layout_width="356dp"
+        android:layout_height="139dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/meloday_black_on_green_text_logo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

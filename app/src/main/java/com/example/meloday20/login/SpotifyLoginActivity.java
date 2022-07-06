@@ -107,22 +107,20 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 
     private void loginUser(String username, String password, String accessToken) {
         Log.i(TAG, "Login attempt for user: " + username);
-        ParseUser.logInInBackground(username, password, new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
-                if (e != null) {
-                    signUpUser(username, password, accessToken);
-                    return;
-                }
-                setParseUserAccessToken(accessToken);
-            }
-        });
+        try {
+            ParseUser.logIn(username, password);
+        } catch (ParseException e) {
+            signUpUser(username, password, accessToken);
+            return;
+        }
+        setParseUserAccessToken(accessToken);
     }
 
     private void signUpUser(String username, String password, String accessToken) {
         ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
+        setParseUserAccessToken(accessToken);
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {

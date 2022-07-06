@@ -98,7 +98,7 @@ public class AddTrackActivity extends AppCompatActivity {
     }
 
     private void displayAlreadyPostedMessage() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
         builder.setCancelable(true);
         builder.setTitle("You already posted today!");
         builder.setMessage("You may only post one song per day.");

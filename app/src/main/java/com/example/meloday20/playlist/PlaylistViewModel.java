@@ -9,10 +9,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.meloday20.utils.SpotifyServiceSingleton;
+import com.google.gson.JsonObject;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -135,4 +139,16 @@ public class PlaylistViewModel extends AndroidViewModel {
                 }}
         });
     }
+
+//    private void uploadPlaylistCover() throws JSONException {
+//        JSONObject jsonBodyObj = new JSONObject();
+//        try {
+//            jsonBodyObj.put("playlist_id", playlistId);
+//            jsonBodyObj.put("image", playlistId);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        final String requestBody = jsonBodyObj.toString();
+//    }
 }

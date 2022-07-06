@@ -21,6 +21,7 @@ import kaaes.spotify.webapi.android.SpotifyService;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
+
     private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
     public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
     public static BottomNavigationView bottomNavigationView;

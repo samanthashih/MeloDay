@@ -1,8 +1,14 @@
 package com.example.meloday20.addTrack;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,8 +19,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
+import com.example.meloday20.home.Post;
 
 import org.parceler.Parcels;
+
+import java.util.List;
 
 import kaaes.spotify.webapi.android.models.Image;
 import kaaes.spotify.webapi.android.models.Track;
@@ -64,8 +73,20 @@ public class AddTrackActivity extends AppCompatActivity {
         btnAddTrackToPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.addTrackActions(track);
-                goToMainActivity();
+                viewModel.checkIfPostedToday();
+                Observer<Boolean> postedTodayObserver = new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(Boolean postedToday) {
+                        if (postedToday) {
+                            displayAlreadyPostedMessage();
+                        }
+                        else {
+                            viewModel.addTrackActions(track);
+                            goToMainActivity();
+                        }
+                    }
+                };
+                viewModel.postedToday.observe(AddTrackActivity.this, postedTodayObserver);
             }
         });
     }
@@ -74,5 +95,25 @@ public class AddTrackActivity extends AppCompatActivity {
         Intent intent = new Intent(AddTrackActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void displayAlreadyPostedMessage() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("You already posted today!");
+        builder.setMessage("You may only post one song per day.");
+        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                //todo: delete old post and post new song?
+//            }
+//        });
+        builder.show();
     }
 }

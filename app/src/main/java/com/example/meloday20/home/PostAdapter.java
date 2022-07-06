@@ -59,10 +59,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         String accessToken = ParseUser.getCurrentUser().getString("accessToken");
         SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
-        String trackTitle;
-        List<ArtistSimple> trackArtists;
         Image trackCoverImage;
-
         TextView tvPostUsername;
         TextView tvPostDate;
         TextView tvPostTitle;
@@ -92,11 +89,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                     tvPostArtist.setText(GetDetails.getArtistsString(track.artists));
                     tvPostUsername.setText(post.getUsername());
                     tvPostDate.setText(post.getCreatedAtDate());
-
                     trackCoverImage = track.album.images.get(0);
                     if (trackCoverImage != null) {
                         Glide.with(context)
                                 .load(trackCoverImage.url)
+                                .placeholder(R.drawable.default_playlist_cover)
                                 .into(ivPostCoverImage);
                     }
                 }

@@ -48,8 +48,8 @@ public class PlaylistViewModel extends AndroidViewModel {
 
     public PlaylistViewModel(@NonNull Application application) {
         super(application);
-            getParsePlaylistId();
-            getUserDetails();
+        getParsePlaylistId();
+        getUserDetails();
     }
 
     public void getParsePlaylistId() {

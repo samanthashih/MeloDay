@@ -2,6 +2,7 @@ package com.example.meloday20.search;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
+import com.example.meloday20.playlist.PlaylistViewModel;
 import com.example.meloday20.utils.SpotifyServiceSingleton;
 import com.example.meloday20.playlist.ParsePlaylist;
 import com.example.meloday20.home.Post;
@@ -40,42 +42,22 @@ import retrofit.client.Response;
 
 public class AddTrackActivity extends AppCompatActivity {
     private static final String TAG = AddTrackActivity.class.getSimpleName();
-    private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
-    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
-    private static ParseUser currentUser;
-    private static String userId;
-    private static String playlistId;
+    private AddTrackViewModel viewModel;
     private static Track track;
     private static String artistsString;
     TextView tvAddTrackTitle;
     TextView tvAddTrackArtist;
     ImageView ivAddTrackCover;
     Button btnAddTrackToPlaylist;
-    final FragmentManager fts = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_track);
+        viewModel = new ViewModelProvider(this).get(AddTrackViewModel.class);
         track = Parcels.unwrap(getIntent().getParcelableExtra("track"));
         initViews();
         setViewValues();
-    }
-
-    private void createTrackPost() {
-        Post post = new Post();
-        post.setUser(currentUser);
-        post.setTrackId(track.id);
-
-        post.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "error while saving post", e);
-                }
-                Log.i(TAG, "post save success");
-            }
-        });
     }
 
     private void setViewValues() {
@@ -96,7 +78,6 @@ public class AddTrackActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        currentUser = ParseUser.getCurrentUser();
         tvAddTrackTitle = findViewById(R.id.tvAddTrackTitle);
         tvAddTrackArtist = findViewById(R.id.tvAddTrackArtist);
         ivAddTrackCover = findViewById(R.id.ivAddTrackCover);
@@ -104,40 +85,8 @@ public class AddTrackActivity extends AppCompatActivity {
         btnAddTrackToPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addTrackToPlaylist();
-                createTrackPost();
-            }
-        });
-    }
-
-    private void addTrackToPlaylist() {
-        userId = currentUser.getUsername();
-        ParseQuery<ParsePlaylist> query = ParseQuery.getQuery(ParsePlaylist.class); // specify what type of data we want to query - ParsePlaylist.class
-        query.whereEqualTo(ParsePlaylist.KEY_USER, ParseUser.getCurrentUser());
-        query.include(ParsePlaylist.KEY_PLAYLIST_ID); // include data referred by current user
-        query.findInBackground(new FindCallback<ParsePlaylist>() {
-            @Override
-            public void done(List<ParsePlaylist> queryPlaylists, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue with getting playlist id", e);
-                    return;
-                }
-                playlistId = queryPlaylists.get(0).getPlaylistId();
-
-                Map<String, Object> addTrackQueryMap = new HashMap<>();
-                Map<String, Object> addTrackBody = new HashMap<>();
-                addTrackBody.put("uris", new String[]{"spotify:track:" + track.id});
-                spotify.addTracksToPlaylist(userId, playlistId, addTrackQueryMap, addTrackBody, new Callback<Pager<PlaylistTrack>> () {
-                    @Override
-                    public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {
-                        goToMainActivity();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.d(TAG, error.toString());
-                    }
-                });
+                viewModel.addTrackActions(track);
+                goToMainActivity();
             }
         });
     }

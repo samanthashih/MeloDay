@@ -21,7 +21,7 @@
             android:name=".SplashActivity"
             android:exported="false" />
         <activity
-            android:name=".search.AddTrackActivity"
+            android:name=".addTrack.AddTrackActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

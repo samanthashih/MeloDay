@@ -1,12 +1,10 @@
-package com.example.meloday20.search;
+package com.example.meloday20.addTrack;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,30 +13,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
-import com.example.meloday20.playlist.PlaylistViewModel;
-import com.example.meloday20.utils.SpotifyServiceSingleton;
-import com.example.meloday20.playlist.ParsePlaylist;
-import com.example.meloday20.home.Post;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Image;
-import kaaes.spotify.webapi.android.models.Pager;
-import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.Track;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class AddTrackActivity extends AppCompatActivity {
     private static final String TAG = AddTrackActivity.class.getSimpleName();

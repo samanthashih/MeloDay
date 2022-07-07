@@ -11,8 +11,6 @@ import kaaes.spotify.webapi.android.SpotifyService;
 @ParseClassName("Post")
 public class Post extends ParseObject {
     private static final String TAG = Post.class.getSimpleName();
-    private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
-    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
     public static final String KEY_USER = "user";
     public static final String KEY_TRACK_ID = "trackId";
 

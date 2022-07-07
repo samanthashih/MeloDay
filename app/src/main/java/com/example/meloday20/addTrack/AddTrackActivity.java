@@ -20,6 +20,8 @@ import com.bumptech.glide.Glide;
 import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
 import com.example.meloday20.home.Post;
+import com.example.meloday20.playlist.ParsePlaylist;
+import com.parse.ParseQuery;
 
 import org.parceler.Parcels;
 

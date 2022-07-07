@@ -106,24 +106,33 @@ public class AddTrackViewModel extends AndroidViewModel {
     }
 
     public void checkIfPostedToday() {
+        Post lastPost = getUserLastPost();
+        if (lastPost != null) {
+            lastPostedDate = GetDetails.getDateString(lastPost.getCreatedAt());
+            today = GetDetails.getDateString(new Date());
+            Log.i(TAG, lastPostedDate + " vs. " + today);
+            if (lastPostedDate.equals(today)) {
+                Log.i(TAG, "Already posted today");
+                _postedToday.setValue(true);
+            } else {
+                _postedToday.setValue(false);
+            }
+        } else {
+            Log.e(TAG, "Could not get user's last post");
+            _postedToday.setValue(false);
+        }
+    }
+
+    public Post getUserLastPost() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class); // specify what type of data we want to query - ParsePlaylist.class
         query.whereEqualTo(Post.KEY_USER, currentUser);
         query.addDescendingOrder("createdAt"); // get the newer posts first
         query.setLimit(1); // get only the latest post
         query.include(Post.KEY_TRACK_ID); // include data referred by current user
         try {
-             lastPostedDate = GetDetails.getDateString(query.find().get(0).getCreatedAt());
-             today = GetDetails.getDateString(new Date());
-             Log.i(TAG, lastPostedDate + " vs. " + today);
-             if (lastPostedDate.equals(today)) {
-                 Log.i(TAG, "already posted today");
-                 _postedToday.setValue(true);
-             } else {
-                 _postedToday.setValue(false);
-             }
+            return query.find().get(0);
         } catch (Exception e) {
-            Log.e(TAG, "Could not get user's last post.", e);
-            _postedToday.setValue(false);
+            return null;
         }
     }
 }

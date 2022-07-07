@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.meloday20.R;
 import com.example.meloday20.utils.SpotifyServiceSingleton;
 import com.example.meloday20.utils.GetDetails;
@@ -89,11 +91,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                     tvPostArtist.setText(GetDetails.getArtistsString(track.artists));
                     tvPostUsername.setText(post.getUsername());
                     tvPostDate.setText(post.getCreatedAtDate());
+
                     trackCoverImage = track.album.images.get(0);
                     if (trackCoverImage != null) {
+                        RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
                         Glide.with(context)
                                 .load(trackCoverImage.url)
                                 .placeholder(R.drawable.default_playlist_cover)
+                                .diskCacheStrategy(DiskCacheStrategy.DATA)
                                 .into(ivPostCoverImage);
                     }
                 }

@@ -50,14 +50,21 @@ public class ProfileFragment extends Fragment {
 
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 currentUser.put("accessToken", "");
-                currentUser.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e != null) {
-                            Log.e(TAG, "Could not delete accessToken");
-                        }
-                    }
-                });
+                try {
+                    currentUser.save();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "Could not delete accessToken");
+
+                }
+//                currentUser.saveInBackground(new SaveCallback() {
+//                    @Override
+//                    public void done(ParseException e) {
+//                        if (e != null) {
+//                            Log.e(TAG, "Could not delete accessToken");
+//                        }
+//                    }
+//                });
 
                 Intent intent = new Intent(getContext(), SpotifyLoginActivity.class);
                 startActivity(intent);

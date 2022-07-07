@@ -21,6 +21,7 @@ import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
 import com.example.meloday20.home.Post;
 import com.example.meloday20.playlist.ParsePlaylist;
+import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import org.parceler.Parcels;
@@ -103,19 +104,25 @@ public class AddTrackActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
         builder.setCancelable(true);
         builder.setTitle("You already posted today!");
-        builder.setMessage("You may only post one song per day.");
-        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+        builder.setMessage("You may only post one song per day. Delete current post?");
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
-//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                //todo: delete old post and post new song?
-//            }
-//        });
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    viewModel.deleteTodayPost();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                dialog.cancel();
+            }
+        });
         builder.show();
     }
 }

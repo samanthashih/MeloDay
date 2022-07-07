@@ -13,6 +13,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.meloday20.MeloDayPlaylistTrackDao;
+import com.example.meloday20.MyDatabaseApplication;
 import com.example.meloday20.home.Post;
 import com.example.meloday20.playlist.ParsePlaylist;
 import com.example.meloday20.utils.GetDetails;
@@ -57,6 +59,7 @@ public class AddTrackViewModel extends AndroidViewModel {
     String playlistId;
     String lastPostedDate;
     String today;
+    MeloDayPlaylistTrackDao meloDayPlaylistTrackDao = ((MyDatabaseApplication) getApplication().getApplicationContext()).getMyDatabase().meloDayPlaylistTrackDao();
 
     public AddTrackViewModel(@NonNull Application application) {
         super(application);

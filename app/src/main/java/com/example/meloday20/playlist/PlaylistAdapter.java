@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.meloday20.MeloDayPlaylistTrack;
 import com.example.meloday20.R;
 import com.example.meloday20.utils.GetDetails;
 
@@ -25,9 +26,9 @@ import kaaes.spotify.webapi.android.models.Track;
 public class PlaylistAdapter  extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder>{
     private static final String TAG = PlaylistAdapter.class.getSimpleName();
     private final Context context;
-    private final List<PlaylistTrack> playlistTracks;
+    private final List<MeloDayPlaylistTrack> playlistTracks;
 
-    public PlaylistAdapter(Context context, List<PlaylistTrack> playlistTracks) {
+    public PlaylistAdapter(Context context, List<MeloDayPlaylistTrack> playlistTracks) {
         this.context = context;
         this.playlistTracks = playlistTracks;
     }
@@ -41,7 +42,7 @@ public class PlaylistAdapter  extends RecyclerView.Adapter<PlaylistAdapter.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull PlaylistAdapter.ViewHolder holder, int position) {
-        PlaylistTrack playlistTrack = playlistTracks.get(position);
+        MeloDayPlaylistTrack playlistTrack = playlistTracks.get(position);
         try {
             holder.bind(playlistTrack);
         } catch (ParseException e) {
@@ -74,15 +75,16 @@ public class PlaylistAdapter  extends RecyclerView.Adapter<PlaylistAdapter.ViewH
             ivPlaylistCoverImage = itemView.findViewById(R.id.ivPlaylistCoverImage);
         }
 
-        public void bind(PlaylistTrack playlistTrack) throws ParseException {
-            Track track = playlistTrack.track;
-            tvPlaylistTrackDate.setText(GetDetails.getSpotifyDateString(playlistTrack.added_at));
-            tvPlaylistTitle.setText(track.name);
-            tvPlaylistArtist.setText(GetDetails.getArtistsString(track.artists));
-            Image coverImage = track.album.images.get(0);
-            if (coverImage != null) {
+        public void bind(MeloDayPlaylistTrack playlistTrack) throws ParseException {
+//            Track track = playlistTrack.track;
+            Log.i(TAG, playlistTrack.name);
+            tvPlaylistTrackDate.setText(playlistTrack.added_at);
+            tvPlaylistTitle.setText(playlistTrack.name);
+            tvPlaylistArtist.setText(playlistTrack.artists);
+            String coverImageUrl = playlistTrack.coverImageUrl;
+            if (coverImageUrl != null) {
                 Glide.with(context)
-                        .load(coverImage.url)
+                        .load(coverImageUrl)
                         .into(ivPlaylistCoverImage);
             }
         }
@@ -91,9 +93,9 @@ public class PlaylistAdapter  extends RecyclerView.Adapter<PlaylistAdapter.ViewH
         public void onClick(View v) {
             Log.i(TAG, "Clicked a playlist track!");
             int position = getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION) { //if position valid, get that post
-                PlaylistTrack playlistTrack = playlistTracks.get(position);
-            }
+//            if (position != RecyclerView.NO_POSITION) { //if position valid, get that post
+//                PlaylistTrack playlistTrack = playlistTracks.get(position);
+//            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.meloday20.playlist;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +22,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.meloday20.MainActivity;
+import com.example.meloday20.MeloDayPlaylistTrack;
+import com.example.meloday20.MeloDayPlaylistTrackDao;
+import com.example.meloday20.MyDatabaseApplication;
 import com.example.meloday20.R;
 import com.parse.ParseUser;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,9 +56,11 @@ public class PlaylistFragment extends Fragment {
     private TextView tvPlaylistTextDate;
     private TextView tvPlaylistTextPublic;
     private View viewDivider;
-    private List<PlaylistTrack> playlistTracks;
+    private List<MeloDayPlaylistTrack> playlistTracks;
     private PlaylistAdapter adapter;
     LinearLayoutManager linearLayoutManager;
+    MeloDayPlaylistTrackDao meloDayPlaylistTrackDao;
+
 
     public PlaylistFragment() {
         // Required empty public constructor
@@ -59,6 +68,7 @@ public class PlaylistFragment extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        meloDayPlaylistTrackDao = ((MyDatabaseApplication) getActivity().getApplicationContext()).getMyDatabase().meloDayPlaylistTrackDao();
     }
 
     @Override
@@ -95,11 +105,6 @@ public class PlaylistFragment extends Fragment {
                 }
             }
         });
-    }
-
-    private void onCreatePlaylistClick() {
-        viewModel.createNewPlaylist();
-//        MainActivity.bottomNavigationView.setSelectedItemId(R.id.action_playlist);
     }
 
     private void setNoPlaylistExistsVisibility() {
@@ -153,15 +158,25 @@ public class PlaylistFragment extends Fragment {
     }
 
     private void displayPlaylistTracks() {
-        viewModel.getPlaylistTracks();
-        viewModel.playlistTracks.observe(getViewLifecycleOwner(), new Observer<List<PlaylistTrack>>() {
+        AsyncTask.execute(new Runnable() {
             @Override
-            public void onChanged(List<PlaylistTrack> newPlaylistTracks) {
-                playlistTracks.addAll(newPlaylistTracks);
-                tvPlaylistSongCount.setText(playlistTracks.size() + " songs");
+            public void run() {
+                Log.i(TAG, "Showing playlist tracks data from db");
+                List<MeloDayPlaylistTrack> meloDayPlaylistTracks = viewModel.getMeloDayPlaylistTracksFromDb();
+                playlistTracks.addAll(meloDayPlaylistTracks);
                 adapter.notifyDataSetChanged();
             }
         });
+
+//        viewModel.getPlaylistTracks();
+//        viewModel.playlistTracks.observe(getViewLifecycleOwner(), new Observer<List<MeloDayPlaylistTrack>>() {
+//            @Override
+//            public void onChanged(List<MeloDayPlaylistTrack> newPlaylistTracks) {
+//                playlistTracks.addAll(newPlaylistTracks);
+//                tvPlaylistSongCount.setText(playlistTracks.size() + " songs");
+//                adapter.notifyDataSetChanged();
+//            }
+//        });
     }
 
     private void initViews(@NonNull View view) {
@@ -180,8 +195,7 @@ public class PlaylistFragment extends Fragment {
         tvPlaylistTextPublic = view.findViewById(R.id.tvPlaylistTextPublic);
         viewDivider = view.findViewById(R.id.viewDivider);
 
-
-                playlistTracks = new ArrayList<>();
+        playlistTracks = new ArrayList<>();
         adapter = new PlaylistAdapter(getContext(), playlistTracks);
         linearLayoutManager = new LinearLayoutManager(getContext());
         rvPlaylistTracks.setAdapter(adapter);

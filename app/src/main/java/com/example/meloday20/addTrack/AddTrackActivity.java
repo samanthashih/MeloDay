@@ -77,19 +77,22 @@ public class AddTrackActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 viewModel.checkIfPostedToday();
-                Observer<Boolean> postedTodayObserver = new Observer<Boolean>() {
-                    @Override
-                    public void onChanged(Boolean postedToday) {
-                        if (postedToday) {
-                            displayAlreadyPostedMessage();
-                        }
-                        else {
-                            viewModel.addTrackActions(track);
-                            goToMainActivity();
-                        }
-                    }
-                };
-                viewModel.postedToday.observe(AddTrackActivity.this, postedTodayObserver);
+                viewModel.addTrackActions(track);
+                goToMainActivity();
+                // todo: uncomment this (limit one post per day), commented out for testing purposes
+//                Observer<Boolean> postedTodayObserver = new Observer<Boolean>() {
+//                    @Override
+//                    public void onChanged(Boolean postedToday) {
+//                        if (postedToday) {
+//                            displayAlreadyPostedMessage();
+//                        }
+//                        else {
+//                            viewModel.addTrackActions(track);
+//                            goToMainActivity();
+//                        }
+//                    }
+//                };
+//                viewModel.postedToday.observe(AddTrackActivity.this, postedTodayObserver);
             }
         });
     }

@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.meloday20.home.HomeFragment;
 import com.example.meloday20.playlist.PlaylistFragment;
+import com.example.meloday20.playlist.PlaylistViewModel;
 import com.example.meloday20.search.SearchFragment;
 import com.example.meloday20.profile.ProfileFragment;
 import com.example.meloday20.utils.SpotifyServiceSingleton;
@@ -21,17 +23,19 @@ import kaaes.spotify.webapi.android.SpotifyService;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
-
     private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
     public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
     public static BottomNavigationView bottomNavigationView;
     final FragmentManager fts = getSupportFragmentManager();
+    private static PlaylistViewModel playlistViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initBottomNav();
+        playlistViewModel = new ViewModelProvider(this).get(PlaylistViewModel.class);
+        playlistViewModel.getPlaylistTracksFromNetworkAndSaveInDb();
     }
 
     private void initBottomNav() {

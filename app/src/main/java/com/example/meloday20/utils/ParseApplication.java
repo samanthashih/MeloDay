@@ -1,6 +1,5 @@
 package com.example.meloday20.utils;
 import android.app.Application;
-
 import com.example.meloday20.R;
 import com.example.meloday20.playlist.ParsePlaylist;
 import com.example.meloday20.home.Post;

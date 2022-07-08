@@ -76,7 +76,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         ImageView ivPostCoverImage;
         ImageView ivLike;
         TextView tvLikeNum;
-        boolean isLiked;
+        ImageView ivComment;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -93,6 +93,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             ivPostCoverImage = itemView.findViewById(R.id.ivPostCoverImage);
             ivLike = itemView.findViewById(R.id.ivLike);
             tvLikeNum = itemView.findViewById(R.id.tvLikeNum);
+            ivComment = itemView.findViewById(R.id.ivComment);
         }
 
         public void bind(Post post) throws ParseException {
@@ -121,18 +122,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             ivLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (v.getId() == R.id.ivLike) {
-                        Log.i(TAG, "Clicked like!");
-                        try {
-                            if (!post.isLikedByUser()) {
-                                likePost();
-                            } else {
-                                unLikePost();
-                            }
-                            tvLikeNum.setText(String.valueOf(post.getNumLikes()));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                    try {
+                        if (!post.isLikedByUser()) {
+                            likePost();
+                        } else {
+                            unLikePost();
                         }
+                        tvLikeNum.setText(String.valueOf(post.getNumLikes()));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
                 }
                 private void unLikePost() throws ParseException {
@@ -159,6 +157,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                     ivLike.setImageResource(R.drawable.ic_baseline_favorite_24);
                 }
             });
+
+//            ivComment.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                }
+//            });
         }
 
         @Override

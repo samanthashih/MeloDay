@@ -29,7 +29,10 @@ public class HomeViewModel extends AndroidViewModel {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class); // specify what type of data we want to query - Post.class on parstagram database
         query.include(Post.KEY_USER); // include data referred by current user
         query.include(Post.KEY_TRACK_ID); // include data referred by current user
-        query.setLimit(20); // only want last 20 photos
+        query.include(Post.KEY_TRACK_NAME);
+        query.include(Post.KEY_TRACK_ARTISTS);
+        query.include(Post.KEY_TRACK_IMAGE_URL);
+        query.include(Post.KEY_CREATED_AT);
         query.addDescendingOrder("createdAt"); // get the newer photos first so sort by createdAt column
         query.setSkip(skip);
 

@@ -76,20 +76,23 @@ public class AddTrackActivity extends AppCompatActivity {
         btnAddTrackToPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.checkIfPostedToday();
-                Observer<Boolean> postedTodayObserver = new Observer<Boolean>() {
-                    @Override
-                    public void onChanged(Boolean postedToday) {
-                        if (postedToday) {
-                            displayAlreadyPostedMessage();
-                        }
-                        else {
-                            viewModel.addTrackActions(track);
-                            goToMainActivity();
-                        }
-                    }
-                };
-                viewModel.postedToday.observe(AddTrackActivity.this, postedTodayObserver);
+                viewModel.addTrackActions(track);
+                goToMainActivity();
+                //todo: uncomment out, code for limit once a day
+//                viewModel.checkIfPostedToday();
+//                Observer<Boolean> postedTodayObserver = new Observer<Boolean>() {
+//                    @Override
+//                    public void onChanged(Boolean postedToday) {
+//                        if (postedToday) {
+//                            displayAlreadyPostedMessage();
+//                        }
+//                        else {
+//                            viewModel.addTrackActions(track);
+//                            goToMainActivity();
+//                        }
+//                    }
+//                };
+//                viewModel.postedToday.observe(AddTrackActivity.this, postedTodayObserver);
             }
         });
     }

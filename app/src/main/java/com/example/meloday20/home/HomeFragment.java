@@ -10,9 +10,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.meloday20.R;
 
@@ -26,6 +28,7 @@ public class HomeFragment extends Fragment {
     private PostAdapter adapter;
     private List<Post> homePosts;
     LinearLayoutManager linearLayoutManager;
+    ProgressBar progressBar;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -34,6 +37,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "Home Fragment created");
     }
 
     @Override
@@ -49,6 +53,7 @@ public class HomeFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         rvPosts = view.findViewById(R.id.rvPosts);
+        progressBar = view.findViewById(R.id.progressBar);
         homePosts = new ArrayList<>();
         adapter = new PostAdapter(getContext(), homePosts);
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -61,6 +66,7 @@ public class HomeFragment extends Fragment {
             public void onChanged(List<Post> posts) {
                 homePosts.addAll(posts);
                 adapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
             }
         };
         viewModel.posts.observe(getViewLifecycleOwner(),postObserver);

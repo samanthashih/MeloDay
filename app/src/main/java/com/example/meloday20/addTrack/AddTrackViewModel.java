@@ -68,8 +68,6 @@ public class AddTrackViewModel extends AndroidViewModel {
         addTrackToPlaylist();
     }
 
-
-
     private void addTrackToPlaylist() {
         ParseQuery<ParsePlaylist> query = ParseQuery.getQuery(ParsePlaylist.class); // specify what type of data we want to query - ParsePlaylist.class
         query.whereEqualTo(ParsePlaylist.KEY_USER, ParseUser.getCurrentUser());
@@ -105,6 +103,9 @@ public class AddTrackViewModel extends AndroidViewModel {
         Post post = new Post();
         post.setUser(currentUser);
         post.setTrackId(currTrack.id);
+        post.setTrackName(currTrack.name);
+        post.setTrackArtists(GetDetails.getArtistsString(currTrack.artists));
+        post.setTrackImageUrl(currTrack.album.images.get(0).url);
 
         post.saveInBackground(new SaveCallback() {
             @Override

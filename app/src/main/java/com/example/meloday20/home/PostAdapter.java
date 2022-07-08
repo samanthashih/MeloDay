@@ -61,7 +61,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         String accessToken = ParseUser.getCurrentUser().getString("accessToken");
         SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
-        Image trackCoverImage;
+        String trackCoverImageUrl;
         TextView tvPostUsername;
         TextView tvPostDate;
         TextView tvPostTitle;
@@ -71,7 +71,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             initViewsAndValues(itemView);
-
         }
 
         private void initViewsAndValues(@NonNull View itemView) {
@@ -84,29 +83,44 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         }
 
         public void bind(Post post) {
-            spotify.getTrack(post.getTrackId(), new Callback<Track>() {
-                @Override
-                public void success(Track track, Response response) {
-                    tvPostTitle.setText(track.name);
-                    tvPostArtist.setText(GetDetails.getArtistsString(track.artists));
-                    tvPostUsername.setText(post.getUsername());
-                    tvPostDate.setText(post.getCreatedAtDate());
+            tvPostTitle.setText(post.getTrackName());
+            tvPostArtist.setText(post.getTrackArtists());
+            tvPostUsername.setText(post.getUsername());
+            tvPostDate.setText(post.getCreatedAtDate());
 
-                    trackCoverImage = track.album.images.get(0);
-                    if (trackCoverImage != null) {
-                        RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
-                        Glide.with(context)
-                                .load(trackCoverImage.url)
-                                .placeholder(R.drawable.default_playlist_cover)
-                                .diskCacheStrategy(DiskCacheStrategy.DATA)
-                                .into(ivPostCoverImage);
-                    }
-                }
-                @Override
-                public void failure(RetrofitError error) {
-                    Log.e(TAG, "Error getting track details.", error);
-                }
-            });
+            trackCoverImageUrl = post.getTrackImageUrl();
+            if (trackCoverImageUrl != null) {
+                RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
+                Glide.with(context)
+                        .load(trackCoverImageUrl)
+                        .placeholder(R.drawable.default_playlist_cover)
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .into(ivPostCoverImage);
+            }
+
+//            spotify.getTrack(post.getTrackId(), new Callback<Track>() {
+//                @Override
+//                public void success(Track track, Response response) {
+//                    tvPostTitle.setText(track.name);
+//                    tvPostArtist.setText(GetDetails.getArtistsString(track.artists));
+//                    tvPostUsername.setText(post.getUsername());
+//                    tvPostDate.setText(post.getCreatedAtDate());
+//
+//                    trackCoverImage = track.album.images.get(0);
+//                    if (trackCoverImage != null) {
+//                        RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
+//                        Glide.with(context)
+//                                .load(trackCoverImage.url)
+//                                .placeholder(R.drawable.default_playlist_cover)
+//                                .diskCacheStrategy(DiskCacheStrategy.DATA)
+//                                .into(ivPostCoverImage);
+//                    }
+//                }
+//                @Override
+//                public void failure(RetrofitError error) {
+//                    Log.e(TAG, "Error getting track details.", error);
+//                }
+//            });
 
         }
 

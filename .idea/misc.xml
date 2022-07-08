@@ -14,7 +14,7 @@
         <entry key="app/src/main/res/font/montserrat.xml" value="0.11481481481481481" />
         <entry key="app/src/main/res/layout/activity_add_track.xml" value="0.46159210205078127" />
         <entry key="app/src/main/res/layout/activity_add_track2.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_comments.xml" value="0.27229921752558656" />
+        <entry key="app/src/main/res/layout/activity_comments.xml" value="0.35526315789473684" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2742250525433084" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.28263702392578116" />
         <entry key="app/src/main/res/layout/activity_post_details.xml" value="0.12310030395136778" />
@@ -30,7 +30,7 @@
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.25791756184895837" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.4642272949218751" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.4284313725490196" />
-        <entry key="app/src/main/res/layout/item_comment.xml" value="0.1394510904947917" />
+        <entry key="app/src/main/res/layout/item_comment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_playlist_track.xml" value="0.4" />
         <entry key="app/src/main/res/layout/item_post_track.xml" value="0.2751196172248804" />
         <entry key="app/src/main/res/layout/item_search_track.xml" value="0.3977455716586151" />

@@ -1,6 +1,7 @@
 package com.example.meloday20.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.example.meloday20.utils.GetDetails;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -66,8 +69,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
     // viewholder class
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        String accessToken = ParseUser.getCurrentUser().getString("accessToken");
-        SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
         String trackCoverImageUrl;
         TextView tvPostUsername;
         TextView tvPostDate;
@@ -158,12 +159,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 }
             });
 
-//            ivComment.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                }
-//            });
+            ivComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent toComment = new Intent(context, CommentsActivity.class);
+                    toComment.putExtra(PostAdapter.class.getSimpleName(), Parcels.wrap(post));
+                    context.startActivity(toComment);
+                }
+            });
         }
 
         @Override

@@ -149,6 +149,7 @@ public class AddTrackViewModel extends AndroidViewModel {
         }
     }
 
+    // todo: does not delete on Spotify
     public void deleteTodayPost() throws ParseException {
         Post lastPost = getUserLastPost();
         lastPost.delete();

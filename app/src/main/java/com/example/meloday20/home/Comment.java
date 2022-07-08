@@ -1,5 +1,6 @@
 package com.example.meloday20.home;
 
+import com.example.meloday20.utils.GetDetails;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -18,12 +19,16 @@ public class Comment extends ParseObject {
         put(KEY_USER, user);
     }
 
-    public void setPost(Post post) {
-        put(KEY_POST, post);
-    }
+    public void setPost(Post post) {put(KEY_POST, post);}
 
+    public String getMessage() {
+        return getString(KEY_MESSAGE);
+    }
     public void setMessage(String message) {
         put(KEY_MESSAGE, message);
     }
 
+    public String getCreatedAtDate() {
+        return GetDetails.getDateString(this.getCreatedAt());
+    }
 }

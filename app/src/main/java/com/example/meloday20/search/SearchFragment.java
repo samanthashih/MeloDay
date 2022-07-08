@@ -43,7 +43,6 @@ public class SearchFragment extends Fragment {
     private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
     public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
     private SearchViewModel viewModel;
-    private Track track;
     private SearchView svSearch;
     private RecyclerView rvResults;
     private SearchAdapter adapter;

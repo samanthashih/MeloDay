@@ -21,9 +21,6 @@ public class HomeViewModel extends AndroidViewModel {
     private MutableLiveData<List<Post>> _posts = new MutableLiveData<>();
     LiveData<List<Post>> posts = _posts;
 
-    private MutableLiveData<Boolean> _isLiked = new MutableLiveData<>();
-    LiveData<Boolean> isLiked = _isLiked;
-
     public HomeViewModel(@NonNull Application application) {
         super(application);
     }

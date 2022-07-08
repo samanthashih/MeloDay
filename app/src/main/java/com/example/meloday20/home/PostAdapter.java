@@ -129,6 +129,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                             } else {
                                 unLikePost();
                             }
+                            tvLikeNum.setText(String.valueOf(post.getNumLikes()));
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -136,9 +137,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 }
                 private void unLikePost() throws ParseException {
                     Log.i(TAG, "Post liked before, now unlike");
-                    isLiked = false;
                     post.deleteUserLikeOnPost();
-                    tvLikeNum.setText(String.valueOf(post.getNumLikes()));
                     ivLike.setImageResource(R.drawable.ic_baseline_favorite_border_24);
                 }
 
@@ -157,8 +156,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                             Log.i(TAG, "Like was saved!!");
                         }
                     });
-                    isLiked = true;
-                    tvLikeNum.setText(String.valueOf(post.getNumLikes()));
                     ivLike.setImageResource(R.drawable.ic_baseline_favorite_24);
                 }
             });

@@ -24,6 +24,8 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = HomeFragment.class.getSimpleName();
@@ -34,6 +36,7 @@ public class HomeFragment extends Fragment {
     private LinearLayoutManager linearLayoutManager;
     private LottieAnimationView lottieSleepingAstronaut;
     private TextView tvLoading;
+    private ProgressBar progressBar;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -58,9 +61,10 @@ public class HomeFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         rvPosts = view.findViewById(R.id.rvPosts);
-        tvLoading = view.findViewById(R.id.tvLoading);
-        lottieSleepingAstronaut = view.findViewById(R.id.lottieSleepingAstronaut);
-        lottieSleepingAstronaut.playAnimation();
+        progressBar = view.findViewById(R.id.progressBar);
+//        tvLoading = view.findViewById(R.id.tvLoading);
+//        lottieSleepingAstronaut = view.findViewById(R.id.lottieSleepingAstronaut);
+//        lottieSleepingAstronaut.playAnimation();
         homePosts = new ArrayList<>();
         adapter = new PostAdapter(getContext(), homePosts);
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -73,9 +77,10 @@ public class HomeFragment extends Fragment {
             public void onChanged(List<Post> posts) {
                 homePosts.addAll(posts);
                 adapter.notifyDataSetChanged();
-                tvLoading.setVisibility(View.GONE);
-                lottieSleepingAstronaut.setVisibility(View.GONE);
-                lottieSleepingAstronaut.cancelAnimation();
+                progressBar.setVisibility(View.GONE);
+//                tvLoading.setVisibility(View.GONE);
+//                lottieSleepingAstronaut.setVisibility(View.GONE);
+//                lottieSleepingAstronaut.cancelAnimation();
             }
         };
         viewModel.posts.observe(getViewLifecycleOwner(),postObserver);

@@ -163,7 +163,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 @Override
                 public void onClick(View v) {
                     Intent toComment = new Intent(context, CommentsActivity.class);
-                    toComment.putExtra(PostAdapter.class.getSimpleName(), Parcels.wrap(post));
+                    toComment.putExtra("post", Parcels.wrap(post));
                     context.startActivity(toComment);
                 }
             });

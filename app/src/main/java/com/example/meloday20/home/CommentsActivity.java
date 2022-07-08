@@ -2,6 +2,7 @@ package com.example.meloday20.home;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +28,8 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import kaaes.spotify.webapi.android.models.Track;
+
 public class CommentsActivity extends AppCompatActivity {
     private static String TAG = CommentsActivity.class.getSimpleName();
     private List<Comment> comments;
@@ -43,17 +46,14 @@ public class CommentsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
-        post = Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
-        Log.i(TAG, post.getTrackName());
-        rvComments = findViewById(R.id.rvComments);
-        etMessageLayout = findViewById(R.id.etMessageLayout);
-        etMessage = findViewById(R.id.etMessage);
-        ivCommentSubmit = findViewById(R.id.ivCommentSubmit);
-        comments = new ArrayList<>();
-        adapter = new CommentAdapter(this, comments);
-        linearLayoutManager = new LinearLayoutManager(this);
-        rvComments.setAdapter(adapter);
-        rvComments.setLayoutManager(linearLayoutManager);
+        initViews();
+
+        try {
+            getPostComments();
+            Log.i(TAG, comments.get(0).getMessage());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         etMessage.addTextChangedListener(new TextWatcher() {
             @Override
@@ -69,7 +69,6 @@ public class CommentsActivity extends AppCompatActivity {
                 if (s.length() > etMessageLayout.getCounterMaxLength()) {
                     etMessageLayout.setError("Max character length is " + etMessageLayout.getCounterMaxLength());
                 } else {
-                    Log.i(TAG, "Comment entered: " + s);
                     ivCommentSubmit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -85,12 +84,39 @@ public class CommentsActivity extends AppCompatActivity {
                                         Log.e(TAG, "Issue saving comment" , e);
                                         return;
                                     }
+                                    try {
+                                        getPostComments();
+                                    } catch (ParseException ex) {
+                                        ex.printStackTrace();
+                                    }
                                     Log.i(TAG, "Posted comment");                                }
                             });
+                            etMessageLayout.getEditText().setText(null);
                         }
                     });
                 }
             }
         });
+    }
+
+    private void initViews() {
+        post = Parcels.unwrap(getIntent().getParcelableExtra("post"));
+        Log.i(TAG, post.getTrackName());
+        rvComments = findViewById(R.id.rvComments);
+        etMessageLayout = findViewById(R.id.etMessageLayout);
+        etMessage = findViewById(R.id.etMessage);
+        ivCommentSubmit = findViewById(R.id.ivCommentSubmit);
+
+        comments = new ArrayList<>();
+        adapter = new CommentAdapter(this, comments);
+        linearLayoutManager = new LinearLayoutManager(this);
+        rvComments.setAdapter(adapter);
+        rvComments.setLayoutManager(linearLayoutManager);
+    }
+
+    private void getPostComments() throws ParseException {
+        comments.clear();
+        comments.addAll(post.getPostComments());
+        adapter.notifyDataSetChanged();
     }
 }

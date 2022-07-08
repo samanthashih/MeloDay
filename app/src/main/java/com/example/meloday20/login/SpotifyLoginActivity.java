@@ -120,6 +120,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
+        user.put("profilePicUrl");
         setParseUserAccessToken(accessToken);
         user.signUpInBackground(new SignUpCallback() {
             @Override

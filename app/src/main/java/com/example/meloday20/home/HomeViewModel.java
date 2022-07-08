@@ -34,7 +34,7 @@ public class HomeViewModel extends AndroidViewModel {
         query.include(Post.KEY_TRACK_ARTISTS);
         query.include(Post.KEY_TRACK_IMAGE_URL);
         query.include(Post.KEY_CREATED_AT);
-        query.addDescendingOrder("createdAt"); // get the newer photos first so sort by createdAt column
+        query.addDescendingOrder(Post.KEY_CREATED_AT); // get the newer photos first so sort by createdAt column
         query.setSkip(skip);
 
         query.findInBackground(new FindCallback<Post>() {

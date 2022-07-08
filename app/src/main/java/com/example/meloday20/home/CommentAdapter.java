@@ -67,7 +67,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             initViewsAndValues(itemView);
-
         }
 
         private void initViewsAndValues(@NonNull View itemView) {

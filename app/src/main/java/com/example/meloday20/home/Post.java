@@ -95,4 +95,13 @@ public class Post extends ParseObject {
             like.saveInBackground();
         }
     }
+
+    public List<Comment> getPostComments() throws ParseException {
+        ParseQuery<Comment> query = ParseQuery.getQuery(Comment.class);
+        query.include(Comment.KEY_USER);
+        query.include(Comment.KEY_POST);
+        query.addDescendingOrder(Comment.KEY_CREATED_AT);
+        query.whereEqualTo(Like.KEY_POST, this);
+        return query.find();
+    }
 }

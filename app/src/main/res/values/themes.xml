@@ -27,4 +27,8 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textColorPrimary">@color/white</item>
     </style>
+
+    <style name="Til" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/text_input_box_stroke</item>
+    </style>
 </resources>

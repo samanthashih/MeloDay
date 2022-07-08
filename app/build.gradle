@@ -34,6 +34,7 @@ android {
 
 ext {
     roomVersion = "2.1.0"
+    lottieVersion="5.2.0"
 }
 
 dependencies {
@@ -59,4 +60,6 @@ dependencies {
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.room:room-runtime:$roomVersion"
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
 }

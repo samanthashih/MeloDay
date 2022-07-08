@@ -15,8 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.meloday20.R;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +31,9 @@ public class HomeFragment extends Fragment {
     private RecyclerView rvPosts;
     private PostAdapter adapter;
     private List<Post> homePosts;
-    LinearLayoutManager linearLayoutManager;
-    ProgressBar progressBar;
+    private LinearLayoutManager linearLayoutManager;
+    private LottieAnimationView lottieSleepingAstronaut;
+    private TextView tvLoading;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -53,7 +58,9 @@ public class HomeFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         rvPosts = view.findViewById(R.id.rvPosts);
-        progressBar = view.findViewById(R.id.progressBar);
+        tvLoading = view.findViewById(R.id.tvLoading);
+        lottieSleepingAstronaut = view.findViewById(R.id.lottieSleepingAstronaut);
+        lottieSleepingAstronaut.playAnimation();
         homePosts = new ArrayList<>();
         adapter = new PostAdapter(getContext(), homePosts);
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -66,7 +73,9 @@ public class HomeFragment extends Fragment {
             public void onChanged(List<Post> posts) {
                 homePosts.addAll(posts);
                 adapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
+                tvLoading.setVisibility(View.GONE);
+                lottieSleepingAstronaut.setVisibility(View.GONE);
+                lottieSleepingAstronaut.cancelAnimation();
             }
         };
         viewModel.posts.observe(getViewLifecycleOwner(),postObserver);

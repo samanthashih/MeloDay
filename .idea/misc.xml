@@ -11,6 +11,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.234" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.234" />
+        <entry key="app/src/main/res/font/montserrat.xml" value="0.11481481481481481" />
         <entry key="app/src/main/res/layout/activity_add_track.xml" value="0.46159210205078127" />
         <entry key="app/src/main/res/layout/activity_add_track2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2742250525433084" />
@@ -22,19 +23,21 @@
         <entry key="app/src/main/res/layout/activity_spotify_login.xml" value="0.4511583662564509" />
         <entry key="app/src/main/res/layout/alert_dialog.xml" value="0.617300131061599" />
         <entry key="app/src/main/res/layout/fragment_has_playlist.xml" value="0.40350877192982454" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.3333333333333333" />
-        <entry key="app/src/main/res/layout/fragment_playlist.xml" value="0.4794677734375" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.5626143111080457" />
+        <entry key="app/src/main/res/layout/fragment_playlist.xml" value="0.43380281690140843" />
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.25791756184895837" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.4642272949218751" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.4284313725490196" />
-        <entry key="app/src/main/res/layout/item_playlist_track.xml" value="0.7903930131004366" />
+        <entry key="app/src/main/res/layout/item_playlist_track.xml" value="0.4" />
         <entry key="app/src/main/res/layout/item_post_track.xml" value="0.2751196172248804" />
         <entry key="app/src/main/res/layout/item_search_track.xml" value="0.3977455716586151" />
+        <entry key="app/src/main/res/layout/sleeping_astronaut_loading.xml" value="0.438514772857697" />
         <entry key="app/src/main/res/menu/bottom.xml" value="0.2265625" />
         <entry key="app/src/main/res/menu/bottom_navigation_selector.xml" value="0.2265625" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.4765533447265625" />
         <entry key="app/src/main/res/menu/menu_toolbar.xml" value="0.3458333333333333" />
         <entry key="app/src/main/res/menu/post_fragment_menu.xml" value="0.2833333333333333" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
       </map>
     </option>
   </component>

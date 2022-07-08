@@ -114,6 +114,8 @@
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.sqlite:sqlite-framework:2.0.1@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.sqlite:sqlite:2.0.1@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.airbnb.android:lottie:5.2.0@aar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.github.amrdeveloper:lottiedialog:1.0.0@aar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.github.mayuce:LottieAlertDialog:1.1@aar" level="project" />
   </component>
   <component name="TestModuleProperties" production-module="Meloday_2.0.app.main" />
 </module>

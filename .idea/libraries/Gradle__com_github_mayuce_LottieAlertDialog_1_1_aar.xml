@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.mayuce:LottieAlertDialog:1.1@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b71ab89d7f70ced015d8a6a6b2292e21/transformed/LottieAlertDialog-1.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b71ab89d7f70ced015d8a6a6b2292e21/transformed/LottieAlertDialog-1.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b71ab89d7f70ced015d8a6a6b2292e21/transformed/LottieAlertDialog-1.1/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.mayuce/LottieAlertDialog/1.1/94d57954ea4ca6c126ab4b3bade6ec71591daf3/LottieAlertDialog-1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

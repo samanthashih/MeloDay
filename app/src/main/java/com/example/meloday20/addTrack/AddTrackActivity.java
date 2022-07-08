@@ -10,12 +10,15 @@ import androidx.lifecycle.ViewModelProvider;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieDrawable;
+import com.amrdeveloper.lottiedialog.LottieDialog;
 import com.bumptech.glide.Glide;
 import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
@@ -76,23 +79,23 @@ public class AddTrackActivity extends AppCompatActivity {
         btnAddTrackToPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.addTrackActions(track);
-                goToMainActivity();
+//                viewModel.addTrackActions(track);
+//                goToMainActivity();
                 //todo: uncomment out, code for limit once a day
-//                viewModel.checkIfPostedToday();
-//                Observer<Boolean> postedTodayObserver = new Observer<Boolean>() {
-//                    @Override
-//                    public void onChanged(Boolean postedToday) {
-//                        if (postedToday) {
-//                            displayAlreadyPostedMessage();
-//                        }
-//                        else {
-//                            viewModel.addTrackActions(track);
-//                            goToMainActivity();
-//                        }
-//                    }
-//                };
-//                viewModel.postedToday.observe(AddTrackActivity.this, postedTodayObserver);
+                viewModel.checkIfPostedToday();
+                Observer<Boolean> postedTodayObserver = new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(Boolean postedToday) {
+                        if (postedToday) {
+                            displayAlreadyPostedMessage();
+                        }
+                        else {
+                            viewModel.addTrackActions(track);
+                            goToMainActivity();
+                        }
+                    }
+                };
+                viewModel.postedToday.observe(AddTrackActivity.this, postedTodayObserver);
             }
         });
     }
@@ -104,28 +107,49 @@ public class AddTrackActivity extends AppCompatActivity {
     }
 
     private void displayAlreadyPostedMessage() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-        builder.setCancelable(true);
-        builder.setTitle("You already posted today!");
-        builder.setMessage("You may only post one song per day. Delete current post?");
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        Button btnOk = new Button(this);
+        btnOk.setText("Ok");
+        btnOk.setTextColor(Color.parseColor("#000000"));
 
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        LottieDialog dialog = new LottieDialog(this)
+                .setAnimation(R.raw.night_car_driving)
+                .setAnimationRepeatCount(LottieDrawable.INFINITE)
+                .setAutoPlayAnimation(true)
+                .setDialogBackground(Color.parseColor("#2e2f33"))
+                .setMessage("You already posted today's MeloDay! Don't worry, there's always tomorrow.")
+                .setMessageTextSize(18)
+                .addActionButton(btnOk);
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    viewModel.deleteTodayPost();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+            public void onClick(View v) {
                 dialog.cancel();
             }
         });
-        builder.show();
+        dialog.show();
+
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
+//        builder.setCancelable(true);
+//        builder.setTitle("You already posted today!");
+//        builder.setMessage("You may only post one song per day. Delete current post?");
+//        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+//
+//        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                try {
+//                    viewModel.deleteTodayPost();
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//                dialog.cancel();
+//            }
+//        });
+//        builder.show();
     }
 }

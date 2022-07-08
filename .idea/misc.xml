@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/ic_baseline_add_box_24.xml" value="0.1835" />
+        <entry key="app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_featured_play_list_24.xml" value="0.234" />
         <entry key="app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.1835" />
@@ -20,13 +22,13 @@
         <entry key="app/src/main/res/layout/activity_spotify_login.xml" value="0.4511583662564509" />
         <entry key="app/src/main/res/layout/alert_dialog.xml" value="0.617300131061599" />
         <entry key="app/src/main/res/layout/fragment_has_playlist.xml" value="0.40350877192982454" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.38444213867187504" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/fragment_playlist.xml" value="0.4794677734375" />
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.25791756184895837" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.4642272949218751" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.4284313725490196" />
         <entry key="app/src/main/res/layout/item_playlist_track.xml" value="0.7903930131004366" />
-        <entry key="app/src/main/res/layout/item_post_track.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_post_track.xml" value="0.2751196172248804" />
         <entry key="app/src/main/res/layout/item_search_track.xml" value="0.3977455716586151" />
         <entry key="app/src/main/res/menu/bottom.xml" value="0.2265625" />
         <entry key="app/src/main/res/menu/bottom_navigation_selector.xml" value="0.2265625" />

@@ -1,12 +1,13 @@
 package com.example.meloday20.home;
 
-import com.example.meloday20.utils.SpotifyServiceSingleton;
 import com.example.meloday20.utils.GetDetails;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import kaaes.spotify.webapi.android.SpotifyService;
+import java.util.List;
 
 @ParseClassName("Post")
 public class Post extends ParseObject {
@@ -58,5 +59,40 @@ public class Post extends ParseObject {
 
     public String getUsername() {
         return getUser().getUsername();
+    }
+
+    public int getNumLikes() throws ParseException {
+        ParseQuery<Like> query = ParseQuery.getQuery(Like.class);
+        query.include(Like.KEY_USER);
+        query.include(Like.KEY_POST);
+        query.whereEqualTo(Like.KEY_POST, this);
+        return query.find().size();
+    }
+
+    public boolean isLikedByUser() throws ParseException {
+        List<Like> likes = getUserLikeOnPost();
+        if (likes != null && likes.size() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    private List<Like> getUserLikeOnPost() throws ParseException {
+        ParseQuery<Like> query = ParseQuery.getQuery(Like.class);
+        query.include(Like.KEY_USER);
+        query.include(Like.KEY_POST);
+        query.whereEqualTo(Like.KEY_USER, ParseUser.getCurrentUser());
+        query.whereEqualTo(Like.KEY_POST, this);
+        query.setLimit(1);
+        return query.find();
+    }
+
+    public void deleteUserLikeOnPost() throws ParseException {
+        List<Like> likes = getUserLikeOnPost();
+        if (likes != null && likes.size() > 0) {
+            Like like = likes.get(0);
+            like.delete();
+            like.saveInBackground();
+        }
     }
 }

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.meloday20.R;
 import com.example.meloday20.utils.SpotifyServiceSingleton;
@@ -78,6 +79,22 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         }
 
         public void bind(Comment comment) throws ParseException {
+            String profilePicUrl = comment.getUser().getString("profilePicUrl");
+            if (profilePicUrl != null && !profilePicUrl.equals("")) {
+                Glide.with(context)
+                        .load(profilePicUrl)
+                        .placeholder(R.drawable.ic_baseline_account_circle_24)
+                        .transform(new RoundedCorners(100))
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .into(ivCommentProfile);
+            } else {
+                Glide.with(context)
+                        .load(R.drawable.ic_baseline_account_circle_24)
+                        .placeholder(R.drawable.ic_baseline_account_circle_24)
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .into(ivCommentProfile);
+            }
+
             tvCommentUser.setText(comment.getUser().getUsername());
             tvCommentMessage.setText(comment.getMessage());
             tvCommentDate.setText(comment.getCreatedAtDate());

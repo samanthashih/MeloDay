@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
@@ -120,14 +121,25 @@ public class PlaylistFragment extends Fragment {
 
     private void displayUserDetails() {
         viewModel.getUserDetails();
+
         viewModel.userDetails.observe(getViewLifecycleOwner(), new Observer<UserPrivate>() {
             @Override
             public void onChanged(UserPrivate user) {
                 tvPlaylistDisplayName.setText(user.display_name);
+                if (user.images.size() > 0) {
                 Glide.with(getContext())
                         .load(user.images.get(0).url)
+                        .placeholder(R.drawable.ic_baseline_account_circle_24)
                         .transform(new RoundedCorners(100))
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
                         .into(ivPlaylistProfilePic);
+                } else {
+                    Glide.with(getContext())
+                            .load(R.drawable.ic_baseline_account_circle_24)
+                            .placeholder(R.drawable.ic_baseline_account_circle_24)
+                            .diskCacheStrategy(DiskCacheStrategy.DATA)
+                            .into(ivPlaylistProfilePic);
+                }
             }
         });
     }

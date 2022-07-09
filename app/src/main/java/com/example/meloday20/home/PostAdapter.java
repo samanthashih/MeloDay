@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.meloday20.R;
 import com.example.meloday20.utils.SpotifyServiceSingleton;
@@ -70,6 +71,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     // viewholder class
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         String trackCoverImageUrl;
+        String profilePicUrl;
         TextView tvPostUsername;
         TextView tvPostDate;
         TextView tvPostTitle;
@@ -78,15 +80,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         ImageView ivLike;
         TextView tvLikeNum;
         ImageView ivComment;
+        ImageView ivPostProfilePic;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             initViewsAndValues(itemView);
-
         }
 
         private void initViewsAndValues(@NonNull View itemView) {
             itemView.setOnClickListener(this);
+            ivPostProfilePic = itemView.findViewById(R.id.ivPostProfilePic);
             tvPostUsername = itemView.findViewById(R.id.tvPostUsername);
             tvPostDate = itemView.findViewById(R.id.tvPostDate);
             tvPostTitle = itemView.findViewById(R.id.tvPostTitle);
@@ -98,15 +101,31 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         }
 
         public void bind(Post post) throws ParseException {
+
             tvPostTitle.setText(post.getTrackName());
             tvPostArtist.setText(post.getTrackArtists());
             tvPostUsername.setText(post.getUsername());
             tvPostDate.setText(post.getCreatedAtDate());
             tvLikeNum.setText(String.valueOf(post.getNumLikes()));
 
+            profilePicUrl = post.getUser().getString("profilePicUrl");
+            if (profilePicUrl != null) {
+                Glide.with(context)
+                        .load(profilePicUrl)
+                        .placeholder(R.drawable.ic_baseline_account_circle_24)
+                        .transform(new RoundedCorners(100))
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .into(ivPostProfilePic);
+            } else {
+                Glide.with(context)
+                        .load(R.drawable.ic_baseline_account_circle_24)
+                        .placeholder(R.drawable.ic_baseline_account_circle_24)
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .into(ivPostProfilePic);
+            }
+
             trackCoverImageUrl = post.getTrackImageUrl();
             if (trackCoverImageUrl != null) {
-                RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
                 Glide.with(context)
                         .load(trackCoverImageUrl)
                         .placeholder(R.drawable.default_playlist_cover)

@@ -105,6 +105,19 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         });
     }
 
+    private void setParseUserPfp(String pfpUrl) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        currentUser.put("profilePicUrl", pfpUrl);
+        currentUser.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Parse Error while saving pfp", e);
+                }
+            }
+        });
+    }
+
     private void loginUser(String username, String password, String accessToken) {
         Log.i(TAG, "Login attempt for user: " + username);
         try {
@@ -120,14 +133,24 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
-        user.put("profilePicUrl");
-        setParseUserAccessToken(accessToken);
-        user.signUpInBackground(new SignUpCallback() {
+        spotify.getMe(new Callback<UserPrivate>() {
             @Override
-            public void done(ParseException e) {
-                setParseUserAccessToken(accessToken);
-                Log.i(TAG, "signed up user: " + username);
-                return;
+            public void success(UserPrivate userPrivate, Response response) {
+                user.signUpInBackground(new SignUpCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        setParseUserAccessToken(accessToken);
+                        if (userPrivate.images.size() > 0) {
+                            setParseUserPfp(userPrivate.images.get(0).url);
+                        }
+                        Log.i(TAG, "signed up user: " + username);
+                        return;
+                    }
+                });
+            }
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e(TAG, "");
             }
         });
     }

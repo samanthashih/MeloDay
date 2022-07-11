@@ -3,13 +3,16 @@ package com.example.meloday20.home;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +21,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.meloday20.R;
+import com.example.meloday20.utils.CommonActions;
+import com.example.meloday20.utils.OnDoubleTapListener;
 import com.example.meloday20.utils.SpotifyServiceSingleton;
 import com.example.meloday20.utils.GetDetails;
 import com.parse.ParseException;
@@ -81,6 +86,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         TextView tvLikeNum;
         ImageView ivComment;
         ImageView ivPostProfilePic;
+        CardView card_view;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,6 +104,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             ivLike = itemView.findViewById(R.id.ivLike);
             tvLikeNum = itemView.findViewById(R.id.tvLikeNum);
             ivComment = itemView.findViewById(R.id.ivComment);
+            card_view = itemView.findViewById(R.id.card_view);
         }
 
         public void bind(Post post) throws ParseException {
@@ -142,39 +149,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             ivLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    try {
-                        if (!post.isLikedByUser()) {
-                            likePost();
-                        } else {
-                            unLikePost();
-                        }
-                        tvLikeNum.setText(String.valueOf(post.getNumLikes()));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
-                private void unLikePost() throws ParseException {
-                    Log.i(TAG, "Post liked before, now unlike");
-                    post.deleteUserLikeOnPost();
-                    ivLike.setImageResource(R.drawable.ic_baseline_favorite_border_24);
-                }
-
-                private void likePost() throws ParseException {
-                    Log.i(TAG, "Post not liked before, now like");
-                    Like like = new Like();
-                    like.setUser(ParseUser.getCurrentUser());
-                    like.setPost(post);
-                    like.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e != null) {
-                                Log.e(TAG, "Issue saving the post like" , e);
-                                return;
-                            }
-                            Log.i(TAG, "Like was saved!!");
-                        }
-                    });
-                    ivLike.setImageResource(R.drawable.ic_baseline_favorite_24);
+                    likeAction(post);
                 }
             });
 
@@ -186,6 +161,29 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                     context.startActivity(toComment);
                 }
             });
+
+            card_view.setOnTouchListener(new OnDoubleTapListener(context) {
+                @Override
+                public void onDoubleTap(MotionEvent e) {
+                    Log.i(TAG, "double tap post");
+                    likeAction(post);
+                }
+            });
+        }
+
+        private void likeAction(Post post) {
+            try {
+                if (!post.isLikedByUser()) {
+                    CommonActions.likePost(post);
+                    ivLike.setImageResource(R.drawable.ic_baseline_favorite_24);
+                } else {
+                    CommonActions.unLikePost(post);
+                    ivLike.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                }
+                tvLikeNum.setText(String.valueOf(post.getNumLikes()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override

@@ -51,7 +51,7 @@ public class CommentsActivity extends AppCompatActivity {
         try {
             getPostComments();
             Log.i(TAG, comments.get(0).getMessage());
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

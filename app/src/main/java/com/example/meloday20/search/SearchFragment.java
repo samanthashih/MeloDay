@@ -16,7 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.meloday20.R;
 import com.example.meloday20.playlist.PlaylistViewModel;
@@ -45,6 +47,9 @@ public class SearchFragment extends Fragment {
     private SearchViewModel viewModel;
     private SearchView svSearch;
     private RecyclerView rvResults;
+    private LottieAnimationView lottieMusicGuy;
+    private TextView tvIfYouListen;
+    private TextView tvReally;
     private SearchAdapter adapter;
     private List<Track> results;
     LinearLayoutManager linearLayoutManager;
@@ -94,6 +99,9 @@ public class SearchFragment extends Fragment {
     private void initViews(@NonNull View view) {
         svSearch = view.findViewById(R.id.svSearch);
         rvResults = view.findViewById(R.id.rvResults);
+        lottieMusicGuy = view.findViewById(R.id.lottieMusicGuy);
+        tvIfYouListen = view.findViewById(R.id.tvIfYouListen);
+        tvReally = view.findViewById(R.id.tvReally);
         results = new ArrayList<>();
         adapter = new SearchAdapter(getContext(), results);
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -102,6 +110,9 @@ public class SearchFragment extends Fragment {
     }
 
     private void displaySearchResults(String query) {
+        lottieMusicGuy.setVisibility(View.GONE);
+        tvIfYouListen.setVisibility(View.GONE);
+        tvReally.setVisibility(View.GONE);
         viewModel.getSearchTracks(query);
         viewModel.tracks.observe(getViewLifecycleOwner(), new Observer<List<Track>>() {
             @Override

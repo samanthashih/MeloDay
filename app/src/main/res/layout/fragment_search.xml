@@ -8,7 +8,8 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="10dp"
-    android:paddingBottom="10dp">
+    android:paddingBottom="10dp"
+    android:background="@color/black">
 
     <SearchView
         android:id="@+id/svSearch"
@@ -30,12 +31,53 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/svSearch" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieMusicGuy"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.592"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/svSearch"
+        app:layout_constraintVertical_bias="0.177"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/music_guy" />
 
-    <!--    <Button-->
-<!--        android:id="@+id/btnSearch"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Search"-->
-<!--        tools:layout_editor_absoluteX="13dp"-->
-<!--        tools:layout_editor_absoluteY="41dp" />-->
+    <TextView
+        android:id="@+id/tvIfYouListen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="If you listen to a year's worth of music but don't post about it, did it             happen?"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lottieMusicGuy" />
+
+    <TextView
+        android:id="@+id/tvReally"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="119dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="really"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="@+id/tvIfYouListen"
+        app:layout_constraintEnd_toEndOf="@+id/tvIfYouListen"
+        app:layout_constraintHorizontal_bias="1.05"
+        app:layout_constraintStart_toStartOf="@+id/tvIfYouListen"
+        app:layout_constraintTop_toBottomOf="@+id/lottieMusicGuy"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

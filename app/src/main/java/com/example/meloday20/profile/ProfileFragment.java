@@ -1,10 +1,12 @@
 package com.example.meloday20.profile;
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -71,6 +73,12 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(getContext(), "myChannelId")
+                        .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                        .setContentTitle("My notification")
+                        .setContentText("Hello World!");
+        NotificationManager mNotificationManager = (NotificationManager) getContext().getSystemService(getContext().NOTIFICATION_SERVICE);
+        mNotificationManager.notify(1, mBuilder.build());
     }
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "159873787320",
+    "project_id": "meloday-e97b5",
+    "storage_bucket": "meloday-e97b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:159873787320:android:4c25cd871c9ce7c7111b4d",
+        "android_client_info": {
+          "package_name": "com.example.meloday20"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "159873787320-jk2locdfcufu9r6lceun1k51bokl6puu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAA31uatlwB8s-2iGUnUe8QF8PeQBtZPA4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "159873787320-jk2locdfcufu9r6lceun1k51bokl6puu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

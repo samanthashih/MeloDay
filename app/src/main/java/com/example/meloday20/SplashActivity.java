@@ -39,11 +39,13 @@ public class SplashActivity extends AppCompatActivity {
     private void routeToMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }
     private void routeToLoginActivity() {
         Intent intent = new Intent(this, SpotifyLoginActivity.class);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }
 

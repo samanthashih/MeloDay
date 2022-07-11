@@ -72,6 +72,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                             loginUser(username, "password", accessToken);
                             Intent toMain = new Intent(SpotifyLoginActivity.this, MainActivity.class);
                             startActivity(toMain);
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         }
                         @Override
                         public void failure(RetrofitError error) {

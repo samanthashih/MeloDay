@@ -3,6 +3,7 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.os.Build;
 
 import com.example.meloday20.R;
 import com.example.meloday20.home.Comment;
@@ -13,6 +14,8 @@ import com.parse.Parse;
 import com.parse.ParseObject;
 
 public class MyApplication extends Application {
+    private static final String CHANNEL_ID = "myChannelId";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -27,10 +30,25 @@ public class MyApplication extends Application {
                 .build());
 
         // configure notification channel
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-        NotificationChannel channel = new NotificationChannel("myChannelId", "My Channel", importance);
-        channel.setDescription("Reminders");
-        NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.createNotificationChannel(channel);
+//        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+//        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "My Channel", importance);
+//        channel.setDescription("Reminders");
+//        NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+//        mNotificationManager.createNotificationChannel(channel);
+
+
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "My Notifications", NotificationManager.IMPORTANCE_MAX);
+//
+//            // Configure the notification channel.
+//            notificationChannel.setDescription("Channel description");
+//            notificationChannel.enableLights(true);
+//            notificationChannel.setLightColor(Color.RED);
+//            notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
+//            notificationChannel.enableVibration(true);
+//            notificationManager.createNotificationChannel(notificationChannel);
+//        }
+
     }
 }

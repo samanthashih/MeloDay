@@ -33,6 +33,7 @@ import com.example.meloday20.login.SpotifyLoginActivity;
 import com.example.meloday20.utils.GetDetails;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.w3c.dom.Text;
 
@@ -45,6 +46,7 @@ public class ProfileFragment extends Fragment {
     private CharSequence name;
     private String description;
     private int importance;
+    ParseUser currentUser;
     ImageView ivLogout;
     ImageView ivProfilePic;
     TextView tvTime;
@@ -52,6 +54,7 @@ public class ProfileFragment extends Fragment {
     TimePickerDialog timePickerDialog;
     String amOrPm;
     String profilePicUrl;
+    String userAlarm;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -72,6 +75,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        currentUser = ParseUser.getCurrentUser();
         channelId = getContext().getString(R.string.channel_id);
         name = getContext().getString(R.string.channel_name);
         description = getContext().getString(R.string.channel_description);
@@ -82,7 +86,7 @@ public class ProfileFragment extends Fragment {
         btnSaveTime = view.findViewById(R.id.btnSaveTime);
         createNotificationChannel();
 
-        profilePicUrl = ParseUser.getCurrentUser().getString("profilePicUrl");
+        profilePicUrl = currentUser.getString("profilePicUrl");
         if (profilePicUrl != null) {
             Glide.with(getContext())
                     .load(profilePicUrl)
@@ -97,6 +101,8 @@ public class ProfileFragment extends Fragment {
                     .diskCacheStrategy(DiskCacheStrategy.DATA)
                     .into(ivProfilePic);
         }
+
+        tvTime.setText(currentUser.getString("alarmTime"));
 
         tvTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,10 +130,11 @@ public class ProfileFragment extends Fragment {
         btnSaveTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String alarmTime = tvTime.getText().toString();
-                Log.i(TAG, "inputted time: " + alarmTime);
-                int[] time = GetDetails.getTimeValuesFromInput(alarmTime);
-                createAlarmNotif(time[0], time[1]);
+                String inputTime = tvTime.getText().toString();
+//                Log.i(TAG, "inputted time: " + time);
+                AlarmTime alarmTime = new AlarmTime(inputTime);
+                saveAlarmTimeInParse(inputTime);
+                createAlarmNotif(alarmTime.hour, alarmTime.minute);
             }
         });
 
@@ -158,6 +165,20 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+    }
+
+    private void saveAlarmTimeInParse(String inputTime) {
+        currentUser.put("alarmTime", inputTime);
+        currentUser.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue saving alarm time" , e);
+                    return;
+                }
+                Log.i(TAG, "Alarm time was saved!!");
+            }
+        });
     }
 
     private void createAlarmNotif(int hour, int minute) {

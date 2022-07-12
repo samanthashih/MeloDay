@@ -109,6 +109,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     private void setParseUserPfp(String pfpUrl) {
         ParseUser currentUser = ParseUser.getCurrentUser();
         currentUser.put("profilePicUrl", pfpUrl);
+        currentUser.put("alarmTime", "11:00 PM");
         currentUser.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

@@ -7,9 +7,9 @@
         <item name="colorOnPrimary">@color/white</item>
 
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/purple_500</item>
+        <item name="colorSecondary">@color/spotify_green</item>
+        <item name="colorSecondaryVariant">@color/spotify_gray</item>
+        <item name="colorOnSecondary">@color/white</item>
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
@@ -30,5 +30,15 @@
 
     <style name="Til" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/text_input_box_stroke</item>
+    </style>
+
+    <style name="SwitchStyle" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/spotify_green</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">@color/white</item>
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">@color/white</item>
     </style>
 </resources>

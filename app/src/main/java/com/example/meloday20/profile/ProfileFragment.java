@@ -1,10 +1,10 @@
 package com.example.meloday20.profile;
 
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -12,8 +12,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -21,23 +19,39 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.meloday20.AlarmBroadcastReceiver;
-import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
-import com.example.meloday20.home.HomeFragment;
 import com.example.meloday20.login.SpotifyLoginActivity;
+import com.example.meloday20.utils.GetDetails;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
+import org.w3c.dom.Text;
+
+import java.sql.Time;
 import java.util.Calendar;
 
 public class ProfileFragment extends Fragment {
     private static final String TAG = ProfileFragment.class.getSimpleName();
-    private static final String CHANNEL_ID = "myChannelId";
-    int notificationId = 0;
-    Button btnLogout;
+    private String channelId;
+    private CharSequence name;
+    private String description;
+    private int importance;
+    ImageView ivLogout;
+    ImageView ivProfilePic;
+    TextView tvTime;
+    Button btnSaveTime;
+    TimePickerDialog timePickerDialog;
+    String amOrPm;
+    String profilePicUrl;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -58,8 +72,66 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btnLogout = view.findViewById(R.id.btnLogout);
-        btnLogout.setOnClickListener(new View.OnClickListener() {
+        channelId = getContext().getString(R.string.channel_id);
+        name = getContext().getString(R.string.channel_name);
+        description = getContext().getString(R.string.channel_description);
+        importance = NotificationManager.IMPORTANCE_HIGH;
+        ivLogout = view.findViewById(R.id.ivLogout);
+        ivProfilePic = view.findViewById(R.id.ivProfilePic);
+        tvTime = view.findViewById(R.id.tvTime);
+        btnSaveTime = view.findViewById(R.id.btnSaveTime);
+        createNotificationChannel();
+
+        profilePicUrl = ParseUser.getCurrentUser().getString("profilePicUrl");
+        if (profilePicUrl != null) {
+            Glide.with(getContext())
+                    .load(profilePicUrl)
+                    .placeholder(R.drawable.ic_baseline_account_circle_24)
+                    .transform(new RoundedCorners(100))
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
+                    .into(ivProfilePic);
+        } else {
+            Glide.with(getContext())
+                    .load(R.drawable.ic_baseline_account_circle_24)
+                    .placeholder(R.drawable.ic_baseline_account_circle_24)
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
+                    .into(ivProfilePic);
+        }
+
+        tvTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        if (hourOfDay < 12) {
+                            amOrPm = "AM";
+                        } else {
+                            hourOfDay %= 12;
+                            amOrPm = "PM";
+                        }
+                        if (hourOfDay == 0) {
+                            hourOfDay = 12;
+                        }
+                        String time = String.format("%d:%02d", hourOfDay, minute);
+                        tvTime.setText(time + " " + amOrPm);
+                    }
+                }, 0, 0, false);
+                timePickerDialog.show();
+            }
+        });
+
+        btnSaveTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String alarmTime = tvTime.getText().toString();
+                Log.i(TAG, "inputted time: " + alarmTime);
+                int[] time = GetDetails.getTimeValuesFromInput(alarmTime);
+                createAlarmNotif(time[0], time[1]);
+            }
+        });
+
+        ivLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ParseUser.logOutInBackground();
@@ -86,44 +158,28 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        createNotificationChannel();
+    }
+
+    private void createAlarmNotif(int hour, int minute) {
+        Log.i(TAG, "Create alarm at: " + hour + ":" + minute);
         Intent intent = new Intent(getContext(), AlarmBroadcastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent,  0);
         AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 17);
-        calendar.set(Calendar.MINUTE, 35);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-//        startAlarmBroadcastReceiver(getContext());
     }
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "MelodayReminderChannel";
-            String description = "Channel for Meloday Reminder";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            NotificationChannel channel = new NotificationChannel(channelId, name, importance);
             channel.setDescription(description);
-
             NotificationManager notificationManager = getContext().getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-    }
-
-    public static void startAlarmBroadcastReceiver(Context context) {
-        Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent,  0);
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-//        alarmManager.cancel(pendingIntent);
-//
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTimeInMillis(System.currentTimeMillis());
-//        calendar.set(Calendar.HOUR_OF_DAY, 16);
-//        calendar.set(Calendar.MINUTE, 54);
-//        calendar.set(Calendar.SECOND, 50);
-//        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 }

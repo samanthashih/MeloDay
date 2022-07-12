@@ -19,6 +19,8 @@ import kaaes.spotify.webapi.android.models.ArtistSimple;
 import kaaes.spotify.webapi.android.models.Image;
 
 public class GetDetails {
+    private static final String TAG = GetDetails.class.getSimpleName();
+
     public static String getArtistsString(List<ArtistSimple> artists) {
         String artistsString = artists.get(0).name;
         if (artists.size() > 1) {
@@ -50,5 +52,23 @@ public class GetDetails {
         date = date.substring(0, 10);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return getDateString(dateFormat.parse(date));
+    }
+
+    public static int[] getTimeValuesFromInput(String time) {
+        int hour = 0;
+        int minute = 0;
+        int[] timeVals = new int[2];
+
+        String[] splitHour = time.split(":");
+        hour = Integer.parseInt(splitHour[0]);
+//        Log.i(TAG, splitHour[0] + "/" + splitHour[1]);
+        String[] splitMinute = splitHour[1].split(" ");
+        if (splitMinute[1].equals("PM")) {
+            hour+= 12;
+        }
+        minute = Integer.parseInt(splitMinute[0]);
+        timeVals[0] = hour;
+        timeVals[1] = minute;
+        return timeVals;
     }
 }

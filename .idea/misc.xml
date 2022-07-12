@@ -28,7 +28,7 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.4027237354085603" />
         <entry key="app/src/main/res/layout/fragment_playlist.xml" value="0.43380281690140843" />
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.25791756184895837" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.4642272949218751" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.571875" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="1.1806026221310946" />
         <entry key="app/src/main/res/layout/item_comment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_playlist_track.xml" value="0.4" />

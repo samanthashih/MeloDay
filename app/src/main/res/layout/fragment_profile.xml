@@ -5,34 +5,109 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".profile.ProfileFragment"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp">
-
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        app:layout_constraintEnd_toEndOf="parent"
+    android:background="@color/black" >
+<!--    android:paddingLeft="10dp"-->
+<!--    android:paddingRight="10dp"-->
+<!--    android:paddingTop="10dp"-->
+<!--    android:paddingBottom="10dp"-->
+<!--    >-->
+    <View
+        android:id="@+id/viewDivider"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/spotify_gray"
+        app:layout_constraintBottom_toBottomOf="@+id/ivProfilePic"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/ivProfilePic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:padding="10dp"
         tools:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvProfileName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="9dp"
-        android:text="name here"
+        android:layout_marginTop="0dp"
+        android:text="samshih21"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/ivProfilePic"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <ImageView
+        android:id="@+id/ivLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_logout_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="5dp"/>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="PROFILE"
+        android:textSize="8sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/ivProfilePic"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="NOTIFICATIONS"
+        android:layout_marginLeft="10dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivProfilePic" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="12sp"
+        android:text="Daily reminder time"
+        android:textStyle="bold"
+        android:textColor="@color/gray_light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/spotify_gray"
+        android:padding="5dp"
+        android:text="11:00 PM"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <Button
+        android:id="@+id/btnSaveTime"
+        android:layout_width="65dp"
+        android:layout_height="32dp"
+        android:text="save"
+        android:textColor="@color/gray_light"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTime"
+        app:layout_constraintStart_toEndOf="@+id/tvTime"
+        app:layout_constraintTop_toTopOf="@+id/tvTime" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

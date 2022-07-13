@@ -86,6 +86,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         TextView tvLikeNum;
         ImageView ivComment;
         ImageView ivPostProfilePic;
+        ImageView ivPostPlayArrow;
         CardView card_view;
         private String accessToken = ParseUser.getCurrentUser().getString("accessToken");
         public SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
@@ -109,6 +110,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             ivLike = itemView.findViewById(R.id.ivLike);
             tvLikeNum = itemView.findViewById(R.id.tvLikeNum);
             ivComment = itemView.findViewById(R.id.ivComment);
+            ivPostPlayArrow = itemView.findViewById(R.id.ivPostPlayArrow);
             card_view = itemView.findViewById(R.id.card_view);
         }
 
@@ -177,6 +179,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 // get track preview url
                 @Override
                 public void onClick(View v) {
+                    ivPostPlayArrow.setVisibility(View.GONE);
                     spotify.getTrack(post.getTrackId(), new Callback<Track>() {
                         @Override
                         public void success(Track track, Response response) {
@@ -184,12 +187,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                             if (previewPlayer.isPlaying()){
                                 if (previewPlayer.getCurrentTrack().equals(previewUrl)) {
                                     previewPlayer.release();
+                                    ivPostPlayArrow.setVisibility(View.VISIBLE);
                                     return;
                                 }
                                 previewPlayer.release();
+                                ivPostPlayArrow.setVisibility(View.VISIBLE);
                             }
                             previewPlayer.play(previewUrl);
-
+                            ivPostPlayArrow.setVisibility(View.GONE);
                         }
 
                         @Override

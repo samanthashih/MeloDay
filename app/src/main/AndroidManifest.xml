@@ -18,6 +18,9 @@
         android:theme="@style/Theme.Meloday20"
         tools:targetApi="31">
         <activity
+            android:name=".SpotifyPlayer"
+            android:exported="false" />
+        <activity
             android:name=".home.CommentsActivity"
             android:exported="false" />
         <activity
@@ -39,10 +42,10 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".utils.AlarmBroadcastReceiver"
+        <receiver
+            android:name=".utils.AlarmBroadcastReceiver"
             android:enabled="true"
-            android:exported="false" >
-        </receiver>
+            android:exported="false"></receiver>
 
         <meta-data
             android:name="com.parse.SERVER_URL"

@@ -9,4 +9,6 @@
     <string name="channel_name">MelodayReminderChannel</string>
     <string name="channel_description">Channel for Meloday Reminder</string>
     <string name="channel_id">myChannelId</string>
+    <string name="client_id">f739c53578ef4b98b5ec6e8068bc4ec6</string>
+    <string name="redirect_uri">com.example.meloday20://callback</string>
 </resources>

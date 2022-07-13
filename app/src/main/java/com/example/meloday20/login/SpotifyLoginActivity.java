@@ -28,11 +28,11 @@ import retrofit.client.Response;
 //import spotify.api.spotify.SpotifyApi;
 
 public class SpotifyLoginActivity extends AppCompatActivity {
-    private static final String TAG = "SpotifyLoginActivity";
+    private static final String TAG = SpotifyLoginActivity.class.getSimpleName();
     private static final int REQUEST_CODE = 1337;
-    private static final String CLIENT_ID = "f739c53578ef4b98b5ec6e8068bc4ec6";
+    private final String CLIENT_ID = this.getString(R.string.client_id);
     private static String username;
-    private final String REDIRECT_URI = "com.example.meloday20://callback";
+    private final String REDIRECT_URI = getString(R.string.redirect_uri);
     public static SpotifyService spotify;
     public String accessToken;
 

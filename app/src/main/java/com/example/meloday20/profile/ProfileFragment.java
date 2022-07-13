@@ -91,7 +91,7 @@ public class ProfileFragment extends Fragment {
             Glide.with(getContext())
                     .load(profilePicUrl)
                     .placeholder(R.drawable.ic_baseline_account_circle_24)
-                    .transform(new RoundedCorners(100))
+                    .transform(new RoundedCorners(300))
                     .diskCacheStrategy(DiskCacheStrategy.DATA)
                     .into(ivProfilePic);
         } else {

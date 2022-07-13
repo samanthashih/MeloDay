@@ -181,23 +181,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                         @Override
                         public void success(Track track, Response response) {
                             String previewUrl = track.preview_url;
-                            Log.i(TAG, previewUrl);
                             if (previewPlayer.isPlaying()){
+                                if (previewPlayer.getCurrentTrack().equals(previewUrl)) {
+                                    previewPlayer.release();
+                                    return;
+                                }
                                 previewPlayer.release();
                             }
                             previewPlayer.play(previewUrl);
-//                                previewPlayer.stop();
-//                            if (!previewUrl.equals(previewPlayer.getCurrentTrack())){
-//                                Log.i(TAG, "there is already a track playing");
-//                                previewPlayer.release();
-//                            } else if ()
-//                            Log.i(TAG, "Preview playing is: " + previewPlayer.isPlaying()); // returning false??
-//                            Log.i(TAG, "Current track: " + previewPlayer.getCurrentTrack());
+
                         }
 
                         @Override
                         public void failure(RetrofitError error) {
-
+                            Log.e(TAG, "Error with getting preview url", error);
                         }
                     });
                 }

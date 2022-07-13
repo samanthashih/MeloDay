@@ -9,8 +9,8 @@ import java.io.IOException;
 
 public class PreviewPlayer implements MusicPlayer, MediaPlayer.OnCompletionListener {
     private static final String TAG = PreviewPlayer.class.getSimpleName();
-    private MediaPlayer mMediaPlayer;
-    private String mCurrentTrack;
+    private MediaPlayer mediaPlayer;
+    private String currentTrack;
 
     private class OnPreparedListener implements MediaPlayer.OnPreparedListener {
 
@@ -23,7 +23,7 @@ public class PreviewPlayer implements MusicPlayer, MediaPlayer.OnCompletionListe
         @Override
         public void onPrepared(MediaPlayer mp) {
             mp.start();
-            mCurrentTrack = mUrl;
+            currentTrack = mUrl;
         }
     }
 
@@ -33,61 +33,66 @@ public class PreviewPlayer implements MusicPlayer, MediaPlayer.OnCompletionListe
     }
 
     @Override
-    public void play(String url) {
-        if (mMediaPlayer != null) {
-            mMediaPlayer.release();
+    public void play(String previewUrl) {
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
         }
 
         try {
-            createMediaPlayer(url);
-            mCurrentTrack = url;
+            createMediaPlayer(previewUrl);
+            currentTrack = previewUrl;
         } catch (IOException e) {
-            Log.e(TAG, "Could not play: " + url, e);
+            Log.e(TAG, "Error with playing preview", e);
         }
     }
 
+//    @Override
+//    public void stop() {
+//        if (mediaPlayer != null) {
+//            mediaPlayer.pause();
+//        }
+//    }
+
     @Override
     public void pause() {
-        Log.d(TAG, "Pause");
-        if (mMediaPlayer != null) {
-            mMediaPlayer.pause();
+        if (mediaPlayer != null) {
+            mediaPlayer.pause();
         }
     }
 
     @Override
     public void release() {
-        if (mMediaPlayer != null) {
-            mMediaPlayer.release();
-            mMediaPlayer = null;
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
-        mCurrentTrack = null;
+        currentTrack = null;
     }
 
     @Override
     public void resume() {
-        Log.d(TAG, "Resume");
-        if (mMediaPlayer != null) {
-            mMediaPlayer.start();
+        if (mediaPlayer != null) {
+            mediaPlayer.start();
         }
     }
 
     @Override
     public boolean isPlaying() {
-        return mMediaPlayer != null && mMediaPlayer.isPlaying();
+        return mediaPlayer != null && mediaPlayer.isPlaying();
     }
 
     @Override
     @Nullable
     public String getCurrentTrack() {
-        return mCurrentTrack;
+        return currentTrack;
     }
 
     private void createMediaPlayer(String url) throws IOException {
-        mMediaPlayer = new MediaPlayer();
-        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mMediaPlayer.setDataSource(url);
-        mMediaPlayer.setOnPreparedListener(new OnPreparedListener(url));
-        mMediaPlayer.setOnCompletionListener(this);
-        mMediaPlayer.prepareAsync();
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setDataSource(url);
+        mediaPlayer.setOnPreparedListener(new OnPreparedListener(url));
+        mediaPlayer.setOnCompletionListener(this);
+        mediaPlayer.prepareAsync();
     }
 }

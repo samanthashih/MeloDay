@@ -1,13 +1,11 @@
 package com.example.meloday20.home;
 
-import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.IBinder;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,31 +15,27 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.meloday20.MusicPlayer;
-import com.example.meloday20.MusicPlayerService;
+import com.example.meloday20.PreviewPlayer;
 import com.example.meloday20.R;
 import com.example.meloday20.utils.CommonActions;
 import com.example.meloday20.utils.OnDoubleTapListener;
+import com.example.meloday20.utils.PreviewPlayerSingleton;
 import com.example.meloday20.utils.SpotifyServiceSingleton;
-import com.example.meloday20.utils.GetDetails;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
+import java.io.IOException;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.ArtistSimple;
-import kaaes.spotify.webapi.android.models.Image;
 import kaaes.spotify.webapi.android.models.Track;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -95,24 +89,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         CardView card_view;
         private String accessToken = ParseUser.getCurrentUser().getString("accessToken");
         public SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
-        private MusicPlayer mPlayer;
-        private ServiceConnection mServiceConnection;
+        public PreviewPlayer previewPlayer = PreviewPlayerSingleton.getInstance();
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mServiceConnection = new ServiceConnection() {
-                @Override
-                public void onServiceConnected(ComponentName name, IBinder service) {
-                    mPlayer = ((MusicPlayerService.PlayerBinder) service).getService();
-                }
-
-                @Override
-                public void onServiceDisconnected(ComponentName name) {
-                    mPlayer = null;
-                }
-            };
-            initViewsAndValues(itemView);
+            initViewsAndValues(itemView) ;
         }
 
 
@@ -128,7 +110,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             tvLikeNum = itemView.findViewById(R.id.tvLikeNum);
             ivComment = itemView.findViewById(R.id.ivComment);
             card_view = itemView.findViewById(R.id.card_view);
-            context.bindService(MusicPlayerService.getIntent(context), mServiceConnection, Activity.BIND_AUTO_CREATE);
         }
 
         public void bind(Post post) throws ParseException {
@@ -201,16 +182,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                         public void success(Track track, Response response) {
                             String previewUrl = track.preview_url;
                             Log.i(TAG, previewUrl);
-//                            Intent toSpotifyPlayer = new Intent(context, SpotifyPlayer.class);
-//                            context.startActivity(toSpotifyPlayer);
-                            if (mPlayer == null) return;
-                            String currentTrackUrl = mPlayer.getCurrentTrack();
-                            mPlayer.play(previewUrl);
-//                            } else if (mPlayer.isPlaying()) {
-//                                mPlayer.pause();
-//                            } else {
-//                                mPlayer.resume();
-//                            }
+                            if (previewPlayer.isPlaying()){
+                                previewPlayer.release();
+                            }
+                            previewPlayer.play(previewUrl);
+//                                previewPlayer.stop();
+//                            if (!previewUrl.equals(previewPlayer.getCurrentTrack())){
+//                                Log.i(TAG, "there is already a track playing");
+//                                previewPlayer.release();
+//                            } else if ()
+//                            Log.i(TAG, "Preview playing is: " + previewPlayer.isPlaying()); // returning false??
+//                            Log.i(TAG, "Current track: " + previewPlayer.getCurrentTrack());
                         }
 
                         @Override

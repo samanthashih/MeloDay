@@ -19,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -27,17 +26,13 @@ import android.widget.TimePicker;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.example.meloday20.AlarmBroadcastReceiver;
+import com.example.meloday20.utils.AlarmBroadcastReceiver;
 import com.example.meloday20.R;
 import com.example.meloday20.login.SpotifyLoginActivity;
-import com.example.meloday20.utils.GetDetails;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import org.w3c.dom.Text;
-
-import java.sql.Time;
 import java.util.Calendar;
 
 public class ProfileFragment extends Fragment {
@@ -134,7 +129,7 @@ public class ProfileFragment extends Fragment {
 //                Log.i(TAG, "inputted time: " + time);
                 AlarmTime alarmTime = new AlarmTime(inputTime);
                 saveAlarmTimeInParse(inputTime);
-                createAlarmNotif(alarmTime.hour, alarmTime.minute);
+                createAlarmNotif(alarmTime.getHour(), alarmTime.getMinute());
             }
         });
 

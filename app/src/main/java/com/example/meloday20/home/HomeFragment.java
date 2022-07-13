@@ -35,7 +35,6 @@ public class HomeFragment extends Fragment {
     private List<Post> homePosts;
     private LinearLayoutManager linearLayoutManager;
     private LottieAnimationView lottieSleepingAstronaut;
-    private TextView tvLoading;
     private ProgressBar progressBar;
 
     public HomeFragment() {
@@ -59,10 +58,8 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-
         rvPosts = view.findViewById(R.id.rvPosts);
         progressBar = view.findViewById(R.id.progressBar);
-//        tvLoading = view.findViewById(R.id.tvLoading);
 //        lottieSleepingAstronaut = view.findViewById(R.id.lottieSleepingAstronaut);
 //        lottieSleepingAstronaut.playAnimation();
         homePosts = new ArrayList<>();
@@ -78,7 +75,6 @@ public class HomeFragment extends Fragment {
                 homePosts.addAll(posts);
                 adapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
-//                tvLoading.setVisibility(View.GONE);
 //                lottieSleepingAstronaut.setVisibility(View.GONE);
 //                lottieSleepingAstronaut.cancelAnimation();
             }

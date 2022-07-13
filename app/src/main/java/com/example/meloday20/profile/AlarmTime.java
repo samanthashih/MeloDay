@@ -1,8 +1,8 @@
 package com.example.meloday20.profile;
 
 public class AlarmTime {
-    public int hour;
-    public int minute;
+    private int hour;
+    private int minute;
 
     public AlarmTime() {}
 

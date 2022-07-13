@@ -87,6 +87,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         ImageView ivComment;
         ImageView ivPostProfilePic;
         CardView card_view;
+        private String accessToken = ParseUser.getCurrentUser().getString("accessToken");
+        public SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -108,7 +110,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         }
 
         public void bind(Post post) throws ParseException {
-
             tvPostTitle.setText(post.getTrackName());
             tvPostArtist.setText(post.getTrackArtists());
             tvPostUsername.setText(post.getUsername());
@@ -145,7 +146,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             } else {
                 ivLike.setImageResource(R.drawable.ic_baseline_favorite_border_24);
             }
-
             ivLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -167,6 +167,25 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 public void onDoubleTap(MotionEvent e) {
                     Log.i(TAG, "double tap post");
                     likeAction(post);
+                }
+            });
+
+            ivPostCoverImage.setOnClickListener(new View.OnClickListener() {
+                // get track preview url
+                @Override
+                public void onClick(View v) {
+                    spotify.getTrack(post.getTrackId(), new Callback<Track>() {
+                        @Override
+                        public void success(Track track, Response response) {
+                            String preview_url = track.preview_url;
+                            Log.i(TAG, preview_url);
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+
+                        }
+                    });
                 }
             });
         }
@@ -191,9 +210,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) { //if position valid, get that post
                 Post post = posts.get(position);
-//                Intent intent = new Intent(context, AddTrackActivity.class);
-//                intent.putExtra("track", Parcels.wrap(track));
-//                context.startActivity(intent);
                 Log.i(TAG, "Clicked a post! " + post.getTrackName());
             }
 

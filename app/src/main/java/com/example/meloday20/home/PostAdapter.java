@@ -177,8 +177,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                     spotify.getTrack(post.getTrackId(), new Callback<Track>() {
                         @Override
                         public void success(Track track, Response response) {
-                            String preview_url = track.preview_url;
-                            Log.i(TAG, preview_url);
+//                            String preview_url = track.preview_url;
+//                            Log.i(TAG, preview_url);
+//                            Intent toSpotifyPlayer = new Intent(context, SpotifyPlayer.class);
+//                            context.startActivity(toSpotifyPlayer);
                         }
 
                         @Override

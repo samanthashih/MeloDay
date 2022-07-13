@@ -1,6 +1,7 @@
 package com.example.meloday20.login;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,9 +31,9 @@ import retrofit.client.Response;
 public class SpotifyLoginActivity extends AppCompatActivity {
     private static final String TAG = SpotifyLoginActivity.class.getSimpleName();
     private static final int REQUEST_CODE = 1337;
-    private final String CLIENT_ID = this.getString(R.string.client_id);
+    private String CLIENT_ID;
     private static String username;
-    private final String REDIRECT_URI = getString(R.string.redirect_uri);
+    private String REDIRECT_URI;
     public static SpotifyService spotify;
     public String accessToken;
 
@@ -40,6 +41,8 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spotify_login);
+        CLIENT_ID = this.getString(R.string.client_id);
+        REDIRECT_URI = getString(R.string.redirect_uri);
     }
 
     public void onLoginClick(View view) {

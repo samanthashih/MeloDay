@@ -1,7 +1,11 @@
 package com.example.meloday20.home;
 
+import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -20,6 +24,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.meloday20.MusicPlayer;
+import com.example.meloday20.MusicPlayerService;
 import com.example.meloday20.R;
 import com.example.meloday20.utils.CommonActions;
 import com.example.meloday20.utils.OnDoubleTapListener;
@@ -89,11 +95,26 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         CardView card_view;
         private String accessToken = ParseUser.getCurrentUser().getString("accessToken");
         public SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
+        private MusicPlayer mPlayer;
+        private ServiceConnection mServiceConnection;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            mServiceConnection = new ServiceConnection() {
+                @Override
+                public void onServiceConnected(ComponentName name, IBinder service) {
+                    mPlayer = ((MusicPlayerService.PlayerBinder) service).getService();
+                }
+
+                @Override
+                public void onServiceDisconnected(ComponentName name) {
+                    mPlayer = null;
+                }
+            };
             initViewsAndValues(itemView);
         }
+
 
         private void initViewsAndValues(@NonNull View itemView) {
             itemView.setOnClickListener(this);
@@ -107,6 +128,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             tvLikeNum = itemView.findViewById(R.id.tvLikeNum);
             ivComment = itemView.findViewById(R.id.ivComment);
             card_view = itemView.findViewById(R.id.card_view);
+            context.bindService(MusicPlayerService.getIntent(context), mServiceConnection, Activity.BIND_AUTO_CREATE);
         }
 
         public void bind(Post post) throws ParseException {
@@ -177,10 +199,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                     spotify.getTrack(post.getTrackId(), new Callback<Track>() {
                         @Override
                         public void success(Track track, Response response) {
-//                            String preview_url = track.preview_url;
-//                            Log.i(TAG, preview_url);
+                            String previewUrl = track.preview_url;
+                            Log.i(TAG, previewUrl);
 //                            Intent toSpotifyPlayer = new Intent(context, SpotifyPlayer.class);
 //                            context.startActivity(toSpotifyPlayer);
+                            if (mPlayer == null) return;
+                            String currentTrackUrl = mPlayer.getCurrentTrack();
+                            mPlayer.play(previewUrl);
+//                            } else if (mPlayer.isPlaying()) {
+//                                mPlayer.pause();
+//                            } else {
+//                                mPlayer.resume();
+//                            }
                         }
 
                         @Override

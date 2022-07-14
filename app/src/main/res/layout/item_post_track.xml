@@ -133,6 +133,15 @@
                 app:layout_constraintTop_toTopOf="@+id/ivPostCoverImage"
                 app:srcCompat="@drawable/ic_baseline_play_arrow_24" />
 
+            <com.example.meloday20.WaveFormView
+                android:id="@+id/waveform_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/ivPostCoverImage"
+                app:layout_constraintStart_toStartOf="@+id/ivPostCoverImage"
+                app:layout_constraintTop_toTopOf="@+id/ivPostCoverImage" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

@@ -1,8 +1,15 @@
 package com.example.meloday20.utils;
 
+import android.Manifest;
+import android.app.Activity;
 import android.util.Log;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.fragment.app.Fragment;
+
 import com.example.meloday20.home.CommentsActivity;
+import com.example.meloday20.home.HomeFragment;
 import com.example.meloday20.home.Like;
 import com.example.meloday20.home.Post;
 import com.parse.ParseException;
@@ -32,5 +39,27 @@ public class CommonActions {
     public static void unLikePost(Post post) throws ParseException {
         Log.i(TAG, "Post liked before, now unlike");
         post.deleteUserLikeOnPost();
+    }
+
+    public static void requestPermissions(Fragment fragment) {
+        ActivityResultLauncher<String[]> audioPermissionRequest =
+                fragment.registerForActivityResult(new ActivityResultContracts
+                                .RequestMultiplePermissions(), result -> {
+                            Boolean recordAudioGranted = result.getOrDefault(
+                                    Manifest.permission.RECORD_AUDIO, false);
+                            Boolean modifyAudioGranted = result.getOrDefault(
+                                    Manifest.permission.MODIFY_AUDIO_SETTINGS,false);
+                            if (recordAudioGranted != null && recordAudioGranted && modifyAudioGranted != null && modifyAudioGranted) {
+                                // All access granted
+                            } else {
+                                // None or not all access granted
+                            }
+                        }
+                );
+
+        audioPermissionRequest.launch(new String[] {
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.MODIFY_AUDIO_SETTINGS
+        });
     }
 }

@@ -1,7 +1,10 @@
 package com.example.meloday20.home;
 
+import android.Manifest;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -19,6 +22,7 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.meloday20.R;
+import com.example.meloday20.utils.CommonActions;
 
 import org.w3c.dom.Text;
 
@@ -34,7 +38,6 @@ public class HomeFragment extends Fragment {
     private PostAdapter adapter;
     private List<Post> homePosts;
     private LinearLayoutManager linearLayoutManager;
-    private LottieAnimationView lottieSleepingAstronaut;
     private ProgressBar progressBar;
 
     public HomeFragment() {
@@ -60,8 +63,6 @@ public class HomeFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         rvPosts = view.findViewById(R.id.rvPosts);
         progressBar = view.findViewById(R.id.progressBar);
-//        lottieSleepingAstronaut = view.findViewById(R.id.lottieSleepingAstronaut);
-//        lottieSleepingAstronaut.playAnimation();
         homePosts = new ArrayList<>();
         adapter = new PostAdapter(getContext(), homePosts);
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -75,10 +76,11 @@ public class HomeFragment extends Fragment {
                 homePosts.addAll(posts);
                 adapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
-//                lottieSleepingAstronaut.setVisibility(View.GONE);
-//                lottieSleepingAstronaut.cancelAnimation();
             }
         };
         viewModel.posts.observe(getViewLifecycleOwner(),postObserver);
+
+        CommonActions.requestPermissions(this);
+
     }
 }

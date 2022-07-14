@@ -23,6 +23,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.meloday20.MusicPlayer;
 import com.example.meloday20.PreviewPlayer;
 import com.example.meloday20.R;
+import com.example.meloday20.TrackVisualizerActivity;
 import com.example.meloday20.utils.CommonActions;
 import com.example.meloday20.utils.OnDoubleTapListener;
 import com.example.meloday20.utils.PreviewPlayerSingleton;
@@ -195,6 +196,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                             }
                             previewPlayer.play(previewUrl);
                             ivPostPlayArrow.setVisibility(View.GONE);
+
+                            Intent intent = new Intent(context, TrackVisualizerActivity.class);
+                            intent.putExtra("audioSession", previewPlayer.getAudioSessionId());
+                            context.startActivity(intent);
                         }
 
                         @Override

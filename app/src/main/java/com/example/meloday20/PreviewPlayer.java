@@ -87,6 +87,14 @@ public class PreviewPlayer implements MusicPlayer, MediaPlayer.OnCompletionListe
         return currentTrack;
     }
 
+    public int getAudioSessionId() {
+        if (mediaPlayer == null) {
+            return -1;
+        }
+        return mediaPlayer.getAudioSessionId();
+    }
+
+
     private void createMediaPlayer(String url) throws IOException {
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);

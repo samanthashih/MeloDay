@@ -8,6 +8,9 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 public class WaveFormView extends View {
+    private static final int WAVE_MAX_POINTS = 54;
+    private static final int WAVE_MIN_POINTS = 3;
+
     private byte[] waveform;
     private WaveformRenderer renderer;
 

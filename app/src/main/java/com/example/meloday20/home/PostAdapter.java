@@ -232,7 +232,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         private void stopPlayingCurrTrack() {
             previewPlayer.release();
             ivPostPlayArrow.setVisibility(View.VISIBLE);
-            visualizer.release();
+            if (visualizer != null) visualizer.release();
             waveformView.setVisibility(View.GONE);
         }
 

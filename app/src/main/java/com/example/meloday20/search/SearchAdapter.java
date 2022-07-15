@@ -85,7 +85,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             if (position != RecyclerView.NO_POSITION) { //if position valid, get that post
                 Track track = tracks.get(position);
                 Log.i(TAG,"Search tracks position: " + position);
-
                 Intent intent = new Intent(context, AddTrackActivity.class);
                 intent.putExtra("track", Parcels.wrap(track));
                 context.startActivity(intent);

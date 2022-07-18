@@ -60,6 +60,7 @@ public class SpotifyLoginViewModel extends AndroidViewModel {
     }
 
     private void signUpUser(String username, String password, String accessToken) {
+        Log.i(TAG, "Sign up attempt for user: " + username);
         ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
@@ -80,7 +81,7 @@ public class SpotifyLoginViewModel extends AndroidViewModel {
             }
             @Override
             public void failure(RetrofitError error) {
-                Log.e(TAG, "");
+                Log.e(TAG, "Could not get user info", error);
             }
         });
     }

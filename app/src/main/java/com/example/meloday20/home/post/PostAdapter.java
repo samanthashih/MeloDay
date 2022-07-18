@@ -1,4 +1,4 @@
-package com.example.meloday20.home;
+package com.example.meloday20.home.post;
 
 import android.Manifest;
 import android.content.Context;
@@ -17,16 +17,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.example.meloday20.PreviewPlayer;
+import com.example.meloday20.home.HomeFragment;
+import com.example.meloday20.utils.PreviewPlayer;
 import com.example.meloday20.R;
-import com.example.meloday20.RendererFactory;
-import com.example.meloday20.WaveFormView;
+import com.example.meloday20.audioWaveAnimation.RendererFactory;
+import com.example.meloday20.audioWaveAnimation.WaveFormView;
+import com.example.meloday20.home.comment.CommentsActivity;
 import com.example.meloday20.utils.CommonActions;
 import com.example.meloday20.utils.OnDoubleTapListener;
 import com.example.meloday20.utils.PreviewPlayerSingleton;

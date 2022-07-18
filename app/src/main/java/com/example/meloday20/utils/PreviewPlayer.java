@@ -1,10 +1,11 @@
-package com.example.meloday20;
+package com.example.meloday20.utils;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+
 import java.io.IOException;
 
 public class PreviewPlayer implements MusicPlayer, MediaPlayer.OnCompletionListener {

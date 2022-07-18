@@ -1,5 +1,6 @@
-package com.example.meloday20.home;
+package com.example.meloday20.home.comment;
 
+import com.example.meloday20.home.post.Post;
 import com.example.meloday20.utils.GetDetails;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;

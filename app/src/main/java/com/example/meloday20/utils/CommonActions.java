@@ -1,17 +1,14 @@
 package com.example.meloday20.utils;
 
 import android.Manifest;
-import android.app.Activity;
 import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
-import com.example.meloday20.home.CommentsActivity;
-import com.example.meloday20.home.HomeFragment;
 import com.example.meloday20.home.Like;
-import com.example.meloday20.home.Post;
+import com.example.meloday20.home.post.Post;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;

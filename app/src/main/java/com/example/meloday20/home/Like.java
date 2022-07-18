@@ -1,20 +1,9 @@
 package com.example.meloday20.home;
 
-import android.util.Log;
-
-import com.example.meloday20.playlist.ParsePlaylist;
-import com.parse.FindCallback;
+import com.example.meloday20.home.post.Post;
 import com.parse.ParseClassName;
-import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @ParseClassName("Like")
 public class Like extends ParseObject {

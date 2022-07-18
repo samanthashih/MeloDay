@@ -1,4 +1,4 @@
-package com.example.meloday20;
+package com.example.meloday20.utils;
 
 import androidx.annotation.Nullable;
 

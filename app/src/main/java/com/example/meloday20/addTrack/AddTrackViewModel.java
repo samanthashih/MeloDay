@@ -1,19 +1,14 @@
 package com.example.meloday20.addTrack;
 
-import android.app.AlertDialog;
 import android.app.Application;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.os.Parcelable;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.meloday20.home.Post;
+import com.example.meloday20.home.post.Post;
 import com.example.meloday20.playlist.ParsePlaylist;
 import com.example.meloday20.utils.GetDetails;
 import com.example.meloday20.utils.SpotifyServiceSingleton;
@@ -22,9 +17,6 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
-import org.json.JSONObject;
-import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,8 +34,6 @@ import kaaes.spotify.webapi.android.models.TracksToRemove;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.http.Body;
-import retrofit.http.Path;
 
 public class AddTrackViewModel extends AndroidViewModel {
     private static final String TAG = AddTrackViewModel.class.getSimpleName();

@@ -1,5 +1,7 @@
-package com.example.meloday20.home;
+package com.example.meloday20.home.post;
 
+import com.example.meloday20.home.Like;
+import com.example.meloday20.home.comment.Comment;
 import com.example.meloday20.utils.GetDetails;
 import com.parse.ParseClassName;
 import com.parse.ParseException;

@@ -1,7 +1,6 @@
-package com.example.meloday20.home;
+package com.example.meloday20.home.comment;
 
 import android.content.Context;
-import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,16 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.meloday20.R;
-import com.example.meloday20.utils.SpotifyServiceSingleton;
 import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import java.util.List;
-
-import kaaes.spotify.webapi.android.SpotifyService;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder>{
     private static final String TAG = CommentAdapter.class.getSimpleName();

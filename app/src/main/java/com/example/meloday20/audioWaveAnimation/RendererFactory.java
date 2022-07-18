@@ -1,4 +1,4 @@
-package com.example.meloday20;
+package com.example.meloday20.audioWaveAnimation;
 
 import androidx.annotation.ColorInt;
 

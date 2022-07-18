@@ -1,10 +1,7 @@
 package com.example.meloday20.home;
 
-import android.Manifest;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,18 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.example.meloday20.R;
+import com.example.meloday20.home.post.Post;
+import com.example.meloday20.home.post.PostAdapter;
 import com.example.meloday20.utils.CommonActions;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = HomeFragment.class.getSimpleName();

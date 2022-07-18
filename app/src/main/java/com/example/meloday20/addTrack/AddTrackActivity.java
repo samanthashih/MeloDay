@@ -1,14 +1,9 @@
 package com.example.meloday20.addTrack;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,14 +17,8 @@ import com.amrdeveloper.lottiedialog.LottieDialog;
 import com.bumptech.glide.Glide;
 import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
-import com.example.meloday20.home.Post;
-import com.example.meloday20.playlist.ParsePlaylist;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
 
 import org.parceler.Parcels;
-
-import java.util.List;
 
 import kaaes.spotify.webapi.android.models.Image;
 import kaaes.spotify.webapi.android.models.Track;

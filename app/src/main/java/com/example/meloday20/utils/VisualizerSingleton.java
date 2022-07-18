@@ -2,8 +2,6 @@ package com.example.meloday20.utils;
 
 import android.media.audiofx.Visualizer;
 
-import com.example.meloday20.PreviewPlayer;
-
 public class VisualizerSingleton {
     private static String TAG = VisualizerSingleton.class.getSimpleName();
     private static int currAudioSession;

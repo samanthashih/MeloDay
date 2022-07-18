@@ -1,4 +1,4 @@
-package com.example.meloday20;
+package com.example.meloday20.audioWaveAnimation;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

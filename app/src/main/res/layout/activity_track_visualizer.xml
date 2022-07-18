@@ -7,7 +7,7 @@
     tools:context=".TrackVisualizerActivity"
     android:background="@color/black">
 
-    <com.example.meloday20.WaveFormView
+    <com.example.meloday20.ui.audioWaveAnimation.WaveFormView
         android:id="@+id/waveform_view"
         android:layout_width="94dp"
         android:layout_height="110dp"

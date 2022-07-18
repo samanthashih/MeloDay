@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <application
-        android:name=".utils.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -20,19 +20,19 @@
         android:theme="@style/Theme.Meloday20"
         tools:targetApi="31">
         <activity
-            android:name=".home.CommentsActivity"
+            android:name=".ui.home.comment.CommentsActivity"
             android:exported="false" />
         <activity
-            android:name=".login.SpotifyLoginActivity"
+            android:name=".ui.login.SpotifyLoginActivity"
             android:exported="false" />
         <activity
-            android:name=".addTrack.AddTrackActivity"
+            android:name=".ui.addTrack.AddTrackActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,7 +42,7 @@
         </activity>
 
         <receiver
-            android:name=".utils.AlarmBroadcastReceiver"
+            android:name=".service.AlarmBroadcastReceiver"
             android:enabled="true"
             android:exported="false" />
 

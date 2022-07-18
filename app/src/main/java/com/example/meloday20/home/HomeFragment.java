@@ -57,6 +57,16 @@ public class HomeFragment extends Fragment {
         // Request permissions for RECORD_AUDIO and MODIFY_AUDIO_SETTINGS needed to animate audio waveform
         CommonActions.requestPermissions(this);
     }
+    private void init(@NonNull View view) {
+        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        rvPosts = view.findViewById(R.id.rvPosts);
+        progressBar = view.findViewById(R.id.progressBar);
+        homePosts = new ArrayList<>();
+        adapter = new PostAdapter(getContext(), homePosts);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        rvPosts.setAdapter(adapter);
+        rvPosts.setLayoutManager(linearLayoutManager);
+    }
 
     private void displayPosts() {
         viewModel.queryPosts(0);
@@ -69,16 +79,5 @@ public class HomeFragment extends Fragment {
             }
         };
         viewModel.posts.observe(getViewLifecycleOwner(),postObserver);
-    }
-
-    private void init(@NonNull View view) {
-        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        rvPosts = view.findViewById(R.id.rvPosts);
-        progressBar = view.findViewById(R.id.progressBar);
-        homePosts = new ArrayList<>();
-        adapter = new PostAdapter(getContext(), homePosts);
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        rvPosts.setAdapter(adapter);
-        rvPosts.setLayoutManager(linearLayoutManager);
     }
 }

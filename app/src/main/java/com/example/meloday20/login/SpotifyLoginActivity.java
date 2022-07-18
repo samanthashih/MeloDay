@@ -1,6 +1,8 @@
 package com.example.meloday20.login;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -10,6 +12,8 @@ import android.view.View;
 
 import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
+import com.example.meloday20.addTrack.AddTrackActivity;
+import com.example.meloday20.addTrack.AddTrackViewModel;
 import com.example.meloday20.utils.SpotifyServiceSingleton;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -32,17 +36,20 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     private static final String TAG = SpotifyLoginActivity.class.getSimpleName();
     private static final int REQUEST_CODE = 1337;
     private String CLIENT_ID;
-    private static String username;
     private String REDIRECT_URI;
-    public static SpotifyService spotify;
-    public String accessToken;
+    private SpotifyLoginViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spotify_login);
-        CLIENT_ID = this.getString(R.string.client_id);
+        init();
+    }
+
+    private void init() {
+        CLIENT_ID = getString(R.string.client_id);
         REDIRECT_URI = getString(R.string.redirect_uri);
+        viewModel = new ViewModelProvider(this).get(SpotifyLoginViewModel.class);
     }
 
     public void onLoginClick(View view) {
@@ -52,7 +59,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         builder.setScopes(new String[]{"streaming", "ugc-image-upload", "playlist-read-collaborative", "playlist-modify-public" , "playlist-read-private" , "playlist-modify-private", "user-read-email",
                 "user-read-private", "user-library-modify", "user-library-read", "user-read-recently-played", "user-read-playback-position", "user-top-read" });
         AuthorizationRequest request = builder.build();
-
         AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
     }
 
@@ -62,102 +68,27 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE) {
             AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, intent);
             switch (response.getType()) {
-                // Response was successful and contains auth token
+                // Response was successful and contains access token
                 case TOKEN:
-                    // Handle successful response -- set up network client
-                    accessToken = response.getAccessToken();
-                    spotify = SpotifyServiceSingleton.getInstance(accessToken);
-                    Log.i(TAG, accessToken);
-                    spotify.getMe(new Callback<UserPrivate>() {
+                    String accessToken = response.getAccessToken();
+                    viewModel.loginUser(accessToken);
+                    Observer<Boolean> loginUserObserver = new Observer<Boolean>() {
                         @Override
-                        public void success(UserPrivate userPrivate, Response response) {
-                            username = userPrivate.id;
-                            loginUser(username, "password", accessToken);
+                        public void onChanged(Boolean postedToday) {
                             Intent toMain = new Intent(SpotifyLoginActivity.this, MainActivity.class);
                             startActivity(toMain);
                             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         }
-                        @Override
-                        public void failure(RetrofitError error) {
-                            Log.d(TAG, error.toString());
-                        }
-                    });
+                    };
+                    viewModel.loginUser.observe(SpotifyLoginActivity.this, loginUserObserver);
                     break;
-                // Auth flow returned an error
                 case ERROR:
-                    Log.e(TAG, "Spotify auth error");
-                    // Handle error response
+                    Log.e(TAG, "Spotify authentication error");
                     break;
-                // Most likely auth flow was cancelled
                 default:
-                    // Handle other cases
+                    Log.e(TAG, "Spotify authentication error, most likely auth flow canceled");
             }
         }
-    }
-
-    private void setParseUserAccessToken(String accessToken) {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        currentUser.put("accessToken", accessToken);
-        currentUser.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Parse Error while saving accessToken", e);
-                }
-                Log.i(TAG, "Logged in: " + currentUser.getUsername());
-            }
-        });
-    }
-
-    private void setParseUserPfp(String pfpUrl) {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        currentUser.put("profilePicUrl", pfpUrl);
-        currentUser.put("alarmTime", "11:00 PM");
-        currentUser.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Parse Error while saving pfp", e);
-                }
-            }
-        });
-    }
-
-    private void loginUser(String username, String password, String accessToken) {
-        Log.i(TAG, "Login attempt for user: " + username);
-        try {
-            ParseUser.logIn(username, password);
-        } catch (ParseException e) {
-            signUpUser(username, password, accessToken);
-            return;
-        }
-        setParseUserAccessToken(accessToken);
-    }
-
-    private void signUpUser(String username, String password, String accessToken) {
-        ParseUser user = new ParseUser();
-        user.setUsername(username);
-        user.setPassword(password);
-        spotify.getMe(new Callback<UserPrivate>() {
-            @Override
-            public void success(UserPrivate userPrivate, Response response) {
-                user.signUpInBackground(new SignUpCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        setParseUserAccessToken(accessToken);
-                        if (userPrivate.images.size() > 0) {
-                            setParseUserPfp(userPrivate.images.get(0).url);
-                        }
-                        Log.i(TAG, "signed up user: " + username);
-                        return;
-                    }
-                });
-            }
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e(TAG, "");
-            }
-        });
     }
 
 }

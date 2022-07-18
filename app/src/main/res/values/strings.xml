@@ -1,10 +1,9 @@
 <resources>
     <string name="app_name">Meloday</string>
-    <string name="acces_token">token</string>
     <string name="back4app_server_url">https://parseapi.back4app.com/</string>
     <string name="back4app_app_id">FgD5jDjVHCpBAcTFk3mhJstzfrG7eM4YjWGoj8Xr</string>
     <string name="back4app_client_key">9fYIA0xK1sc4GYPgKKZWxnUOtxCvyb5xJJlNQ85o</string>
-    <string name="KEY_ACCESS_TOKEN">accessToken</string>
+    <string name="keyAccessToken">accessToken</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="channel_name">MelodayReminderChannel</string>
     <string name="channel_description">Channel for Meloday Reminder</string>
@@ -15,4 +14,9 @@
     <string name="colorWhite">#000000</string>
     <string name="colorSpotifyGray">#2e2f33</string>
     <string name="alreadyPostedMessage">You already posted today\'s MeloDay! Don\'t worry, there\'s always tomorrow.</string>
+    <string name="keyAlarmTime">alarmTime</string>
+    <string name="AM">AM</string>
+    <string name="PM">PM</string>
+    <string name="notificationContentText">Don\'t miss a beat! Post your Melody soon.</string>
+    <string name="notificationContentTitle">Meloday Reminder ♪</string>
 </resources>

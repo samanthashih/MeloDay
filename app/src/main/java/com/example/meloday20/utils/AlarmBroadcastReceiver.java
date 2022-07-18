@@ -30,8 +30,8 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
         Notification notif = new NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_baseline_notifications_24)
-                .setContentTitle("My notification")
-                .setContentText("hello world")
+                .setContentTitle(context.getString(R.string.notificationContentTitle))
+                .setContentText(context.getString(R.string.notificationContentText))
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(resultPendingIntent)

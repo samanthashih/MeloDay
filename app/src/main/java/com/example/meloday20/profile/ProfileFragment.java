@@ -1,9 +1,5 @@
 package com.example.meloday20.profile;
 
-import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +23,7 @@ import android.widget.TimePicker;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.example.meloday20.addTrack.AddTrackViewModel;
 import com.example.meloday20.utils.AlarmBroadcastReceiver;
 import com.example.meloday20.R;
 import com.example.meloday20.login.SpotifyLoginActivity;
@@ -37,10 +35,7 @@ import java.util.Calendar;
 
 public class ProfileFragment extends Fragment {
     private static final String TAG = ProfileFragment.class.getSimpleName();
-    private String channelId;
-    private CharSequence name;
-    private String description;
-    private int importance;
+    private ProfileViewModel viewModel;
     ParseUser currentUser;
     ImageView ivLogout;
     ImageView ivProfilePic;
@@ -49,7 +44,6 @@ public class ProfileFragment extends Fragment {
     TimePickerDialog timePickerDialog;
     String amOrPm;
     String profilePicUrl;
-    String userAlarm;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -70,17 +64,12 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        currentUser = ParseUser.getCurrentUser();
-        channelId = getContext().getString(R.string.channel_id);
-        name = getContext().getString(R.string.channel_name);
-        description = getContext().getString(R.string.channel_description);
-        importance = NotificationManager.IMPORTANCE_HIGH;
-        ivLogout = view.findViewById(R.id.ivLogout);
-        ivProfilePic = view.findViewById(R.id.ivProfilePic);
-        tvTime = view.findViewById(R.id.tvTime);
-        btnSaveTime = view.findViewById(R.id.btnSaveTime);
-        createNotificationChannel();
+        init(view);
+        viewModel.createNotificationChannel();
+        displayData();
+    }
 
+    private void displayData() {
         profilePicUrl = currentUser.getString("profilePicUrl");
         if (profilePicUrl != null) {
             Glide.with(getContext())
@@ -97,7 +86,7 @@ public class ProfileFragment extends Fragment {
                     .into(ivProfilePic);
         }
 
-        tvTime.setText(currentUser.getString("alarmTime"));
+        tvTime.setText(currentUser.getString(getString(R.string.keyAlarmTime)));
 
         tvTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,16 +95,16 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         if (hourOfDay < 12) {
-                            amOrPm = "AM";
+                            amOrPm = getString(R.string.AM);
                         } else {
                             hourOfDay %= 12;
-                            amOrPm = "PM";
+                            amOrPm = getString(R.string.PM);
                         }
                         if (hourOfDay == 0) {
                             hourOfDay = 12;
                         }
                         String time = String.format("%d:%02d", hourOfDay, minute);
-                        tvTime.setText(time + " " + amOrPm);
+                        tvTime.setText(String.format("%s %s", time, amOrPm));
                     }
                 }, 0, 0, false);
                 timePickerDialog.show();
@@ -126,76 +115,26 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String inputTime = tvTime.getText().toString();
-//                Log.i(TAG, "inputted time: " + time);
-                AlarmTime alarmTime = new AlarmTime(inputTime);
-                saveAlarmTimeInParse(inputTime);
-                createAlarmNotif(alarmTime.getHour(), alarmTime.getMinute());
+                viewModel.createAndSaveNotification(inputTime);
             }
         });
 
         ivLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseUser.logOutInBackground();
-
-                ParseUser currentUser = ParseUser.getCurrentUser();
-                currentUser.put("accessToken", "");
-                try {
-                    currentUser.save();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "Could not delete accessToken");
-
-                }
-//                currentUser.saveInBackground(new SaveCallback() {
-//                    @Override
-//                    public void done(ParseException e) {
-//                        if (e != null) {
-//                            Log.e(TAG, "Could not delete accessToken");
-//                        }
-//                    }
-//                });
+                viewModel.logoutUser();
                 Intent intent = new Intent(getContext(), SpotifyLoginActivity.class);
                 startActivity(intent);
             }
         });
-
     }
 
-    private void saveAlarmTimeInParse(String inputTime) {
-        currentUser.put("alarmTime", inputTime);
-        currentUser.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue saving alarm time" , e);
-                    return;
-                }
-                Log.i(TAG, "Alarm time was saved!!");
-            }
-        });
-    }
-
-    private void createAlarmNotif(int hour, int minute) {
-        Log.i(TAG, "Create alarm at: " + hour + ":" + minute);
-        Intent intent = new Intent(getContext(), AlarmBroadcastReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent,  0);
-        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND, 0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-    }
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId, name, importance);
-            channel.setDescription(description);
-            NotificationManager notificationManager = getContext().getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
+    private void init(@NonNull View view) {
+        viewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
+        currentUser = ParseUser.getCurrentUser();
+        ivLogout = view.findViewById(R.id.ivLogout);
+        ivProfilePic = view.findViewById(R.id.ivProfilePic);
+        tvTime = view.findViewById(R.id.tvTime);
+        btnSaveTime = view.findViewById(R.id.btnSaveTime);
     }
 }

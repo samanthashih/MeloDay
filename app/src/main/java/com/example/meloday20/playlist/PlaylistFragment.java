@@ -22,14 +22,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.meloday20.MainActivity;
 import com.example.meloday20.R;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import kaaes.spotify.webapi.android.models.Image;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.UserPrivate;
@@ -52,7 +48,7 @@ public class PlaylistFragment extends Fragment {
     private View viewDivider;
     private List<PlaylistTrack> playlistTracks;
     private PlaylistAdapter adapter;
-    LinearLayoutManager linearLayoutManager;
+    private LinearLayoutManager linearLayoutManager;
 
     public PlaylistFragment() {
         // Required empty public constructor
@@ -72,8 +68,7 @@ public class PlaylistFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initViews(view);
-        viewModel = new ViewModelProvider(this).get(PlaylistViewModel.class);
+        init(view);
 
         viewModel.playlistExists.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
@@ -84,8 +79,7 @@ public class PlaylistFragment extends Fragment {
                     displayPlaylistDetails();
                     displayPlaylistTracks();
                 } else {
-                    // set everything but button to gone
-                    // create playlist stuff
+                    // User has no existing playlist - create a new playlist
                     setNoPlaylistExistsVisibility();
                     btnCreatePlaylist.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -98,12 +92,30 @@ public class PlaylistFragment extends Fragment {
         });
     }
 
-    private void onCreatePlaylistClick() {
-        viewModel.createNewPlaylist();
-//        MainActivity.bottomNavigationView.setSelectedItemId(R.id.action_playlist);
+    private void init(@NonNull View view) {
+        viewModel = new ViewModelProvider(this).get(PlaylistViewModel.class);
+        btnCreatePlaylist = view.findViewById(R.id.btnCreatePlaylist);
+        tvPlaylistName = view.findViewById(R.id.tvPlaylistName);
+        tvPlaylistDescription = view.findViewById(R.id.tvPlaylistDescription);
+        ivPlaylistImage = view.findViewById(R.id.ivPlaylistImage);
+        ivPlaylistProfilePic = view.findViewById(R.id.ivPlaylistProfilePic);
+        tvPlaylistDisplayName = view.findViewById(R.id.tvPlaylistDisplayName);
+        tvPlaylistSongCount = view.findViewById(R.id.tvPlaylistSongCount);
+        rvPlaylistTracks = view.findViewById(R.id.rvPlaylistTracks);
+        tvPlaylistTextDot = view.findViewById(R.id.tvPlaylistTextDot);
+        tvPlaylistTextTitle = view.findViewById(R.id.tvPlaylistTextTitle);
+        tvPlaylistTextDate = view.findViewById(R.id.tvPlaylistTextDate);
+        tvPlaylistTextPublic = view.findViewById(R.id.tvPlaylistTextPublic);
+        viewDivider = view.findViewById(R.id.viewDivider);
+        playlistTracks = new ArrayList<>();
+        adapter = new PlaylistAdapter(getContext(), playlistTracks);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        rvPlaylistTracks.setAdapter(adapter);
+        rvPlaylistTracks.setLayoutManager(linearLayoutManager);
     }
 
     private void setNoPlaylistExistsVisibility() {
+        // Set every view but btnCreatePlaylist to gone
         btnCreatePlaylist.setVisibility(View.VISIBLE);
         tvPlaylistName.setVisibility(View.GONE);
         tvPlaylistDescription.setVisibility(View.GONE);
@@ -121,7 +133,6 @@ public class PlaylistFragment extends Fragment {
 
     private void displayUserDetails() {
         viewModel.getUserDetails();
-
         viewModel.userDetails.observe(getViewLifecycleOwner(), new Observer<UserPrivate>() {
             @Override
             public void onChanged(UserPrivate user) {
@@ -151,11 +162,13 @@ public class PlaylistFragment extends Fragment {
             public void onChanged(Playlist playlist) {
                 tvPlaylistName.setText(playlist.name);
                 tvPlaylistDescription.setText(playlist.description);
-                if (playlist.images.size() > 0) { // load in cover image
+                if (playlist.images.size() > 0) {
+                    // Load in cover image
                     Glide.with(getContext())
                             .load(playlist.images.get(0).url)
                             .into(ivPlaylistImage);
-                } else { // load with default cover image
+                } else {
+                    // Load with default cover image
                     Glide.with(getContext())
                             .load(R.drawable.default_playlist_cover)
                             .into(ivPlaylistImage);
@@ -176,27 +189,4 @@ public class PlaylistFragment extends Fragment {
         });
     }
 
-    private void initViews(@NonNull View view) {
-        btnCreatePlaylist = view.findViewById(R.id.btnCreatePlaylist);
-
-        tvPlaylistName = view.findViewById(R.id.tvPlaylistName);
-        tvPlaylistDescription = view.findViewById(R.id.tvPlaylistDescription);
-        ivPlaylistImage = view.findViewById(R.id.ivPlaylistImage);
-        ivPlaylistProfilePic = view.findViewById(R.id.ivPlaylistProfilePic);
-        tvPlaylistDisplayName = view.findViewById(R.id.tvPlaylistDisplayName);
-        tvPlaylistSongCount = view.findViewById(R.id.tvPlaylistSongCount);
-        rvPlaylistTracks = view.findViewById(R.id.rvPlaylistTracks);
-        tvPlaylistTextDot = view.findViewById(R.id.tvPlaylistTextDot);
-        tvPlaylistTextTitle = view.findViewById(R.id.tvPlaylistTextTitle);
-        tvPlaylistTextDate = view.findViewById(R.id.tvPlaylistTextDate);
-        tvPlaylistTextPublic = view.findViewById(R.id.tvPlaylistTextPublic);
-        viewDivider = view.findViewById(R.id.viewDivider);
-
-
-                playlistTracks = new ArrayList<>();
-        adapter = new PlaylistAdapter(getContext(), playlistTracks);
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        rvPlaylistTracks.setAdapter(adapter);
-        rvPlaylistTracks.setLayoutManager(linearLayoutManager);
-    }
 }

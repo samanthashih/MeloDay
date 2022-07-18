@@ -139,16 +139,4 @@ public class PlaylistViewModel extends AndroidViewModel {
                 }}
         });
     }
-
-//    private void uploadPlaylistCover() throws JSONException {
-//        JSONObject jsonBodyObj = new JSONObject();
-//        try {
-//            jsonBodyObj.put("playlist_id", playlistId);
-//            jsonBodyObj.put("image", playlistId);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        final String requestBody = jsonBodyObj.toString();
-//    }
 }

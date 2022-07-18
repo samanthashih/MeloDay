@@ -1,10 +1,11 @@
 package com.example.meloday20.home;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.media.audiofx.Visualizer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,24 +16,27 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.example.meloday20.MusicPlayer;
 import com.example.meloday20.PreviewPlayer;
 import com.example.meloday20.R;
+import com.example.meloday20.RendererFactory;
+import com.example.meloday20.WaveFormView;
 import com.example.meloday20.utils.CommonActions;
 import com.example.meloday20.utils.OnDoubleTapListener;
 import com.example.meloday20.utils.PreviewPlayerSingleton;
 import com.example.meloday20.utils.SpotifyServiceSingleton;
+import com.example.meloday20.utils.VisualizerSingleton;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
-import java.io.IOException;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyService;
@@ -74,7 +78,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     }
 
     // viewholder class
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, Visualizer.OnDataCaptureListener {
         String trackCoverImageUrl;
         String profilePicUrl;
         TextView tvPostUsername;
@@ -91,7 +95,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         private String accessToken = ParseUser.getCurrentUser().getString("accessToken");
         public SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
         public PreviewPlayer previewPlayer = PreviewPlayerSingleton.getInstance();
+        public Visualizer visualizer;
 
+        private static final int CAPTURE_SIZE = 256;
+        private int audioSession;
+        private WaveFormView waveformView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -112,6 +120,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             ivComment = itemView.findViewById(R.id.ivComment);
             ivPostPlayArrow = itemView.findViewById(R.id.ivPostPlayArrow);
             card_view = itemView.findViewById(R.id.card_view);
+            waveformView = itemView.findViewById(R.id.waveform_view);
+            RendererFactory rendererFactory = new RendererFactory();
+            waveformView.setRenderer(rendererFactory.createSimpleWaveformRenderer(Color.WHITE, Color.TRANSPARENT));
         }
 
         public void bind(Post post) throws ParseException {
@@ -120,6 +131,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             tvPostUsername.setText(post.getUsername());
             tvPostDate.setText(post.getCreatedAtDate());
             tvLikeNum.setText(String.valueOf(post.getNumLikes()));
+            waveformView.setVisibility(View.GONE);
 
             profilePicUrl = post.getUser().getString("profilePicUrl");
             if (profilePicUrl != null) {
@@ -186,15 +198,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                             String previewUrl = track.preview_url;
                             if (previewPlayer.isPlaying()){
                                 if (previewPlayer.getCurrentTrack().equals(previewUrl)) {
-                                    previewPlayer.release();
-                                    ivPostPlayArrow.setVisibility(View.VISIBLE);
+                                    stopPlayingCurrTrack();
                                     return;
                                 }
-                                previewPlayer.release();
-                                ivPostPlayArrow.setVisibility(View.VISIBLE);
+                                stopPlayingCurrTrack();
                             }
-                            previewPlayer.play(previewUrl);
-                            ivPostPlayArrow.setVisibility(View.GONE);
+                            startPlayingPreview(previewUrl);
+                            audioSession = previewPlayer.getAudioSessionId();
+                            if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
+                                    ContextCompat.checkSelfPermission(context, Manifest.permission.MODIFY_AUDIO_SETTINGS) == PackageManager.PERMISSION_GRANTED) {
+                                startVisualizer();
+                            } else {
+                                CommonActions.requestPermissions(new HomeFragment());
+                            }
                         }
 
                         @Override
@@ -204,6 +220,39 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                     });
                 }
             });
+        }
+
+        private void startPlayingPreview(String previewUrl) {
+            previewPlayer.play(previewUrl);
+            ivPostPlayArrow.setVisibility(View.GONE);
+            waveformView.setVisibility(View.VISIBLE);
+        }
+
+        private void stopPlayingCurrTrack() {
+            previewPlayer.release();
+            ivPostPlayArrow.setVisibility(View.VISIBLE);
+            if (visualizer != null) visualizer.release();
+            waveformView.setVisibility(View.GONE);
+        }
+
+        private void startVisualizer() {
+            Log.i(TAG, "Audio session: " + audioSession);
+            visualizer = VisualizerSingleton.getInstance(audioSession);
+            visualizer.setDataCaptureListener(this, Visualizer.getMaxCaptureRate(), true, false);
+            visualizer.setCaptureSize(CAPTURE_SIZE);
+            visualizer.setEnabled(true);
+        }
+
+        @Override
+        public void onWaveFormDataCapture(Visualizer visualizer, byte[] waveform, int samplingRate) {
+            if (waveformView != null) {
+                waveformView.setWaveform(waveform);
+            }
+        }
+
+        @Override
+        public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {
+            // Fast Fournier Transform data - don't need for this
         }
 
         private void likeAction(Post post) {

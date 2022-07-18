@@ -80,35 +80,33 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
     // viewholder class
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, Visualizer.OnDataCaptureListener {
-        String trackCoverImageUrl;
-        String profilePicUrl;
-        TextView tvPostUsername;
-        TextView tvPostDate;
-        TextView tvPostTitle;
-        TextView tvPostArtist;
-        ImageView ivPostCoverImage;
-        ImageView ivLike;
-        TextView tvLikeNum;
-        ImageView ivComment;
-        ImageView ivPostProfilePic;
-        ImageView ivPostPlayArrow;
-        CardView card_view;
-        private String accessToken = ParseUser.getCurrentUser().getString("accessToken");
-        public SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
-        public PreviewPlayer previewPlayer = PreviewPlayerSingleton.getInstance();
-        public Visualizer visualizer;
+        private final String accessToken = ParseUser.getCurrentUser().getString("accessToken");
+        private final SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
+        private final PreviewPlayer previewPlayer = PreviewPlayerSingleton.getInstance();
 
+        private TextView tvPostUsername;
+        private TextView tvPostDate;
+        private TextView tvPostTitle;
+        private TextView tvPostArtist;
+        private ImageView ivPostCoverImage;
+        private ImageView ivLike;
+        private TextView tvLikeNum;
+        private ImageView ivComment;
+        private ImageView ivPostProfilePic;
+        private ImageView ivPostPlayArrow;
+        private CardView card_view;
         private static final int CAPTURE_SIZE = 256;
         private int audioSession;
+        private Visualizer visualizer;
         private WaveFormView waveformView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            initViewsAndValues(itemView) ;
+            init(itemView) ;
         }
 
 
-        private void initViewsAndValues(@NonNull View itemView) {
+        private void init(@NonNull View itemView) {
             itemView.setOnClickListener(this);
             ivPostProfilePic = itemView.findViewById(R.id.ivPostProfilePic);
             tvPostUsername = itemView.findViewById(R.id.tvPostUsername);
@@ -134,7 +132,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             tvLikeNum.setText(String.valueOf(post.getNumLikes()));
             waveformView.setVisibility(View.GONE);
 
-            profilePicUrl = post.getUser().getString("profilePicUrl");
+            String profilePicUrl = post.getUser().getString("profilePicUrl");
             if (profilePicUrl != null) {
                 Glide.with(context)
                         .load(profilePicUrl)
@@ -150,7 +148,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                         .into(ivPostProfilePic);
             }
 
-            trackCoverImageUrl = post.getTrackImageUrl();
+            String trackCoverImageUrl = post.getTrackImageUrl();
             if (trackCoverImageUrl != null) {
                 Glide.with(context)
                         .load(trackCoverImageUrl)
@@ -180,6 +178,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 }
             });
 
+            // Double tap to like post
             card_view.setOnTouchListener(new OnDoubleTapListener(context) {
                 @Override
                 public void onDoubleTap(MotionEvent e) {
@@ -188,32 +187,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 }
             });
 
+            // Click cover image to play preview
             ivPostCoverImage.setOnClickListener(new View.OnClickListener() {
-                // get track preview url
                 @Override
                 public void onClick(View v) {
                     ivPostPlayArrow.setVisibility(View.GONE);
+                    // Get track preview url
                     spotify.getTrack(post.getTrackId(), new Callback<Track>() {
                         @Override
                         public void success(Track track, Response response) {
                             String previewUrl = track.preview_url;
-                            if (previewPlayer.isPlaying()){
-                                if (previewPlayer.getCurrentTrack().equals(previewUrl)) {
-                                    stopPlayingCurrTrack();
-                                    return;
-                                }
-                                stopPlayingCurrTrack();
-                            }
-                            startPlayingPreview(previewUrl);
-                            audioSession = previewPlayer.getAudioSessionId();
-                            if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
-                                    ContextCompat.checkSelfPermission(context, Manifest.permission.MODIFY_AUDIO_SETTINGS) == PackageManager.PERMISSION_GRANTED) {
-                                startVisualizer();
-                            } else {
-                                CommonActions.requestPermissions(new HomeFragment());
-                            }
+                            playPreview(previewUrl);
                         }
-
                         @Override
                         public void failure(RetrofitError error) {
                             Log.e(TAG, "Error with getting preview url", error);
@@ -221,6 +206,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                     });
                 }
             });
+        }
+
+        private void playPreview(String previewUrl) {
+            if (previewPlayer.isPlaying()){
+                if (previewPlayer.getCurrentTrack().equals(previewUrl)) {
+                    stopPlayingCurrTrack();
+                    return;
+                }
+                stopPlayingCurrTrack();
+            }
+            startPlayingPreview(previewUrl);
+            audioSession = previewPlayer.getAudioSessionId();
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(context, Manifest.permission.MODIFY_AUDIO_SETTINGS) == PackageManager.PERMISSION_GRANTED) {
+                startVisualizer();
+            } else {
+                CommonActions.requestPermissions(new HomeFragment());
+            }
         }
 
         private void startPlayingPreview(String previewUrl) {
@@ -237,7 +240,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         }
 
         private void startVisualizer() {
-            Log.i(TAG, "Audio session: " + audioSession);
             visualizer = VisualizerSingleton.getInstance(audioSession);
             visualizer.setDataCaptureListener(this, Visualizer.getMaxCaptureRate(), true, false);
             visualizer.setCaptureSize(CAPTURE_SIZE);
@@ -253,7 +255,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
         @Override
         public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {
-            // Fast Fournier Transform data - don't need for this
+            // Fast Fournier Transform data from visualizer - don't need to implement for audio waveform
         }
 
         private void likeAction(Post post) {
@@ -276,9 +278,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) { //if position valid, get that post
                 Post post = posts.get(position);
-                Log.i(TAG, "Clicked a post! " + post.getTrackName());
             }
-
         }
     }
 }

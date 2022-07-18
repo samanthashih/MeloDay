@@ -81,16 +81,11 @@ public class BezierPointsWaveformRenderer implements WaveformRenderer {
             waveformPath.rewind();
             float yRandom = yDest[random.nextInt(numPoints)];
             for (int i = 0; i < bezierPoints.length-1; i++) {
-
                 int x = (int) Math.ceil((i + 1) * (waveform.length / numPoints));
-
                 int t = 0;
                 if (x < 1024)
-                    t = canvas.getHeight() +
-                            ((byte) (Math.abs(waveform[x]) + 128)) * canvas.getHeight() / 128;
-
+                    t = canvas.getHeight() + ((byte) (Math.abs(waveform[x]) + 128)) * canvas.getHeight() / 128;
                 float y = canvasClipBounds.top + t;
-
                 //change the source and destination y
                 ySrc[i] = yDest[i];
                 yDest[i] = y;
@@ -98,7 +93,6 @@ public class BezierPointsWaveformRenderer implements WaveformRenderer {
 
             yDest[bezierPoints.length - 1] = yRandom;
             numBatchCount++;
-
             for (int i = 0; i < bezierPoints.length; i++) {
                 bezierPoints[i].y = ySrc[i] + (((float) (numBatchCount) / maxBatchCount) * (yDest[i] - ySrc[i]));
             }

@@ -1,6 +1,7 @@
 package com.example.meloday20.addTrack;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -38,15 +39,15 @@ import retrofit.client.Response;
 public class AddTrackViewModel extends AndroidViewModel {
     private static final String TAG = AddTrackViewModel.class.getSimpleName();
     private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
-    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
+    private static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
     private static ParseUser currentUser = ParseUser.getCurrentUser();
-    private String userId = currentUser.getUsername();
+    private static String userId = currentUser.getUsername();
+    private static Track currTrack;
+    private static String playlistId;
+    private static String lastPostedDate;
+    private static String today;
     private MutableLiveData<Boolean> _postedToday = new MutableLiveData<>();
     LiveData<Boolean> postedToday = _postedToday;
-    Track currTrack;
-    String playlistId;
-    String lastPostedDate;
-    String today;
 
     public AddTrackViewModel(@NonNull Application application) {
         super(application);
@@ -59,14 +60,16 @@ public class AddTrackViewModel extends AndroidViewModel {
     }
 
     private void addTrackToPlaylist() {
-        ParseQuery<ParsePlaylist> query = ParseQuery.getQuery(ParsePlaylist.class); // specify what type of data we want to query - ParsePlaylist.class
+        // Specify what type of data we want to query - ParsePlaylist.class
+        ParseQuery<ParsePlaylist> query = ParseQuery.getQuery(ParsePlaylist.class);
         query.whereEqualTo(ParsePlaylist.KEY_USER, ParseUser.getCurrentUser());
-        query.include(ParsePlaylist.KEY_PLAYLIST_ID); // include data referred by current user
+        query.include(ParsePlaylist.KEY_PLAYLIST_ID);
+        // Find current user's playlist ID
         query.findInBackground(new FindCallback<ParsePlaylist>() {
             @Override
             public void done(List<ParsePlaylist> queryPlaylists, ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Issue with getting playlist id", e);
+                    Log.e(TAG, "Error while getting playlist ID", e);
                     return;
                 }
                 playlistId = queryPlaylists.get(0).getPlaylistId();
@@ -77,9 +80,8 @@ public class AddTrackViewModel extends AndroidViewModel {
                 spotify.addTracksToPlaylist(userId, playlistId, addTrackQueryMap, addTrackBody, new Callback<Pager<PlaylistTrack>>() {
                     @Override
                     public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {
-                        Log.i(TAG, "Added track to playlist.");
+                        Log.i(TAG, "Added track to playlist");
                     }
-
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d(TAG, error.toString());
@@ -97,13 +99,14 @@ public class AddTrackViewModel extends AndroidViewModel {
         post.setTrackArtists(GetDetails.getArtistsString(currTrack.artists));
         post.setTrackImageUrl(currTrack.album.images.get(0).url);
 
+        // Save post in Parse DB
         post.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "error while saving post", e);
+                    Log.e(TAG, "Error while saving post", e);
                 }
-                Log.i(TAG, "post save success");
+                Log.i(TAG, "Post save success");
             }
         });
     }
@@ -113,7 +116,6 @@ public class AddTrackViewModel extends AndroidViewModel {
         if (lastPost != null) {
             lastPostedDate = GetDetails.getDateString(lastPost.getCreatedAt());
             today = GetDetails.getDateString(new Date());
-            Log.i(TAG, lastPostedDate + " vs. " + today);
             if (lastPostedDate.equals(today)) {
                 Log.i(TAG, "Already posted today");
                 _postedToday.setValue(true);
@@ -121,17 +123,20 @@ public class AddTrackViewModel extends AndroidViewModel {
                 _postedToday.setValue(false);
             }
         } else {
-            Log.e(TAG, "Could not get user's last post");
+            Log.e(TAG, "Error getting user's last post");
             _postedToday.setValue(false);
         }
     }
 
     public Post getUserLastPost() {
-        ParseQuery<Post> query = ParseQuery.getQuery(Post.class); // specify what type of data we want to query - ParsePlaylist.class
+        // Specify what type of data we want to query - Post.class
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.whereEqualTo(Post.KEY_USER, currentUser);
-        query.addDescendingOrder("createdAt"); // get the newer posts first
-        query.setLimit(1); // get only the latest post
-        query.include(Post.KEY_TRACK_ID); // include data referred by current user
+        // Get the newer posts first
+        query.addDescendingOrder("createdAt");
+        // Get only the latest post
+        query.setLimit(1);
+        query.include(Post.KEY_TRACK_ID);
         try {
             return query.find().get(0);
         } catch (Exception e) {
@@ -140,49 +145,49 @@ public class AddTrackViewModel extends AndroidViewModel {
     }
 
     // todo: does not delete on Spotify
-    public void deleteTodayPost() throws ParseException {
-        Post lastPost = getUserLastPost();
-        lastPost.delete();
-        lastPost.saveInBackground();
-        String trackIdToDelete = lastPost.getTrackId();
-//        Map<String, Object> deleteTrackBody = new HashMap<>();
-//        deleteTrackBody.put("uris", new String[]{"spotify:track:" + trackIdToDelete});
-
-        android.os.Parcel parcel = android.os.Parcel.obtain();
-        parcel.writeValue(trackIdToDelete);
-        TrackToRemove t = new TrackToRemove();
-        t.CREATOR.createFromParcel(parcel);
-
-        List<TrackToRemove> removeTracks = new ArrayList<>();
-        removeTracks.add(t);
-        android.os.Parcel parcel2 = android.os.Parcel.obtain();
-        parcel2.writeValue(removeTracks);
-
-        TracksToRemove tracksToRemove = new TracksToRemove();
-        tracksToRemove.CREATOR.createFromParcel(parcel2);
-
-        ParseQuery<ParsePlaylist> query = ParseQuery.getQuery(ParsePlaylist.class); // specify what type of data we want to query - ParsePlaylist.class
-        query.whereEqualTo(ParsePlaylist.KEY_USER, ParseUser.getCurrentUser());
-        query.include(ParsePlaylist.KEY_PLAYLIST_ID); // include data referred by current user
-        query.findInBackground(new FindCallback<ParsePlaylist>() {
-            @Override
-            public void done(List<ParsePlaylist> queryPlaylists, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue with getting playlist id", e);
-                    return;
-                }
-                playlistId = queryPlaylists.get(0).getPlaylistId();
-                spotify.removeTracksFromPlaylist(userId, playlistId, tracksToRemove, new Callback<SnapshotId>() {
-                    @Override
-                    public void success(SnapshotId snapshotId, Response response) {
-                        Log.i(TAG, "Removed today's track from playlist");
-                    }
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.i(TAG, "Could not remove song from playlist", error);
-                    }
-                });
-            }
-        });
-    }
+//    public void deleteTodayPost() throws ParseException {
+//        Post lastPost = getUserLastPost();
+//        lastPost.delete();
+//        lastPost.saveInBackground();
+//        String trackIdToDelete = lastPost.getTrackId();
+////        Map<String, Object> deleteTrackBody = new HashMap<>();
+////        deleteTrackBody.put("uris", new String[]{"spotify:track:" + trackIdToDelete});
+//
+//        android.os.Parcel parcel = android.os.Parcel.obtain();
+//        parcel.writeValue(trackIdToDelete);
+//        TrackToRemove t = new TrackToRemove();
+//        t.CREATOR.createFromParcel(parcel);
+//
+//        List<TrackToRemove> removeTracks = new ArrayList<>();
+//        removeTracks.add(t);
+//        android.os.Parcel parcel2 = android.os.Parcel.obtain();
+//        parcel2.writeValue(removeTracks);
+//
+//        TracksToRemove tracksToRemove = new TracksToRemove();
+//        tracksToRemove.CREATOR.createFromParcel(parcel2);
+//
+//        ParseQuery<ParsePlaylist> query = ParseQuery.getQuery(ParsePlaylist.class); // specify what type of data we want to query - ParsePlaylist.class
+//        query.whereEqualTo(ParsePlaylist.KEY_USER, ParseUser.getCurrentUser());
+//        query.include(ParsePlaylist.KEY_PLAYLIST_ID); // include data referred by current user
+//        query.findInBackground(new FindCallback<ParsePlaylist>() {
+//            @Override
+//            public void done(List<ParsePlaylist> queryPlaylists, ParseException e) {
+//                if (e != null) {
+//                    Log.e(TAG, "Issue with getting playlist id", e);
+//                    return;
+//                }
+//                playlistId = queryPlaylists.get(0).getPlaylistId();
+//                spotify.removeTracksFromPlaylist(userId, playlistId, tracksToRemove, new Callback<SnapshotId>() {
+//                    @Override
+//                    public void success(SnapshotId snapshotId, Response response) {
+//                        Log.i(TAG, "Removed today's track from playlist");
+//                    }
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//                        Log.i(TAG, "Could not remove song from playlist", error);
+//                    }
+//                });
+//            }
+//        });
+//    }
 }

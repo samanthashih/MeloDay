@@ -11,4 +11,8 @@
     <string name="channel_id">myChannelId</string>
     <string name="client_id">f739c53578ef4b98b5ec6e8068bc4ec6</string>
     <string name="redirect_uri">com.example.meloday20://callback</string>
+    <string name="keyTrack">track</string>
+    <string name="colorWhite">#000000</string>
+    <string name="colorSpotifyGray">#2e2f33</string>
+    <string name="alreadyPostedMessage">You already posted today\'s MeloDay! Don\'t worry, there\'s always tomorrow.</string>
 </resources>

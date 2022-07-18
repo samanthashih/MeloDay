@@ -25,46 +25,29 @@ import kaaes.spotify.webapi.android.models.Track;
 
 public class AddTrackActivity extends AppCompatActivity {
     private static final String TAG = AddTrackActivity.class.getSimpleName();
-    private AddTrackViewModel viewModel;
+    private static AddTrackViewModel viewModel;
     private static Track track;
-    private static String artistsString;
-    TextView tvAddTrackTitle;
-    TextView tvAddTrackArtist;
-    ImageView ivAddTrackCover;
-    Button btnAddTrackToPlaylist;
+    private TextView tvAddTrackTitle;
+    private TextView tvAddTrackArtist;
+    private ImageView ivAddTrackCover;
+    private Button btnAddTrackToPlaylist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_track);
-        viewModel = new ViewModelProvider(this).get(AddTrackViewModel.class);
-        track = Parcels.unwrap(getIntent().getParcelableExtra("track"));
-        initViews();
+        init();
         setViewValues();
     }
+    private void init() {
+        viewModel = new ViewModelProvider(this).get(AddTrackViewModel.class);
+        track = Parcels.unwrap(getIntent().getParcelableExtra(getString(R.string.keyTrack)));
 
-    private void setViewValues() {
-        tvAddTrackTitle.setText(track.name);
-        artistsString = track.artists.get(0).name;
-        if (track.artists.size() > 1) {
-            for (int i = 1; i < track.artists.size(); i++) {
-                artistsString = artistsString + ", " + track.artists.get(i).name;
-            }
-        }
-        tvAddTrackArtist.setText(artistsString);
-        Image coverImage = track.album.images.get(0);
-        if (coverImage != null) {
-            Glide.with(this)
-                    .load(coverImage.url)
-                    .into(ivAddTrackCover);
-        }
-    }
-
-    private void initViews() {
         tvAddTrackTitle = findViewById(R.id.tvAddTrackTitle);
         tvAddTrackArtist = findViewById(R.id.tvAddTrackArtist);
         ivAddTrackCover = findViewById(R.id.ivAddTrackCover);
         btnAddTrackToPlaylist = findViewById(R.id.btnAddTrackToPlaylist);
+
         btnAddTrackToPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +69,26 @@ public class AddTrackActivity extends AppCompatActivity {
         });
     }
 
+    private void setViewValues() {
+        tvAddTrackTitle.setText(track.name);
+
+        // Format string to display list of artists
+        String artistsString = track.artists.get(0).name;
+        if (track.artists.size() > 1) {
+            for (int i = 1; i < track.artists.size(); i++) {
+                artistsString = artistsString + ", " + track.artists.get(i).name;
+            }
+        }
+        tvAddTrackArtist.setText(artistsString);
+
+        Image coverImage = track.album.images.get(0);
+        if (coverImage != null) {
+            Glide.with(this)
+                    .load(coverImage.url)
+                    .into(ivAddTrackCover);
+        }
+    }
+
     private void goToMainActivity() {
         Intent intent = new Intent(AddTrackActivity.this, MainActivity.class);
         startActivity(intent);
@@ -95,14 +98,14 @@ public class AddTrackActivity extends AppCompatActivity {
     private void displayAlreadyPostedMessage() {
         Button btnOk = new Button(this);
         btnOk.setText("Ok");
-        btnOk.setTextColor(Color.parseColor("#000000"));
+        btnOk.setTextColor(Color.parseColor(getString(R.string.colorWhite)));
 
         LottieDialog dialog = new LottieDialog(this)
                 .setAnimation(R.raw.night_car_driving)
                 .setAnimationRepeatCount(LottieDrawable.INFINITE)
                 .setAutoPlayAnimation(true)
-                .setDialogBackground(Color.parseColor("#2e2f33"))
-                .setMessage("You already posted today's MeloDay! Don't worry, there's always tomorrow.")
+                .setDialogBackground(Color.parseColor(getString(R.string.colorSpotifyGray)))
+                .setMessage(getString(R.string.alreadyPostedMessage))
                 .setMessageTextSize(18)
                 .addActionButton(btnOk);
 

@@ -68,9 +68,6 @@ public class AddTrackActivity extends AppCompatActivity {
         btnAddTrackToPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                viewModel.addTrackActions(track);
-//                goToMainActivity();
-                //todo: uncomment out, code for limit once a day
                 viewModel.checkIfPostedToday();
                 Observer<Boolean> postedTodayObserver = new Observer<Boolean>() {
                     @Override
@@ -116,29 +113,5 @@ public class AddTrackActivity extends AppCompatActivity {
             }
         });
         dialog.show();
-
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-//        builder.setCancelable(true);
-//        builder.setTitle("You already posted today!");
-//        builder.setMessage("You may only post one song per day. Delete current post?");
-//        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
-//
-//        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                try {
-//                    viewModel.deleteTodayPost();
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//                dialog.cancel();
-//            }
-//        });
-//        builder.show();
     }
 }

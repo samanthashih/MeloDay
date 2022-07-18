@@ -1,6 +1,8 @@
 package com.example.meloday20.home.comment;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,8 +18,6 @@ import com.example.meloday20.home.post.Post;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
@@ -34,21 +34,39 @@ public class CommentsActivity extends AppCompatActivity {
     private TextInputEditText etMessage;
     private ImageView ivCommentSubmit;
     private LinearLayoutManager linearLayoutManager;
-    private ParseUser currentUser = ParseUser.getCurrentUser();
+    private CommentViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
-        initViews();
-
+        init();
         try {
-            getPostComments();
+            displayComments();
             Log.i(TAG, comments.get(0).getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        typedComment();
+    }
+    private void init() {
+        viewModel = new ViewModelProvider(this).get(CommentViewModel.class);
+        post = Parcels.unwrap(getIntent().getParcelableExtra("post"));
+        Log.i(TAG, post.getTrackName());
 
+        rvComments = findViewById(R.id.rvComments);
+        etMessageLayout = findViewById(R.id.etMessageLayout);
+        etMessage = findViewById(R.id.etMessage);
+        ivCommentSubmit = findViewById(R.id.ivCommentSubmit);
+
+        comments = new ArrayList<>();
+        adapter = new CommentAdapter(this, comments);
+        linearLayoutManager = new LinearLayoutManager(this);
+        rvComments.setAdapter(adapter);
+        rvComments.setLayoutManager(linearLayoutManager);
+    }
+
+    private void typedComment() {
         etMessage.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -66,25 +84,18 @@ public class CommentsActivity extends AppCompatActivity {
                     ivCommentSubmit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Comment comment = new Comment();
-                            comment.setUser(currentUser);
-                            comment.setPost(post);
-                            comment.setMessage(s.toString());
-
-                            comment.saveInBackground(new SaveCallback() {
+                            viewModel.submitComment(s, post);
+                            Observer<Boolean> submitCommentObserver = new Observer<Boolean>() {
                                 @Override
-                                public void done(ParseException e) {
-                                    if (e != null) {
-                                        Log.e(TAG, "Issue saving comment" , e);
-                                        return;
-                                    }
+                                public void onChanged(Boolean submitComment) {
                                     try {
-                                        getPostComments();
+                                        displayComments();
                                     } catch (ParseException ex) {
                                         ex.printStackTrace();
                                     }
-                                    Log.i(TAG, "Posted comment");                                }
-                            });
+                                }
+                            };
+                            viewModel.submitComment.observe(CommentsActivity.this,submitCommentObserver);
                             etMessageLayout.getEditText().setText(null);
                         }
                     });
@@ -93,22 +104,7 @@ public class CommentsActivity extends AppCompatActivity {
         });
     }
 
-    private void initViews() {
-        post = Parcels.unwrap(getIntent().getParcelableExtra("post"));
-        Log.i(TAG, post.getTrackName());
-        rvComments = findViewById(R.id.rvComments);
-        etMessageLayout = findViewById(R.id.etMessageLayout);
-        etMessage = findViewById(R.id.etMessage);
-        ivCommentSubmit = findViewById(R.id.ivCommentSubmit);
-
-        comments = new ArrayList<>();
-        adapter = new CommentAdapter(this, comments);
-        linearLayoutManager = new LinearLayoutManager(this);
-        rvComments.setAdapter(adapter);
-        rvComments.setLayoutManager(linearLayoutManager);
-    }
-
-    private void getPostComments() throws ParseException {
+    private void displayComments() throws ParseException {
         comments.clear();
         comments.addAll(post.getPostComments());
         adapter.notifyDataSetChanged();

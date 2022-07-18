@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -27,14 +28,15 @@ import com.parse.ParseUser;
 public class ProfileFragment extends Fragment {
     private static final String TAG = ProfileFragment.class.getSimpleName();
     private ProfileViewModel viewModel;
-    ParseUser currentUser;
-    ImageView ivLogout;
-    ImageView ivProfilePic;
-    TextView tvTime;
-    Button btnSaveTime;
-    TimePickerDialog timePickerDialog;
-    String amOrPm;
-    String profilePicUrl;
+    private ParseUser currentUser;
+    private ImageView ivLogout;
+    private ImageView ivProfilePic;
+    private TextView tvTime;
+    private Button btnSaveTime;
+    private Switch switchReminder;
+    private TimePickerDialog timePickerDialog;
+    private static String amOrPm;
+
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -61,7 +63,8 @@ public class ProfileFragment extends Fragment {
     }
 
     private void displayData() {
-        profilePicUrl = currentUser.getString("profilePicUrl");
+        switchReminder.setChecked(true);
+        String profilePicUrl = currentUser.getString("profilePicUrl");
         if (profilePicUrl != null) {
             Glide.with(getContext())
                     .load(profilePicUrl)
@@ -78,7 +81,6 @@ public class ProfileFragment extends Fragment {
         }
 
         tvTime.setText(currentUser.getString(getString(R.string.keyAlarmTime)));
-
         tvTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,5 +129,6 @@ public class ProfileFragment extends Fragment {
         ivProfilePic = view.findViewById(R.id.ivProfilePic);
         tvTime = view.findViewById(R.id.tvTime);
         btnSaveTime = view.findViewById(R.id.btnSaveTime);
+        switchReminder = view.findViewById(R.id.switchReminder);
     }
 }

@@ -41,4 +41,5 @@
         <!-- inactive track color (30% transparency) -->
         <item name="android:colorForeground">@color/white</item>
     </style>
+
 </resources>

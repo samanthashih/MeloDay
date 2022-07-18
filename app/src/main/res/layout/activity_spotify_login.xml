@@ -9,7 +9,7 @@
     android:paddingTop="10dp"
     android:paddingRight="10dp"
     android:paddingBottom="10dp"
-    tools:context=".login.SpotifyLoginActivity"
+    tools:context=".ui.login.SpotifyLoginActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="-11dp">
 

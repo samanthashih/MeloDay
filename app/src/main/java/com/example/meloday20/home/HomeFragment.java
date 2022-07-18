@@ -40,7 +40,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG, "Home Fragment created");
     }
 
     @Override
@@ -53,15 +52,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        rvPosts = view.findViewById(R.id.rvPosts);
-        progressBar = view.findViewById(R.id.progressBar);
-        homePosts = new ArrayList<>();
-        adapter = new PostAdapter(getContext(), homePosts);
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        rvPosts.setAdapter(adapter);
-        rvPosts.setLayoutManager(linearLayoutManager);
+        init(view);
+        displayPosts();
+        // Request permissions for RECORD_AUDIO and MODIFY_AUDIO_SETTINGS needed to animate audio waveform
+        CommonActions.requestPermissions(this);
+    }
 
+    private void displayPosts() {
         viewModel.queryPosts(0);
         Observer<List<Post>> postObserver = new Observer<List<Post>>() {
             @Override
@@ -72,8 +69,16 @@ public class HomeFragment extends Fragment {
             }
         };
         viewModel.posts.observe(getViewLifecycleOwner(),postObserver);
+    }
 
-        CommonActions.requestPermissions(this);
-
+    private void init(@NonNull View view) {
+        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        rvPosts = view.findViewById(R.id.rvPosts);
+        progressBar = view.findViewById(R.id.progressBar);
+        homePosts = new ArrayList<>();
+        adapter = new PostAdapter(getContext(), homePosts);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        rvPosts.setAdapter(adapter);
+        rvPosts.setLayoutManager(linearLayoutManager);
     }
 }

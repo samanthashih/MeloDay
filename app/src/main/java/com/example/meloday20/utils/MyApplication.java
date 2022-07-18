@@ -3,7 +3,7 @@ import android.app.Application;
 
 import com.example.meloday20.R;
 import com.example.meloday20.home.comment.Comment;
-import com.example.meloday20.home.Like;
+import com.example.meloday20.home.like.Like;
 import com.example.meloday20.playlist.ParsePlaylist;
 import com.example.meloday20.home.post.Post;
 import com.parse.Parse;

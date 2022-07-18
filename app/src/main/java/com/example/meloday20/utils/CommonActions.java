@@ -7,7 +7,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
-import com.example.meloday20.home.Like;
+import com.example.meloday20.home.like.Like;
 import com.example.meloday20.home.post.Post;
 import com.parse.ParseException;
 import com.parse.ParseUser;

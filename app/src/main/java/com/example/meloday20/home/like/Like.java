@@ -1,4 +1,4 @@
-package com.example.meloday20.home;
+package com.example.meloday20.home.like;
 
 import com.example.meloday20.home.post.Post;
 import com.parse.ParseClassName;

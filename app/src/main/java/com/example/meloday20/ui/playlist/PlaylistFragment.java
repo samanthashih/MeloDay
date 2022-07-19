@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.meloday20.R;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,14 +70,15 @@ public class PlaylistFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         init(view);
 
-        viewModel.playlistExists.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        viewModel.currUserPlaylistId.observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
-            public void onChanged(Boolean playlistExists) {
-                if (playlistExists.booleanValue() == true) {
+            public void onChanged(String currUserPlaylistId) {
+                if (currUserPlaylistId != null) {
                     btnCreatePlaylist.setVisibility(View.GONE);
+                    String userId = ParseUser.getCurrentUser().getUsername();
                     displayUserDetails();
-                    displayPlaylistDetails();
-                    displayPlaylistTracks();
+                    displayPlaylistDetails(userId, currUserPlaylistId);
+                    displayPlaylistTracks(userId, currUserPlaylistId);
                 } else {
                     // User has no existing playlist - create a new playlist
                     setNoPlaylistExistsVisibility();
@@ -131,7 +133,7 @@ public class PlaylistFragment extends Fragment {
     }
 
     private void displayUserDetails() {
-        viewModel.getUserDetails();
+        viewModel.getCurrUserDetails();
         viewModel.userDetails.observe(getViewLifecycleOwner(), new Observer<UserPrivate>() {
             @Override
             public void onChanged(UserPrivate user) {
@@ -154,8 +156,8 @@ public class PlaylistFragment extends Fragment {
         });
     }
 
-    private void displayPlaylistDetails() {
-        viewModel.getPlaylistDetails();
+    private void displayPlaylistDetails(String userId, String playlistId) {
+        viewModel.getPlaylistDetails(userId, playlistId);
         viewModel.playlistDetails.observe(getViewLifecycleOwner(), new Observer<Playlist>() {
             @Override
             public void onChanged(Playlist playlist) {
@@ -176,8 +178,8 @@ public class PlaylistFragment extends Fragment {
         });
     }
 
-    private void displayPlaylistTracks() {
-        viewModel.getPlaylistTracks();
+    private void displayPlaylistTracks(String userId, String playlistId) {
+        viewModel.getPlaylistTracks(userId, playlistId);
         viewModel.playlistTracks.observe(getViewLifecycleOwner(), new Observer<List<PlaylistTrack>>() {
             @Override
             public void onChanged(List<PlaylistTrack> newPlaylistTracks) {

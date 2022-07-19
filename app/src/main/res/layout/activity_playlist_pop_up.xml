@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.PlaylistPopUpActivity"
+    android:padding="10dp"
+    android:background="@color/black">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPlaylistPopUp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewDivider" />
+
+    <ImageView
+        android:id="@+id/ivPlaylistPopUpCoverImage"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tvPlaylistPopUpName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="sam shih's MeloDay"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivPlaylistPopUpCoverImage"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:fontFamily="sans-serif-medium" />
+
+    <TextView
+        android:id="@+id/tvPlaylistPopUpDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:text="Your playlist of the year"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/ivPlaylistPopUpCoverImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlaylistPopUpName" />
+
+    <TextView
+        android:id="@+id/tvPlaylistPopUpSongCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="28 songs"
+        android:textSize="8sp"
+        android:layout_marginLeft="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvPlaylistTextDot"
+        app:layout_constraintStart_toEndOf="@+id/tvPlaylistTextDot"
+        app:layout_constraintTop_toTopOf="@+id/tvPlaylistTextDot" />
+
+    <TextView
+        android:id="@+id/tvPlaylistTextDot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="4dp"
+        android:text="•"
+        app:layout_constraintBottom_toBottomOf="@+id/tvPlaylistPopUpDescription"
+        app:layout_constraintStart_toEndOf="@+id/tvPlaylistPopUpDescription"
+        app:layout_constraintTop_toBottomOf="@id/tvPlaylistPopUpName" />
+
+
+    <View
+        android:id="@+id/viewDivider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="2dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlaylistPopUpTextTitle"
+        tools:layout_editor_absoluteX="10dp" />
+
+    <TextView
+        android:id="@+id/tvPlaylistPopUpTextTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:text="TITLE"
+        android:textSize="9sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPlaylistPopUpCoverImage" />
+
+    <TextView
+        android:id="@+id/tvPlaylistTextDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="5dp"
+        android:text="DATE ADDED"
+        android:textSize="9sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPlaylistPopUpCoverImage" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

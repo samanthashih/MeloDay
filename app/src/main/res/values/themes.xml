@@ -42,4 +42,17 @@
         <item name="android:colorForeground">@color/white</item>
     </style>
 
+
+    <style name="playlistPopUpTheme" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowFixedWidthMinor">50%</item>
+        <item name="windowFixedWidthMajor">50%</item>
+        <item name="windowFixedHeightMinor">70%</item>
+        <item name="windowFixedHeightMajor">70%</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="cornerRadius">50dp</item>
+    </style>
+
 </resources>

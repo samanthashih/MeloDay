@@ -41,6 +41,7 @@ import org.parceler.Parcels;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.Track;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -206,6 +207,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                     });
                 }
             });
+
+            ivPostProfilePic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent toPlaylistPopUp = new Intent(context, PlaylistPopUpActivity.class);
+                    toPlaylistPopUp.putExtra("user", Parcels.wrap(post.getUser()));
+                    context.startActivity(toPlaylistPopUp);
+                }
+            });
+
         }
 
         private void playPreview(String previewUrl) {

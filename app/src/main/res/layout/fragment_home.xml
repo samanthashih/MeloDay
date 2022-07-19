@@ -33,14 +33,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/rvPosts" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPlaylistPopup"
-        android:layout_width="279dp"
-        android:layout_height="548dp"
-        app:layout_constraintBottom_toBottomOf="@+id/rvPosts"
-        app:layout_constraintEnd_toEndOf="@+id/rvPosts"
-        app:layout_constraintStart_toStartOf="@+id/rvPosts"
-        app:layout_constraintTop_toTopOf="@+id/rvPosts" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

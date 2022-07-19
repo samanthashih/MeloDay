@@ -17,16 +17,20 @@ import android.widget.ProgressBar;
 
 import com.example.meloday20.R;
 import com.example.meloday20.models.Post;
+import com.example.meloday20.ui.playlist.PlaylistAdapter;
+import com.example.meloday20.ui.playlist.PlaylistViewModel;
 import com.example.meloday20.utils.CommonActions;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import kaaes.spotify.webapi.android.models.PlaylistTrack;
+
 public class HomeFragment extends Fragment {
     private static final String TAG = HomeFragment.class.getSimpleName();
-    private HomeViewModel viewModel;
+    private HomeViewModel homeViewModel;
     private RecyclerView rvPosts;
-    private PostAdapter adapter;
+    private PostAdapter postAdapter;
     private List<Post> homePosts;
     private LinearLayoutManager linearLayoutManager;
     private ProgressBar progressBar;
@@ -56,26 +60,27 @@ public class HomeFragment extends Fragment {
         CommonActions.requestPermissions(this);
     }
     private void init(@NonNull View view) {
-        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         rvPosts = view.findViewById(R.id.rvPosts);
         progressBar = view.findViewById(R.id.progressBar);
         homePosts = new ArrayList<>();
-        adapter = new PostAdapter(getContext(), homePosts);
+        postAdapter = new PostAdapter(getContext(), homePosts);
         linearLayoutManager = new LinearLayoutManager(getContext());
-        rvPosts.setAdapter(adapter);
+        rvPosts.setAdapter(postAdapter);
         rvPosts.setLayoutManager(linearLayoutManager);
     }
 
     private void displayPosts() {
-        viewModel.queryPosts(0);
+        homeViewModel.queryPosts(0);
         Observer<List<Post>> postObserver = new Observer<List<Post>>() {
             @Override
             public void onChanged(List<Post> posts) {
                 homePosts.addAll(posts);
-                adapter.notifyDataSetChanged();
+                postAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
             }
         };
-        viewModel.posts.observe(getViewLifecycleOwner(),postObserver);
+        homeViewModel.posts.observe(getViewLifecycleOwner(),postObserver);
     }
+
 }

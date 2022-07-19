@@ -28,7 +28,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginRight="5dp"
         android:text="DATE ADDED"
-        android:textSize="8sp"
+        android:textSize="9sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivPlaylistImage" />
 
@@ -146,7 +146,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:text="TITLE"
-        android:textSize="8sp"
+        android:textSize="9sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivPlaylistImage" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.TestLooperManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class ProfileFragment extends Fragment {
     private ParseUser currentUser;
     private ImageView ivLogout;
     private ImageView ivProfilePic;
+    private TextView tvProfileName;
     private TextView tvTime;
     private Button btnSaveTime;
     private Switch switchReminder;
@@ -64,6 +66,8 @@ public class ProfileFragment extends Fragment {
 
     private void displayData() {
         switchReminder.setChecked(true);
+        tvProfileName.setText(currentUser.getUsername());
+
         String profilePicUrl = currentUser.getString("profilePicUrl");
         if (profilePicUrl != null) {
             Glide.with(getContext())
@@ -130,5 +134,6 @@ public class ProfileFragment extends Fragment {
         tvTime = view.findViewById(R.id.tvTime);
         btnSaveTime = view.findViewById(R.id.btnSaveTime);
         switchReminder = view.findViewById(R.id.switchReminder);
+        tvProfileName = view.findViewById(R.id.tvProfileName);
     }
 }

@@ -194,17 +194,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 public void onClick(View v) {
                     ivPostPlayArrow.setVisibility(View.GONE);
                     // Get track preview url
-                    spotify.getTrack(post.getTrackId(), new Callback<Track>() {
-                        @Override
-                        public void success(Track track, Response response) {
-                            String previewUrl = track.preview_url;
-                            playPreview(previewUrl);
-                        }
-                        @Override
-                        public void failure(RetrofitError error) {
-                            Log.e(TAG, "Error with getting preview url", error);
-                        }
-                    });
+                    playTrackPreviewAndAnimation(post.getTrackId());
                 }
             });
 
@@ -217,6 +207,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 }
             });
 
+        }
+
+        private void playTrackPreviewAndAnimation(String trackId) {
+            spotify.getTrack(trackId, new Callback<Track>() {
+                @Override
+                public void success(Track track, Response response) {
+                    String previewUrl = track.preview_url;
+                    playPreview(previewUrl);
+                }
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.e(TAG, "Error with getting preview url", error);
+                }
+            });
         }
 
         private void playPreview(String previewUrl) {

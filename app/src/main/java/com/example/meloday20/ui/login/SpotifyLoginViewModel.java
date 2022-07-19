@@ -24,6 +24,7 @@ public class SpotifyLoginViewModel extends AndroidViewModel {
     private static final String TAG = SpotifyLoginViewModel.class.getSimpleName();
     private static SpotifyService spotify;
     private static String username;
+    private static String profilePicUrl;
     private MutableLiveData<Boolean> _loginUser = new MutableLiveData<>();
     LiveData<Boolean> loginUser = _loginUser;
 
@@ -33,55 +34,44 @@ public class SpotifyLoginViewModel extends AndroidViewModel {
 
     public void loginUser(String accessToken) {
         spotify = SpotifyServiceSingleton.getInstance(accessToken);
-        Log.i(TAG, accessToken);
         spotify.getMe(new Callback<UserPrivate>() {
             @Override
             public void success(UserPrivate userPrivate, Response response) {
                 username = userPrivate.id;
-                loginUser(username, "password", accessToken);
+                profilePicUrl = userPrivate.images.get(0).url;
+                loginUser(username, "password", accessToken, profilePicUrl);
                 _loginUser.setValue(true);
             }
             @Override
             public void failure(RetrofitError error) {
-                Log.d(TAG, error.toString());
+                Log.d(TAG, "Could not get user details " + error.toString());
             }
         });
     }
 
-    private void loginUser(String username, String password, String accessToken) {
+    private void loginUser(String username, String password, String accessToken, String profilePicUrl) {
         Log.i(TAG, "Login attempt for user: " + username);
         try {
             ParseUser.logIn(username, password);
         } catch (ParseException e) {
-            signUpUser(username, password, accessToken);
+            signUpUser(username, password, accessToken, profilePicUrl);
             return;
         }
         setParseUserAccessToken(accessToken);
     }
 
-    private void signUpUser(String username, String password, String accessToken) {
+    private void signUpUser(String username, String password, String accessToken, String profilePicUrl) {
         Log.i(TAG, "Sign up attempt for user: " + username);
         ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
-        spotify.getMe(new Callback<UserPrivate>() {
+        user.signUpInBackground(new SignUpCallback() {
             @Override
-            public void success(UserPrivate userPrivate, Response response) {
-                user.signUpInBackground(new SignUpCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        setParseUserAccessToken(accessToken);
-                        if (userPrivate.images.size() > 0) {
-                            setParseUserPfp(userPrivate.images.get(0).url);
-                        }
-                        Log.i(TAG, "signed up user: " + username);
-                        return;
-                    }
-                });
-            }
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e(TAG, "Could not get user info", error);
+            public void done(ParseException e) {
+                setParseUserPfp(profilePicUrl);
+                setParseUserAccessToken(accessToken);
+                Log.i(TAG, "signed up user: " + username);
+                return;
             }
         });
     }

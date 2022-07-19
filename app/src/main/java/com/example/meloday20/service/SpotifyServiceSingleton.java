@@ -1,5 +1,6 @@
 package com.example.meloday20.service;
 
+import android.nfc.Tag;
 import android.util.Log;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
@@ -20,6 +21,7 @@ public class SpotifyServiceSingleton {
 
     public synchronized static SpotifyService getInstance(String accessToken) {
         if (spotify == null || !currAccessToken.equals(accessToken)) {
+            Log.i(TAG, "Create new Spotify Service");
             new SpotifyServiceSingleton(accessToken);
         }
         return spotify;

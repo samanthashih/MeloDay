@@ -59,7 +59,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                     viewModel.loginUser(accessToken);
                     Observer<Boolean> loginUserObserver = new Observer<Boolean>() {
                         @Override
-                        public void onChanged(Boolean postedToday) {
+                        public void onChanged(Boolean loggedIn) {
                             Intent toMain = new Intent(SpotifyLoginActivity.this, MainActivity.class);
                             startActivity(toMain);
                             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

@@ -36,7 +36,6 @@ public class SearchFragment extends Fragment {
     private RecyclerView rvResults;
     private LottieAnimationView lottieMusicGuy;
     private TextView tvIfYouListen;
-    private TextView tvReally;
     private SearchAdapter adapter;
     private List<Track> results;
     LinearLayoutManager linearLayoutManager;
@@ -88,7 +87,6 @@ public class SearchFragment extends Fragment {
         rvResults = view.findViewById(R.id.rvResults);
         lottieMusicGuy = view.findViewById(R.id.lottieMusicGuy);
         tvIfYouListen = view.findViewById(R.id.tvIfYouListen);
-        tvReally = view.findViewById(R.id.tvReally);
         results = new ArrayList<>();
         adapter = new SearchAdapter(getContext(), results);
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -99,7 +97,6 @@ public class SearchFragment extends Fragment {
     private void displaySearchResults(String query) {
         lottieMusicGuy.setVisibility(View.GONE);
         tvIfYouListen.setVisibility(View.GONE);
-        tvReally.setVisibility(View.GONE);
         viewModel.getSearchTracks(query);
         viewModel.tracks.observe(getViewLifecycleOwner(), new Observer<List<Track>>() {
             @Override

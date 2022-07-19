@@ -1,17 +1,33 @@
 package com.example.meloday20.utils;
 
 import android.Manifest;
+import android.content.pm.PackageManager;
+import android.media.audiofx.Visualizer;
 import android.util.Log;
+import android.view.View;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.meloday20.models.Like;
 import com.example.meloday20.models.Post;
+import com.example.meloday20.models.PreviewPlayer;
+import com.example.meloday20.service.PreviewPlayerSingleton;
+import com.example.meloday20.service.SpotifyServiceSingleton;
+import com.example.meloday20.service.VisualizerSingleton;
+import com.example.meloday20.ui.audioWaveAnimation.WaveFormView;
+import com.example.meloday20.ui.home.HomeFragment;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Track;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class CommonActions {
     private static String TAG = CommonActions.class.getSimpleName();
@@ -35,6 +51,7 @@ public class CommonActions {
     public static void unLikePost(Post post) throws ParseException {
         post.deleteUserLikeOnPost();
     }
+
 
     public static void requestPermissions(Fragment fragment) {
         ActivityResultLauncher<String[]> audioPermissionRequest =

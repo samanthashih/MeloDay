@@ -23,14 +23,16 @@ import kaaes.spotify.webapi.android.SpotifyService;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
-    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
+    private String accessToken;
+    public  SpotifyService spotify;
     public static BottomNavigationView bottomNavigationView;
     final FragmentManager fts = getSupportFragmentManager();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        accessToken = ParseUser.getCurrentUser().getString(MainActivity.this.getString(R.string.keyAccessToken));
+        spotify  = SpotifyServiceSingleton.getInstance(accessToken);
         setContentView(R.layout.activity_main);
         initBottomNav();
     }

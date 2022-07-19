@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.meloday20.R;
 import com.example.meloday20.service.SpotifyServiceSingleton;
+import com.example.meloday20.ui.MainActivity;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -29,8 +30,8 @@ import kaaes.spotify.webapi.android.models.Track;
 
 public class SearchFragment extends Fragment {
     private final static String TAG = SearchFragment.class.getSimpleName();
-    private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
-    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
+    private String accessToken;
+    public  SpotifyService spotify;
     private SearchViewModel viewModel;
     private SearchView svSearch;
     private RecyclerView rvResults;
@@ -47,6 +48,8 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        accessToken = ParseUser.getCurrentUser().getString(getContext().getString(R.string.keyAccessToken));
+        spotify = SpotifyServiceSingleton.getInstance(accessToken);
     }
 
     @Override

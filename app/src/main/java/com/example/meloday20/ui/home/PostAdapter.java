@@ -25,6 +25,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.meloday20.models.Post;
 import com.example.meloday20.models.PreviewPlayer;
 import com.example.meloday20.R;
+import com.example.meloday20.ui.MainActivity;
 import com.example.meloday20.ui.audioWaveAnimation.RendererFactory;
 import com.example.meloday20.ui.audioWaveAnimation.WaveFormView;
 import com.example.meloday20.ui.home.comment.CommentsActivity;
@@ -81,7 +82,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
     // viewholder class
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, Visualizer.OnDataCaptureListener {
-        private final String accessToken = ParseUser.getCurrentUser().getString("accessToken");
+        private final String accessToken = ParseUser.getCurrentUser().getString(context.getString(R.string.keyAccessToken));
         private final SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
         private final PreviewPlayer previewPlayer = PreviewPlayerSingleton.getInstance();
 

@@ -53,7 +53,7 @@ public class SplashActivity extends AppCompatActivity {
     private void checkIfLoggedIn() {
         try {
             ParseUser currentUser = ParseUser.getCurrentUser();
-            String accessToken = currentUser.getString("accessToken");
+            String accessToken = currentUser.getString(SplashActivity.this.getString(R.string.keyAccessToken));
             SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
             spotify.getMe(new Callback<UserPrivate>() {
                 @Override

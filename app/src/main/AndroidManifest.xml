@@ -29,9 +29,19 @@
         android:grantUriPermissions="true"
         tools:targetApi="31" >
 
+<!--        <provider-->
+<!--            android:authorities="my.meloday20.fileprovider"-->
+<!--            android:name="androidx.core.content.FileProvider"-->
+<!--            android:exported="false"-->
+<!--            android:grantUriPermissions="true">-->
+<!--            <meta-data-->
+<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
+<!--                android:resource="@xml/file_paths" />-->
+<!--        </provider>-->
+
         <provider
-            android:authorities="my.meloday20.fileprovider"
-            android:name="androidx.core.content.FileProvider"
+            android:name="com.example.meloday20.MyFileProvider"
+            android:authorities="com.mydomain.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

@@ -2,10 +2,12 @@ package com.example.meloday20.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -27,6 +29,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void shareToInstagram(String imageUrl) throws IOException, URISyntaxException {
-        Log.i(TAG, "share to instagram story image url: " + imageUrl);
+//        Log.i(TAG, "share to instagram story image url: " + imageUrl);
 //        URL url = new URL(imageUrl);
 //        Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
 //        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -79,7 +82,17 @@ public class MainActivity extends AppCompatActivity {
                 .appendPath(resources.getResourceEntryName(R.drawable.default_playlist_cover))
                 .build();
         Log.i(TAG, "default image: " + uri.toString());
-
+//
+//
+//        Uri uri2 = FileProvider.getUriForFile(
+//                MainActivity.this,
+//                "com.mydomain.fileprovider",
+//                new File("/Users/samanthashih/Downloads/abba.jpeg"));
+////        Uri uri2 = Uri.fromFile();
+//
+//        File imagePath = new File(MainActivity.this.getFilesDir(), "downloads");
+//        File newFile = new File(imagePath, "abba.jpg");
+//        Uri contentUri = FileProvider.getUriForFile(MainActivity.this, "com.mydomain.fileprovider", newFile);
 
         Intent feedIntent = new Intent(Intent.ACTION_SEND);
         feedIntent.setType("image/*");

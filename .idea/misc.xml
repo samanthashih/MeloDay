@@ -40,7 +40,7 @@
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.3972355769230769" />
         <entry key="app/src/main/res/layout/item_comment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_playlist_track.xml" value="0.4" />
-        <entry key="app/src/main/res/layout/item_post_track.xml" value="0.29931972789115646" />
+        <entry key="app/src/main/res/layout/item_post_track.xml" value="0.6620028333599065" />
         <entry key="app/src/main/res/layout/item_search_track.xml" value="0.3977455716586151" />
         <entry key="app/src/main/res/layout/sleeping_astronaut_loading.xml" value="0.438514772857697" />
         <entry key="app/src/main/res/menu/bottom.xml" value="0.2265625" />
@@ -49,6 +49,7 @@
         <entry key="app/src/main/res/menu/menu_toolbar.xml" value="0.3458333333333333" />
         <entry key="app/src/main/res/menu/post_fragment_menu.xml" value="0.2833333333333333" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="app/src/main/res/xml/file_paths.xml" value="0.11730072463768115" />
       </map>
     </option>
   </component>

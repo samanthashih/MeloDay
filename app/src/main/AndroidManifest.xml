@@ -7,6 +7,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <queries>
+        <intent>
+            <action android:name='com.instagram.share.ADD_TO_STORY' />
+        </intent>
+    </queries>
 
     <application
         android:name=".MyApplication"
@@ -18,14 +26,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Meloday20"
+        android:grantUriPermissions="true"
         tools:targetApi="31" >
+
+        <provider
+            android:authorities="my.meloday20.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <activity
             android:name=".ui.home.PlaylistPopUpActivity"
             android:theme="@style/playlistPopUpTheme"
             android:exported="false" />
         <activity
             android:name=".ui.home.comment.CommentsActivity"
-            android:exported="false" />
+            android:enabled="true"
+            android:exported="true" />
         <activity
             android:name=".ui.login.SpotifyLoginActivity"
             android:exported="false" />
@@ -34,7 +55,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"
-            android:exported="false" />
+            android:enabled="true"
+            android:exported="true"/>
         <activity
             android:name=".ui.SplashActivity"
             android:exported="true" >

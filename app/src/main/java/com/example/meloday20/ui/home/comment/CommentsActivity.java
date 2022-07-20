@@ -1,11 +1,18 @@
 package com.example.meloday20.ui.home.comment;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.app.Application;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,6 +29,8 @@ import com.parse.ParseException;
 
 import org.parceler.Parcels;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 

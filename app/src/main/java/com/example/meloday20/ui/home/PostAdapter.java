@@ -1,11 +1,16 @@
 package com.example.meloday20.ui.home;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.media.Image;
 import android.media.audiofx.Visualizer;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -94,6 +99,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         private ImageView ivLike;
         private TextView tvLikeNum;
         private ImageView ivComment;
+        private ImageView ivSharePost;
         private ImageView ivPostProfilePic;
         private ImageView ivPostPlayArrow;
         private CardView card_view;
@@ -118,6 +124,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             ivPostCoverImage = itemView.findViewById(R.id.ivPostCoverImage);
             ivLike = itemView.findViewById(R.id.ivLike);
             tvLikeNum = itemView.findViewById(R.id.tvLikeNum);
+            ivSharePost = itemView.findViewById(R.id.ivSharePost);
             ivComment = itemView.findViewById(R.id.ivComment);
             ivPostPlayArrow = itemView.findViewById(R.id.ivPostPlayArrow);
             card_view = itemView.findViewById(R.id.card_view);
@@ -177,6 +184,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                     Intent toComment = new Intent(context, CommentsActivity.class);
                     toComment.putExtra("post", Parcels.wrap(post));
                     context.startActivity(toComment);
+                }
+            });
+
+            ivSharePost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                   Intent toMainActivity = new Intent(context, MainActivity.class);
+                   toMainActivity.putExtra("shareToInstaStory", post.getTrackImageUrl());
+                   context.startActivity(toMainActivity);
                 }
             });
 

@@ -9,10 +9,10 @@
 
     <ImageView
         android:id="@+id/logo_id"
-        android:layout_width="203dp"
-        android:layout_height="213dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/ic_launcher_foreground"
+        android:src="@mipmap/ic_launcher_foreground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"

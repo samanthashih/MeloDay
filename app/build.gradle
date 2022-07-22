@@ -60,8 +60,8 @@ dependencies {
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
     implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
     implementation "androidx.cardview:cardview:1.0.0"
-    implementation "androidx.room:room-runtime:$roomVersion"
-    annotationProcessor "androidx.room:room-compiler:$roomVersion"
+//    implementation "androidx.room:room-runtime:$roomVersion"
+//    annotationProcessor "androidx.room:room-compiler:$roomVersion"
     implementation "com.airbnb.android:lottie:$lottieVersion"
     implementation 'com.github.amrdeveloper:lottiedialog:1.0.0'
     implementation "com.google.android.material:material:1.7.0-alpha02"
@@ -70,4 +70,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-messaging'
     implementation "com.google.code.gson:gson:2.8.5"
+    implementation 'androidx.palette:palette:1.0.0'
 }

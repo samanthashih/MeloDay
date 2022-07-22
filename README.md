@@ -1,7 +1,7 @@
 Original App Design Project - README Template
 ===
 
-# MeloDay 🎶
+# Meloday  🎵
 
 ## Table of Contents
 1. [Overview](#Overview)
@@ -11,16 +11,15 @@ Original App Design Project - README Template
 
 ## Overview
 ### Description
-Create a playlist of the year by notifying you daily to add a song to the playlist. There will be a home timeline where you can follow people and see their song of the day, like and comment on the post.
+Meloday is a music-based social media app that asks users to choose a song to post once a day. New users are prompted to create a playlist and each daily song will be auto-added to the playlist. The post is shared online, where other users can like, comment, or share. Meloday is meant to encourage people to  create daily memories through music and view their progression throughout the year.
 
 ### App Evaluation
-[Evaluation of your app across the following attributes]
-- **Category:** music, social
-- **Mobile:** yes
-- **Story:** yes - creating a story of the year through song choices
-- **Market:** social
-- **Habit:** daily
-- **Scope:**
+- **Category:** Music / Social Media / Entertainment
+- **Mobile:** This app is primarily suited for mobile because of the flexibility and quicker access to user's phones. Since Meloday is meant to be used daily and the user receives daily notifications, user convenience is important.
+- **Story:** Everyone listens to music - 270 million people in the US listen to music daily. Meloday personalizes this experience by culminating a year's worth of music into one playlist and creates a social environment with others. 
+- **Market:** user - any individual who uses Spotify (the world's most popular audio streaming subscription service with 422 million users)
+- **Habit:** Meloday is designed to be used at least once a day. A push notification is sent to users to remind them to post their song before the end of the day.
+- **Scope:** Meloday would have the core feature of users being able to search for a song and select it as their song of the day. Using the Spotify API, I am able to leverage Spotify's library of over 82 million songs. The daily posts are stored in an external database that can be accessed from any device with Internet. In this case, I am using Parse, a platform that allows developers to build mobile apps with shared data.
 
 ## Product Spec
 
@@ -28,84 +27,75 @@ Create a playlist of the year by notifying you daily to add a song to the playli
 
 **Required Must-have Stories**
 
-* Individual user accounts
-    * Username, display name, profile picture
-    * Remember user's login
-* Be able to login via Spotify
-* Add daily song to playlist
-    * Be able to search for songs
-    * Add caption to song post
-* Timeline to see other people's songs
-    * See their year playlist
-    * Be able to like & comment other people's songs
-*  Be able to notify user daily to add a song
-    * Maybe have the user be able to add a song any time of the day but have a notify reminder at end of day if user did not add a song?
+[x] User accounts
+   [x] Users are able to login via Spotify authentication/logout from Meloday without having to sign out of the Spotify as well
+   [x] Meloday remembers if the user is currently logged in
+   [x] New users can create a Meloday playlist
+[x] Users are able to search for a song
+[x] Users are able to post the searched song to the timeline
+[x] The song is auto-added to their Meloday playlist
+[x] Users are able to view their Meloday playlist within the app
+[x] Timeline displays other user's daily posts
 
 **Planned Problems**
-* Filter timeline to only see songs from a certain date range
-* Suggest songs based on filtering user’s listening history, top artists, etc. (planned problem)
-* Play song snippets when you click on song cover
-* Suggest popular songs based on your location
+[x] Set daily notifications that remind user to post their song. Allow users to customize the set daily reminder to notify at a certain time of the day and save this data. 
+[x] Play song snippets from within the app when you click on a song cover from the home timeline. Animate the song snippet with a smooth waveform using the audio bytes.
 
 **Optional Nice-to-have Stories**
-
-* Modern UI with color theme
-* Suggest friends to follow based on contacts list, Facebook friends, Spotify friends
-* Map of where you are when you added song
-    * Google Maps API
-    * Can see other friends locations also
-    * Global map feature to see people around world
-* Use Shazam (or some music recognition software) to recognize songs and ask user if they want to add it to playlist
-* Share daily song post via text message, post to IG story
-* Categorize songs into their respective categories of music (pop, indie, rap, etc.) and create a visualization of your accumulated songs
-    * Pie chart
+[x] UI/UX features, such as establishing a color theme and design consistency throughout app
+[x] Design an original app logo
+[x] Users can like another user's post, can double-tap to like
+[x] Users can comment on another user's post
+[x] Users can see other users' playlist
+[x] Users can share a post to Instagram stories
 
 ### 2. Screen Archetypes
-* Login
-   * Individual user accounts
-       * Username, password, profile picture
-       * Playlist
-       * Friends
-       * Settings for notifications
-* Timeline
-   * See other users' posts
-       * Username, profile picture
-       * Song post
-       * Like/comment on others' posts
-* Post
-   * Search for song
+* Login screen
+   * Users are able to login via Spotify
+* Home Timeline screen
+   * Display the song posts of different users
+   * Play a song snippet when a song cover image is clicked
+   * Pop up of a user's Meloday playlist when their profile is clicked
+   * Can like, comment, and share each post
+* Search screen
+   * Search for a song, album, artist
+   * Display search results
+* Add Song screen
+   * When a searched track is selected, open Add Song screen
+   * Display song details (title, album cover image, artist)
+   * Post button
+      * Navigates to home timeline
+* Playlist screen
+   * View your own Meloday playlist
+   * Display songs, playlist cover, name, description, and the date of when each song was added
+* Profile screen
+   * Notifications - can toggle notifications on/off, view current set time for daily reminders, edit reminder time  
 
 ### 3. Navigation
 
-**Flow/Tab Navigation** (Tab/Screen to Screen)
+**Flow Navigation** (Screen to Screen)
+* Splash screen
+* Login screen
 
-* Login
-   * Opening screen
-* Home timeline
-   * From login screen to home timeline fragment
-   * When click on home timeline tab on bottom navigation bar
-* Post
-   * To post fragment
-   * When click on post tab on bottom navigation bar
+**Tab Navigation** (Tab to Screen)
+* Home Timeline
+   * Opening tab after login
+   * View posts
+* Search
+   * Search for songs
+   * Navigates to Add Song screen
 * Playlist
-   * Display current playlist
+   * View your Meloday playlist
 * Profile
-   * To profile fragment
-   * When click on post tab on bottom navigation bar
-* Settings
-    * From profile fragment to settings fragment
-    * Notification settings
-    * Logout
+   * View notification settings
+   * Logout
+      * Navigates back to login screen 
+
 
 ## Wireframes
 <img src="https://user-images.githubusercontent.com/54146286/173664939-bd2f1685-2668-44f0-a1eb-b63e31143b2d.jpg" width=600>
 
-### [BONUS] Digital Wireframes & Mockups
-
-### [BONUS] Interactive Prototype
-
 ## Schema 
-[This section will be completed in Unit 9]
 ### Models
 #### User
 
@@ -114,10 +104,22 @@ Create a playlist of the year by notifying you daily to add a song to the playli
    | objectId      | String   | unique id for the user (default field) |
    | username      | String   | unique username |
    | password      | String   | user's password |
-   | profilePic    | File     | user's profile image |
-   | playlist      | JSONObject? | user's playlist |
-   | createdAt     | DateTime | date when post is created (default field) |
-   | updatedAt     | DateTime | date when post is last updated (default field) |
+   | profilePic    | String   | profile image URL |
+   | accessToken   | String   | current Spotify auth token for user |
+   | alarmTime     | String   | daily reminder time (default 11:00 PM) |
+   | notifOn       | Boolean  | notifications on/off |
+   | createdAt     | DateTime | date when user is created (default field) |
+   | updatedAt     | DateTime | date when user is last updated (default field) |
+
+#### ParsePlaylist
+
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | objectId      | String   | unique id for the user post (default field) |
+   | user          | Pointer to User| post author |
+   | playlistId    | String   | user's Meloday playlist ID |
+   | createdAt     | DateTime | date when playlist is created (default field) |
+   | updatedAt     | DateTime | date when playlist is last updated (default field) |
    
 #### Post
 
@@ -125,47 +127,39 @@ Create a playlist of the year by notifying you daily to add a song to the playli
    | ------------- | -------- | ------------|
    | objectId      | String   | unique id for the user post (default field) |
    | user          | Pointer to User| post author |
-   | song          | JSONObject? | song that user posts |
-   | caption       | String   | post caption by author |
-   | commentsCount | Number   | number of comments on post |
-   | likesCount    | Number   | number of likes for the post |
+   | trackId       | String   | song ID |
+   | trackName     | String   | song name |
+   | trackArtists  | String   | song artists |
+   | trackImageUrl | String   | album cover image URL |
    | createdAt     | DateTime | date when post is created (default field) |
    | updatedAt     | DateTime | date when post is last updated (default field) |
+  
    
-#### Comments
-
-   | Property      | Type     | Description |
-   | ------------- | -------- | ------------|
-   | objectId      | String   | unique id for the comment (default field) |
-   | post          | Pointer to Post| post that is commented on |
-   | commentUser   | Pointer to User| comment author |
-   | createdAt     | DateTime | date when post is created (default field) |
-   | updatedAt     | DateTime | date when post is last updated (default field) |
-   
-#### Likes
+#### Like
 
    | Property      | Type     | Description |
    | ------------- | -------- | ------------|
    | objectId      | String   | unique id for the like (default field) |
-   | post          | Pointer to Post| post that is commented on |
-   | likeUser      | Pointer to User| like author |
-   | createdAt     | DateTime | date when post is created (default field) |
-   | updatedAt     | DateTime | date when post is last updated (default field) |
-  
-#### Friends
+   | user      | Pointer to User| like author |
+   | post          | Pointer to Post| post that is liked |
+   | createdAt     | DateTime | date when like is created (default field) |
+   | updatedAt     | DateTime | date when like is last updated (default field) |
+   
+ #### Comment
 
    | Property      | Type     | Description |
    | ------------- | -------- | ------------|
-   | objectId      | String   | unique id for the friendship (default field) |
-   | friend1       | Pointer to User| first user in friendship |
-   | friend2       | Pointer to User| second user in friendship |
-   | createdAt     | DateTime | date when post is created (default field) |
-   | updatedAt     | DateTime | date when post is last updated (default field) |
+   | objectId      | String   | unique id for the comment (default field) |
+   | user          | Pointer to User| comment author |
+   | post          | Pointer to Post| post that is commented on |
+   | message       | String   | comment message |
+   | createdAt     | DateTime | date when comment is created (default field) |
+   | updatedAt     | DateTime | date when comment is last updated (default field) |
 
 
 ### Networking
 #### List of network requests by screen
-   - Home Timeline Screen
+   - Home Timeline query example
       - (Read/GET) Query all posts
          ```java
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
@@ -187,16 +181,7 @@ Create a playlist of the year by notifying you daily to add a song to the playli
       - (Create/POST) Create a new post object
       - (Delete) Delete existing post
 
-#### APIs
-- Login
-    - Google
-    - Facebook
-- Timeline
-    - Spotify
-- Map
-    - Google Maps
-- Share song
-    - Instagram (specifically opening an IG story)
-    - Text
-- Song recognition
-    - Shazam
+#### APIs/Services
+- Spotify
+- Parse
+- Instagram

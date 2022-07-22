@@ -4,16 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="8dp"
+    android:padding="10dp"
     android:background="@color/black">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
-        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="15dp"
+        android:layout_gravity="center"
         app:cardBackgroundColor="@color/spotify_gray"
+        app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,9 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"
+            android:paddingTop="10dp"
             android:paddingRight="15dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="15dp">
+            android:paddingBottom="22dp">
 
             <TextView
                 android:id="@+id/tvPostUsername"
@@ -33,9 +33,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="3dp"
-                android:text="sam shih"
+                android:text="samshih21"
                 android:textColor="#ffffff"
                 android:textStyle="bold"
+                android:textSize="20sp"
                 app:layout_constraintStart_toEndOf="@+id/ivPostProfilePic"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,10 +44,10 @@
                 android:id="@+id/ivPostCoverImage"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvPostUsername"
+                app:layout_constraintTop_toBottomOf="@+id/ivPostProfilePic"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
@@ -54,15 +55,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="40dp"
                 android:layout_marginEnd="16dp"
-                android:text="As It Was"
+                android:text="Grapejuice"
                 android:textColor="#ffffff"
-                android:textSize="20sp"
+                android:textSize="23sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/ivLike"
                 app:layout_constraintStart_toEndOf="@+id/ivPostCoverImage"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/ivPostCoverImage" />
 
             <TextView
                 android:id="@+id/tvPostArtist"
@@ -73,6 +73,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="Harry Styles"
                 android:textColor="#ffffff"
+                android:textSize="18dp"
                 app:layout_constraintEnd_toStartOf="@+id/ivComment"
                 app:layout_constraintStart_toEndOf="@+id/ivPostCoverImage"
                 app:layout_constraintTop_toBottomOf="@+id/tvPostTitle" />
@@ -84,23 +85,23 @@
                 android:text="June 10, 2022"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/tvPostUsername" />
 
             <ImageView
                 android:id="@+id/ivLike"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="12dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginEnd="2dp"
+                android:layout_marginTop="3dp"
                 app:layout_constraintEnd_toStartOf="@+id/tvLikeNum"
-                app:layout_constraintTop_toBottomOf="@+id/tvPostDate"
+                app:layout_constraintTop_toTopOf="@+id/tvPostTitle"
                 app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
 
             <ImageView
                 android:id="@+id/ivComment"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="16dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="14dp"
                 app:layout_constraintStart_toStartOf="@+id/ivLike"
                 app:layout_constraintTop_toBottomOf="@+id/ivLike"
                 app:srcCompat="@drawable/ic_outline_mode_comment_24" />
@@ -109,15 +110,16 @@
                 android:id="@+id/tvLikeNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
                 android:text="5"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/ivLike"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvPostDate" />
+                app:layout_constraintTop_toTopOf="@+id/ivLike" />
 
             <ImageView
                 android:id="@+id/ivPostProfilePic"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginTop="5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -125,8 +127,8 @@
 
             <ImageView
                 android:id="@+id/ivPostPlayArrow"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="70dp"
+                android:layout_height="65dp"
                 app:layout_constraintBottom_toBottomOf="@+id/ivPostCoverImage"
                 app:layout_constraintEnd_toEndOf="@+id/ivPostCoverImage"
                 app:layout_constraintStart_toStartOf="@+id/ivPostCoverImage"
@@ -137,20 +139,35 @@
                 android:id="@+id/waveform_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/ivPostCoverImage"
                 app:layout_constraintStart_toStartOf="@+id/ivPostCoverImage"
-                app:layout_constraintTop_toTopOf="@+id/ivPostCoverImage" />
+                app:layout_constraintTop_toBottomOf="@+id/ivPostCoverImage" />
 
             <ImageView
                 android:id="@+id/ivSharePost"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
                 android:layout_marginTop="16dp"
+                android:paddingLeft="3dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ivPostCoverImage"
                 app:layout_constraintEnd_toEndOf="@+id/ivComment"
                 app:layout_constraintStart_toStartOf="@+id/ivComment"
                 app:layout_constraintTop_toBottomOf="@+id/ivComment"
-                app:srcCompat="@drawable/ic_baseline_ios_share_24" />
+                app:srcCompat="@drawable/instagram_logo" />
+
+            <TextView
+                android:id="@+id/tvCommentNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:textSize="20sp"
+                android:paddingLeft="2dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ivComment"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ivComment"
+                app:layout_constraintTop_toTopOf="@+id/ivComment" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

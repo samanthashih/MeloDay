@@ -1,16 +1,14 @@
 package com.example.meloday20.ui.home;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.media.Image;
 import android.media.audiofx.Visualizer;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,6 +20,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -44,10 +43,11 @@ import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.Track;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -107,6 +107,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         private int audioSession;
         private Visualizer visualizer;
         private WaveFormView waveformView;
+        private String trackCoverImageUrl;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -134,6 +135,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         }
 
         public void bind(Post post) throws ParseException {
+            trackCoverImageUrl = post.getTrackImageUrl();
+            new MyAsync().execute();
             tvPostTitle.setText(post.getTrackName());
             tvPostArtist.setText(post.getTrackArtists());
             tvPostUsername.setText(post.getUsername());
@@ -157,7 +160,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                         .into(ivPostProfilePic);
             }
 
-            String trackCoverImageUrl = post.getTrackImageUrl();
             if (trackCoverImageUrl != null) {
                 Glide.with(context)
                         .load(trackCoverImageUrl)
@@ -224,6 +226,33 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 }
             });
 
+        }
+
+        private class MyAsync extends AsyncTask<Void, Void, Void> {
+            @Override
+            protected Void doInBackground(Void... Void) {
+                try {
+                    URL url = new URL(trackCoverImageUrl);
+                    Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    createPaletteAsync(image);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }
+
+        public Palette createPaletteSync(Bitmap bitmap) {
+            Palette p = Palette.from(bitmap).generate();
+            return p;
+        }
+
+        public void createPaletteAsync(Bitmap bitmap) {
+            Palette.from(bitmap).maximumColorCount(1).generate(new Palette.PaletteAsyncListener() {
+                public void onGenerated(Palette p) {
+                    card_view.setCardBackgroundColor(p.getDominantColor(3026739));
+                }
+            });
         }
 
         private void playTrackPreviewAndAnimation(String trackId) {

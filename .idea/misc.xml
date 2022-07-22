@@ -41,7 +41,7 @@
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.3972355769230769" />
         <entry key="app/src/main/res/layout/item_comment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_playlist_track.xml" value="0.4" />
-        <entry key="app/src/main/res/layout/item_post_track.xml" value="0.6620028333599065" />
+        <entry key="app/src/main/res/layout/item_post_track.xml" value="0.4565868263473054" />
         <entry key="app/src/main/res/layout/item_search_track.xml" value="0.3977455716586151" />
         <entry key="app/src/main/res/layout/sleeping_astronaut_loading.xml" value="0.438514772857697" />
         <entry key="app/src/main/res/menu/bottom.xml" value="0.2265625" />
@@ -60,5 +60,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.6471264367816092" />
+      </ProjectState>
+    </option>
   </component>
 </project>

@@ -153,18 +153,6 @@
                 app:layout_constraintStart_toStartOf="@+id/ivComment"
                 app:srcCompat="@drawable/instagram_logo" />
 
-            <TextView
-                android:id="@+id/tvCommentNum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5"
-                android:textSize="18sp"
-                android:paddingLeft="3dp"
-                app:layout_constraintBottom_toBottomOf="@+id/ivComment"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/ivComment"
-                app:layout_constraintTop_toTopOf="@+id/ivComment" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

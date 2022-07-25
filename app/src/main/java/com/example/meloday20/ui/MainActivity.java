@@ -60,83 +60,62 @@ public class MainActivity extends AppCompatActivity {
         if (getIntent().getStringExtra("shareToInstaStory") != null) {
             try {
                 shareToInstagram(getIntent().getStringExtra("shareToInstaStory"));
-            } catch (URISyntaxException | IOException e) {
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void shareToInstagram(String imageUrl) throws IOException, URISyntaxException {
-//        Log.i(TAG, "share to instagram story image url: " + imageUrl);
-//        URL url = new URL(imageUrl);
-//        Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        image.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-//        String path = MediaStore.Images.Media.insertImage(MainActivity.this.getContentResolver(), image, "Title", null);
-//        Uri uriCover = Uri.parse(path);
+    public void shareIg(String imageUrl) {
+        Resources resources = this.getResources();
+        Uri uri = (new Uri.Builder())
+                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+                .authority(resources.getResourcePackageName(R.drawable.meloday_logo))
+                .appendPath(resources.getResourceTypeName(R.drawable.meloday_logo))
+                .appendPath(resources.getResourceEntryName(R.drawable.meloday_logo))
+                .build();
 
-//        Uri uriCover = Uri.parse(imageUrl);
-//        Log.i(TAG, "cover uri: " + uriCover.toString());
+        Intent intent = new Intent("com.instagram.share.ADD_TO_STORY");
+        intent.setType("image/*");
+        intent.putExtra("interactive_asset_uri", uri);
+        intent.putExtra("content_url", "https://stackoverflow.com");
+        intent.putExtra("top_background_color", "#33FF33");
+        intent.putExtra("bottom_background_color", "#FF00FF");
+
+        grantUriPermission("com.instagram.android", uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        if (getPackageManager().resolveActivity(intent, 0) != null) {
+            startActivityForResult(intent, 0);
+        }
+    }
+
+    private void shareToInstagram(String imageUrl) throws IOException, URISyntaxException {
+        Log.i(TAG, "share to instagram story image url: " + imageUrl);
 
         Resources resources = this.getResources();
         Uri uri = (new Uri.Builder())
                 .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
-                .authority(resources.getResourcePackageName(R.drawable.default_playlist_cover))
-                .appendPath(resources.getResourceTypeName(R.drawable.default_playlist_cover))
-                .appendPath(resources.getResourceEntryName(R.drawable.default_playlist_cover))
+                .authority(resources.getResourcePackageName(R.drawable.meloday_logo))
+                .appendPath(resources.getResourceTypeName(R.drawable.meloday_logo))
+                .appendPath(resources.getResourceEntryName(R.drawable.meloday_logo))
                 .build();
-//        Log.i(TAG, "default image: " + uri.toString());
-////
-////
-////        Uri uri2 = FileProvider.getUriForFile(
-////                MainActivity.this,
-////                "com.mydomain.fileprovider",
-////                new File("/Users/samanthashih/Downloads/abba.jpeg"));
-//////        Uri uri2 = Uri.fromFile();
-////        File imagePath = new File(MainActivity.this.getFilesDir(), "downloads");
-////        File newFile = new File(imagePath, "abba.jpg");
-////        Uri contentUri = FileProvider.getUriForFile(MainActivity.this, "com.mydomain.fileprovider", newFile);
-//
-//        Intent feedIntent = new Intent(Intent.ACTION_SEND);
-//        feedIntent.setType("image/*");
-//        feedIntent.putExtra(Intent.EXTRA_STREAM, uri);
-//        feedIntent.setPackage("com.instagram.android");
-//
+
+        Intent feedIntent = new Intent(Intent.ACTION_SEND);
+        feedIntent.setType("image/*");
+        feedIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        feedIntent.setPackage("com.instagram.android");
+
 //        Intent storiesIntent = new Intent("com.instagram.share.ADD_TO_STORY");
-//        storiesIntent.setDataAndType(uri, "image/*");
 //        storiesIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 //        storiesIntent.setPackage("com.instagram.android");
-//        storiesIntent.putExtra("interactive_asset_uri", uri);
-//        storiesIntent.putExtra("top_background_color", "#33FF33");
-//        storiesIntent.putExtra("bottom_background_color", "#FF00FF");
-//
-//        this.grantUriPermission(
-//                "com.instagram.android", uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//
-//        feedIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{storiesIntent});
-//        startActivity(feedIntent);
+//        feedIntent.putExtra("interactive_asset_uri", uriSticker);
+//        feedIntent.putExtra("top_background_color", "#33FF33");
+//        feedIntent.putExtra("bottom_background_color", "#FF00FF");
 
-
-        // Define image asset URI
-//        Uri stickerAssetUri = Uri.parse();
-        String sourceApplication = BuildConfig.APPLICATION_ID;
-
-        // Instantiate implicit intent with ADD_TO_STORY action,
-        // sticker asset, and background colors
-
-        Intent intent = new Intent("com.instagram.share.ADD_TO_STORY");
-        intent.putExtra("source_application", sourceApplication);
-
-        intent.setType("image/*");
-        intent.putExtra("interactive_asset_uri", uri);
-        intent.putExtra("top_background_color", "#33FF33");
-        intent.putExtra("bottom_background_color", "#FF00FF");
-
-        // Instantiate activity and verify it will resolve implicit intent
-        Activity activity = MainActivity.this;
-        activity.grantUriPermission(
+        this.grantUriPermission(
                 "com.instagram.android", uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(intent);
+        startActivity(feedIntent);
     }
 
     private Uri getOutputMediaFileUri(int mediaType) {

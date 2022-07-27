@@ -55,6 +55,18 @@ public class ProfileFragment extends Fragment {
     private Resources resources;
     private String[] colors;
 
+    private TextView genreOneText;
+    private TextView genreTwoText;
+    private TextView genreThreeText;
+    private TextView genreFourText;
+    private TextView genreFiveText;
+    private TextView genreSixText;
+    private TextView genreSevenText;
+    private TextView genreEightText;
+    private TextView genreNineText;
+    private TextView genreTenText;
+
+
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -152,18 +164,23 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
-        pieChart.startAnimation();
 
-//        Log.i(TAG, "final map: " + genreCountMap.toString());
-//        for (Map.Entry<String, Integer> entry : genreCountMap.entrySet()) {
-//            String genre = entry.getKey();
-//            Integer count = entry.getValue();
-//            pieChart.addPieSlice(
-//                    new PieModel(
-//                            genre,
-//                            count,
-//                            Color.parseColor("#FFA726")));
-//        }
+        viewModel.legendLabels.observe(getViewLifecycleOwner(), new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> listLegendLabels) {
+                genreOneText.setText(listLegendLabels.get(0));
+                genreTwoText.setText(listLegendLabels.get(1));
+                genreThreeText.setText(listLegendLabels.get(2));
+                genreFourText.setText(listLegendLabels.get(3));
+                genreFiveText.setText(listLegendLabels.get(4));
+                genreSixText.setText(listLegendLabels.get(5));
+                genreSevenText.setText(listLegendLabels.get(6));
+                genreEightText.setText(listLegendLabels.get(7));
+                genreNineText.setText(listLegendLabels.get(8));
+                genreTenText.setText(listLegendLabels.get(9));
+            }
+        });
+        pieChart.startAnimation();
     }
 
 
@@ -183,7 +200,6 @@ public class ProfileFragment extends Fragment {
                 resources.getString(R.color.color_nine),
                 resources.getString(R.color.color_ten),
         };
-
         viewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         currentUser = ParseUser.getCurrentUser();
         ivLogout = view.findViewById(R.id.ivLogout);
@@ -194,5 +210,16 @@ public class ProfileFragment extends Fragment {
         tvProfileName = view.findViewById(R.id.tvProfileName);
         tvProfileBio = view.findViewById(R.id.tvProfileBio);
         pieChart = view.findViewById(R.id.piechart);
+        genreOneText = view.findViewById(R.id.genreOneText);
+        genreTwoText = view.findViewById(R.id.genreTwoText);
+        genreThreeText = view.findViewById(R.id.genreThreeText);
+        genreFourText = view.findViewById(R.id.genreFourText);
+        genreFiveText = view.findViewById(R.id.genreFiveText);
+        genreSixText = view.findViewById(R.id.genreSixText);
+        genreSevenText = view.findViewById(R.id.genreSevenText);
+        genreEightText = view.findViewById(R.id.genreEightText);
+        genreNineText = view.findViewById(R.id.genreNineText);
+        genreTenText = view.findViewById(R.id.genreTenText);
+
     }
 }

@@ -53,8 +53,11 @@ public class ProfileViewModel extends AndroidViewModel {
     private final ParseUser currentUser = ParseUser.getCurrentUser();
     private Context context;
     private HashMap<String, Integer> genreCountMap = new HashMap<>();
-    private MutableLiveData<HashMap<String, Integer>> _mapGenreCount = new MutableLiveData<>();
-    public LiveData<HashMap<String, Integer>> mapGenreCount = _mapGenreCount;
+
+    private List<String> listLegendLabels = new ArrayList<>();
+    private MutableLiveData<List<String>> _legendLabels = new MutableLiveData<>();
+    public LiveData<List<String>> legendLabels = _legendLabels;
+
     private List<PieModel> listPieModels = new ArrayList<>();
     private MutableLiveData<List<PieModel>> _pieModels = new MutableLiveData<>();
     public LiveData<List<PieModel>> pieModels = _pieModels;
@@ -106,6 +109,11 @@ public class ProfileViewModel extends AndroidViewModel {
                         // Sort the list using lambda expression
                         list.sort(Comparator.comparing(Map.Entry::getValue));
                         Collections.reverse(list);
+
+                        for (Map.Entry entry : list) {
+                            listLegendLabels.add(entry.getKey().toString());
+                        }
+                        _legendLabels.setValue(listLegendLabels);
 
                         int colorIndex = 0;
                         for (int i = 0; i < 10; i++) {

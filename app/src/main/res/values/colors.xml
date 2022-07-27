@@ -9,4 +9,16 @@
     <color name="white">#FFFFFFFF</color>
     <color name="spotify_gray">#2e2f33</color>
     <color name="spotify_green">#2ebd59</color>
+
+
+    <color name="color_one">#E76F51</color>
+    <color name="color_two">#EE8959</color>
+    <color name="color_three">#F4A261</color>
+    <color name="color_four">#EFB366</color>
+    <color name="color_five">#E9C46A</color>
+    <color name="color_six">#BABB74</color>
+    <color name="color_seven">#8AB17D</color>
+    <color name="color_eight">#2A9D8F</color>
+    <color name="color_nine">#287271</color>
+    <color name="color_ten">#264653</color>
 </resources>

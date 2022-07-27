@@ -38,10 +38,8 @@ public class PlaylistViewModel extends AndroidViewModel {
     private MutableLiveData<String> _currUserPlaylistId = new MutableLiveData<>();
     public LiveData<String> currUserPlaylistId = _currUserPlaylistId;
     private String currentUsersPlaylistId;
-
     private MutableLiveData<String> _anyUserPlaylistId = new MutableLiveData<>();
     public LiveData<String> anyUserPlaylistId = _anyUserPlaylistId;
-
     private MutableLiveData<List<PlaylistTrack>> _playlistTracks = new MutableLiveData<>();
     public LiveData<List<PlaylistTrack>> playlistTracks = _playlistTracks;
     private MutableLiveData<Playlist> _playlistDetails = new MutableLiveData<>();

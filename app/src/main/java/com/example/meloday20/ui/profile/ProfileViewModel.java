@@ -7,29 +7,132 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.meloday20.R;
 import com.example.meloday20.models.AlarmTime;
+import com.example.meloday20.models.ParsePlaylist;
 import com.example.meloday20.service.AlarmBroadcastReceiver;
+import com.example.meloday20.service.SpotifyServiceSingleton;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.eazegraph.lib.models.PieModel;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Artist;
+import kaaes.spotify.webapi.android.models.Artists;
+import kaaes.spotify.webapi.android.models.Pager;
+import kaaes.spotify.webapi.android.models.PlaylistTrack;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class ProfileViewModel extends AndroidViewModel {
     private static final String TAG = ProfileViewModel.class.getSimpleName();
+    private static String accessToken = ParseUser.getCurrentUser().getString("accessToken");
+    public static SpotifyService spotify = SpotifyServiceSingleton.getInstance(accessToken);
     private final ParseUser currentUser = ParseUser.getCurrentUser();
     private Context context;
+    private HashMap<String, Integer> genreCountMap = new HashMap<>();
+    private MutableLiveData<HashMap<String, Integer>> _mapGenreCount = new MutableLiveData<>();
+    public LiveData<HashMap<String, Integer>> mapGenreCount = _mapGenreCount;
+    private List<PieModel> listPieModels = new ArrayList<>();
+    private MutableLiveData<List<PieModel>> _pieModels = new MutableLiveData<>();
+    public LiveData<List<PieModel>> pieModels = _pieModels;
+
+
 
     public ProfileViewModel(@NonNull Application application) {
         super(application);
         context = application.getApplicationContext();
+    }
+
+    public void getCurrUserPlaylistGenres(String[] colors) {
+        ParseQuery<ParsePlaylist> query = ParseQuery.getQuery(ParsePlaylist.class); // specify what type of data we want to query - ParsePlaylist.class
+        query.whereEqualTo(ParsePlaylist.KEY_USER, currentUser);
+        query.include(ParsePlaylist.KEY_PLAYLIST_ID); // include data referred by current user
+        try {
+            String currentUsersPlaylistId = query.find().get(0).getPlaylistId();
+            getPlaylistGenreCount(currentUser.getUsername(), currentUsersPlaylistId, colors);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getPlaylistGenreCount(String userId, String playlistId, String[] colors) {
+        spotify.getPlaylistTracks(userId, playlistId, new Callback<Pager<PlaylistTrack>>() {
+            @Override
+            public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {
+                String artists = "";
+                for (PlaylistTrack playlistTrack: playlistTrackPager.items) {
+                    artists += playlistTrack.track.artists.get(0).id + ",";
+                }
+                spotify.getArtists(artists.substring(0,artists.length()-1), new Callback<Artists>() {
+                    @Override
+                    public void success(Artists artists, Response response) {
+                        for (Artist artist: artists.artists) {
+                            List<String> genres = artist.genres;
+                            if (genres.size() > 0) {
+                                for (String genre : genres) {
+                                    genreCountMap.merge(genre, 1, Integer::sum);
+                                }
+                            }
+                        }
+
+                        // Create a list from elements of HashMap
+                        List<Map.Entry<String, Integer> > list
+                                = new LinkedList<Map.Entry<String, Integer> >(
+                                genreCountMap.entrySet());
+
+                        // Sort the list using lambda expression
+                        list.sort(Comparator.comparing(Map.Entry::getValue));
+                        Collections.reverse(list);
+
+                        int colorIndex = 0;
+                        for (int i = 0; i < 10; i++) {
+                            Map.Entry<String, Integer> entry = list.get(i);
+                            listPieModels.add(
+                                    new PieModel(
+                                        entry.getKey(),
+                                        entry.getValue(),
+                                        Color.parseColor(colors[colorIndex]))
+                            );
+                            colorIndex++;
+                        }
+                        Log.i(TAG, "length of list pie models:" + listPieModels.size());
+                        _pieModels.setValue(listPieModels);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.i(TAG, "Error getting artist", error);
+                    }
+                });
+            }
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e(TAG, "Error getting track details.", error);
+            }
+        });
     }
 
     public void createAndSaveNotification(String inputTime) {

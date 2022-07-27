@@ -8,6 +8,7 @@ import android.view.View;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -31,6 +32,20 @@ import retrofit.client.Response;
 
 public class CommonActions {
     private static String TAG = CommonActions.class.getSimpleName();
+    private static ParseUser currentUser = ParseUser.getCurrentUser();
+
+    public static String getUserId() {
+        return currentUser.getUsername();
+    }
+
+    public static String getBio() {
+        return currentUser.getString("bio");
+    }
+
+    public static String getProfilePicUrl() {
+        return currentUser.getString("profilePicUrl");
+    }
+
 
     public static void likePost(Post post) throws ParseException {
         Like like = new Like();

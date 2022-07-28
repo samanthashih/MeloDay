@@ -68,73 +68,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void shareIg(String imageUrl) {
-        Resources resources = this.getResources();
-        Uri uri = (new Uri.Builder())
-                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
-                .authority(resources.getResourcePackageName(R.drawable.meloday_logo))
-                .appendPath(resources.getResourceTypeName(R.drawable.meloday_logo))
-                .appendPath(resources.getResourceEntryName(R.drawable.meloday_logo))
-                .build();
-
-        Intent intent = new Intent("com.instagram.share.ADD_TO_STORY");
-        intent.setType("image/*");
-        intent.putExtra("interactive_asset_uri", uri);
-        intent.putExtra("content_url", "https://stackoverflow.com");
-        intent.putExtra("top_background_color", "#33FF33");
-        intent.putExtra("bottom_background_color", "#FF00FF");
-
-        grantUriPermission("com.instagram.android", uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        if (getPackageManager().resolveActivity(intent, 0) != null) {
-            startActivityForResult(intent, 0);
-        }
-    }
-
     private void shareToInstagram(String imageUrl) throws IOException, URISyntaxException {
-        Log.i(TAG, "share to instagram story image url: " + imageUrl);
-
         Resources resources = this.getResources();
-        Uri uri = (new Uri.Builder())
-                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
-                .authority(resources.getResourcePackageName(R.drawable.meloday_logo))
-                .appendPath(resources.getResourceTypeName(R.drawable.meloday_logo))
-                .appendPath(resources.getResourceEntryName(R.drawable.meloday_logo))
-                .build();
+
+        Uri stickerAssetUri = Uri.parse(imageUrl);
+        String sourceApplication = "com.example.meloday20";
 
         Intent feedIntent = new Intent(Intent.ACTION_SEND);
         feedIntent.setType("image/*");
-        feedIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        feedIntent.putExtra(Intent.EXTRA_STREAM, stickerAssetUri);
         feedIntent.setPackage("com.instagram.android");
 
-//        Intent storiesIntent = new Intent("com.instagram.share.ADD_TO_STORY");
-//        storiesIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//        storiesIntent.setPackage("com.instagram.android");
-//        feedIntent.putExtra("interactive_asset_uri", uriSticker);
-//        feedIntent.putExtra("top_background_color", "#33FF33");
-//        feedIntent.putExtra("bottom_background_color", "#FF00FF");
+        Intent storiesIntent = new Intent("com.instagram.share.ADD_TO_STORY");
+        storiesIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        storiesIntent.setPackage("com.instagram.android");
+        feedIntent.putExtra("interactive_asset_uri", stickerAssetUri);
+        feedIntent.putExtra("top_background_color", "#33FF33");
+        feedIntent.putExtra("bottom_background_color", "#FF00FF");
 
         this.grantUriPermission(
-                "com.instagram.android", uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                "com.instagram.android", stickerAssetUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(feedIntent);
-    }
-
-    private Uri getOutputMediaFileUri(int mediaType) {
-        if (isExternalStorageAvailable()) {
-            //get Uri
-            return null;
-        } else {
-            return null;
-        }
-    }
-
-    private boolean isExternalStorageAvailable(){
-        String state = Environment.getExternalStorageState();
-        if (state.equals(Environment.MEDIA_MOUNTED)){
-            return  true;
-        }
-        else {
-            return  false;
-        }
     }
 
     private void initBottomNav() {

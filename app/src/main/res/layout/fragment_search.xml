@@ -43,7 +43,7 @@
         app:layout_constraintVertical_bias="0.177"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/music_guy" />
+        app:lottie_rawRes="@raw/music_guy2" />
 
     <TextView
         android:id="@+id/tvIfYouListen"

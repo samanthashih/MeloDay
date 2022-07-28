@@ -18,6 +18,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +27,10 @@ import java.util.Map;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
+import kaaes.spotify.webapi.android.models.SnapshotId;
 import kaaes.spotify.webapi.android.models.Track;
+import kaaes.spotify.webapi.android.models.TrackToRemove;
+import kaaes.spotify.webapi.android.models.TracksToRemove;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -111,10 +115,12 @@ public class AddTrackViewModel extends AndroidViewModel {
         if (lastPost != null) {
             lastPostedDate = GetDetails.getDateString(lastPost.getCreatedAt());
             today = GetDetails.getDateString(new Date());
+            Log.i(TAG, lastPostedDate + "vs. today: "+ today);
             if (lastPostedDate.equals(today)) {
                 Log.i(TAG, "Already posted today");
                 _postedToday.setValue(true);
             } else {
+                Log.i(TAG, "Did not post today");
                 _postedToday.setValue(false);
             }
         } else {
@@ -139,50 +145,53 @@ public class AddTrackViewModel extends AndroidViewModel {
         }
     }
 
-    // todo: does not delete on Spotify
-//    public void deleteTodayPost() throws ParseException {
-//        Post lastPost = getUserLastPost();
-//        lastPost.delete();
-//        lastPost.saveInBackground();
-//        String trackIdToDelete = lastPost.getTrackId();
-////        Map<String, Object> deleteTrackBody = new HashMap<>();
-////        deleteTrackBody.put("uris", new String[]{"spotify:track:" + trackIdToDelete});
-//
-//        android.os.Parcel parcel = android.os.Parcel.obtain();
-//        parcel.writeValue(trackIdToDelete);
-//        TrackToRemove t = new TrackToRemove();
-//        t.CREATOR.createFromParcel(parcel);
-//
-//        List<TrackToRemove> removeTracks = new ArrayList<>();
-//        removeTracks.add(t);
-//        android.os.Parcel parcel2 = android.os.Parcel.obtain();
-//        parcel2.writeValue(removeTracks);
-//
-//        TracksToRemove tracksToRemove = new TracksToRemove();
-//        tracksToRemove.CREATOR.createFromParcel(parcel2);
-//
-//        ParseQuery<ParsePlaylist> query = ParseQuery.getQuery(ParsePlaylist.class); // specify what type of data we want to query - ParsePlaylist.class
-//        query.whereEqualTo(ParsePlaylist.KEY_USER, ParseUser.getCurrentUser());
-//        query.include(ParsePlaylist.KEY_PLAYLIST_ID); // include data referred by current user
-//        query.findInBackground(new FindCallback<ParsePlaylist>() {
-//            @Override
-//            public void done(List<ParsePlaylist> queryPlaylists, ParseException e) {
-//                if (e != null) {
-//                    Log.e(TAG, "Issue with getting playlist id", e);
-//                    return;
-//                }
-//                playlistId = queryPlaylists.get(0).getPlaylistId();
-//                spotify.removeTracksFromPlaylist(userId, playlistId, tracksToRemove, new Callback<SnapshotId>() {
-//                    @Override
-//                    public void success(SnapshotId snapshotId, Response response) {
-//                        Log.i(TAG, "Removed today's track from playlist");
-//                    }
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//                        Log.i(TAG, "Could not remove song from playlist", error);
-//                    }
-//                });
-//            }
-//        });
-//    }
+    public void deleteTodayPost() throws ParseException {
+        String trackIdToDelete = deletePostFromParse();
+        deleteTrackFromPlaylist(trackIdToDelete);
+    }
+
+    private void deleteTrackFromPlaylist(String trackIdToDelete) {
+        android.os.Parcel parcel = android.os.Parcel.obtain();
+        parcel.writeValue(trackIdToDelete);
+        TrackToRemove t = new TrackToRemove();
+        t.CREATOR.createFromParcel(parcel);
+
+        List<TrackToRemove> removeTracks = new ArrayList<>();
+        removeTracks.add(t);
+        android.os.Parcel parcel2 = android.os.Parcel.obtain();
+        parcel2.writeValue(removeTracks);
+        TracksToRemove tracksToRemove = new TracksToRemove();
+        tracksToRemove.CREATOR.createFromParcel(parcel2);
+        ParseQuery<ParsePlaylist> query = ParseQuery.getQuery(ParsePlaylist.class); // specify what type of data we want to query - ParsePlaylist.class
+        query.whereEqualTo(ParsePlaylist.KEY_USER, ParseUser.getCurrentUser());
+        query.include(ParsePlaylist.KEY_PLAYLIST_ID); // include data referred by current user
+        query.findInBackground(new FindCallback<ParsePlaylist>() {
+            @Override
+            public void done(List<ParsePlaylist> queryPlaylists, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting playlist id", e);
+                    return;
+                }
+                playlistId = queryPlaylists.get(0).getPlaylistId();
+                spotify.removeTracksFromPlaylist(userId, playlistId, tracksToRemove, new Callback<SnapshotId>() {
+                    @Override
+                    public void success(SnapshotId snapshotId, Response response) {
+                        Log.i(TAG, "Removed today's track from playlist");
+                    }
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.i(TAG, "Could not remove song from playlist", error);
+                    }
+                });
+            }
+        });
+    }
+
+    private String deletePostFromParse() throws ParseException {
+        Post lastPost = getUserLastPost();
+        lastPost.delete();
+        lastPost.saveInBackground();
+        String trackIdToDelete = lastPost.getTrackId();
+        return trackIdToDelete;
+    }
 }

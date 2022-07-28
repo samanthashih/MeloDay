@@ -13,7 +13,7 @@
     <string name="keyTrack">track</string>
     <string name="colorWhite">#000000</string>
     <string name="colorSpotifyGray">#2e2f33</string>
-    <string name="alreadyPostedMessage">You already posted today\'s MeloDay! Don\'t worry, there\'s always tomorrow.</string>
+    <string name="alreadyPostedMessage">You already posted today! Do you want to replace today\'s Meloday with this song?</string>
     <string name="keyAlarmTime">alarmTime</string>
     <string name="AM">AM</string>
     <string name="PM">PM</string>

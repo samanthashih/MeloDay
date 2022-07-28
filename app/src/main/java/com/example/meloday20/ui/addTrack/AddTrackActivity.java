@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import com.amrdeveloper.lottiedialog.LottieDialog;
 import com.bumptech.glide.Glide;
 import com.example.meloday20.ui.MainActivity;
 import com.example.meloday20.R;
+import com.parse.ParseException;
 
 import org.parceler.Parcels;
 
@@ -56,11 +58,11 @@ public class AddTrackActivity extends AppCompatActivity {
                     @Override
                     public void onChanged(Boolean postedToday) {
                         if (postedToday) {
+                            Log.i(TAG, "Already posted!");
                             displayAlreadyPostedMessage();
                         }
                         else {
-                            viewModel.addTrackActions(track);
-                            goToMainActivity();
+                            addTrack();
                         }
                     }
                 };
@@ -96,9 +98,12 @@ public class AddTrackActivity extends AppCompatActivity {
     }
 
     private void displayAlreadyPostedMessage() {
-        Button btnOk = new Button(this);
-        btnOk.setText("Ok");
-        btnOk.setTextColor(Color.parseColor(getString(R.string.colorWhite)));
+        Button btnYes = new Button(this);
+        Button btnNo = new Button(this);
+        btnYes.setText("Yes");
+        btnNo.setText("No");
+        btnYes.setTextColor(Color.parseColor(getString(R.string.colorWhite)));
+        btnNo.setTextColor(Color.parseColor(getString(R.string.colorWhite)));
 
         LottieDialog dialog = new LottieDialog(this)
                 .setAnimation(R.raw.night_car_driving)
@@ -107,14 +112,32 @@ public class AddTrackActivity extends AppCompatActivity {
                 .setDialogBackground(Color.parseColor(getString(R.string.colorSpotifyGray)))
                 .setMessage(getString(R.string.alreadyPostedMessage))
                 .setMessageTextSize(18)
-                .addActionButton(btnOk);
+                .addActionButton(btnYes)
+                .addActionButton(btnNo);
 
-        btnOk.setOnClickListener(new View.OnClickListener() {
+        btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    viewModel.deleteTodayPost();
+                    addTrack();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btnNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.cancel();
             }
         });
         dialog.show();
+    }
+
+    private void addTrack() {
+        viewModel.addTrackActions(track);
+        goToMainActivity();
     }
 }

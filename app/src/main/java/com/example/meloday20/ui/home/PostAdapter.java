@@ -149,7 +149,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 Glide.with(context)
                         .load(profilePicUrl)
                         .placeholder(R.drawable.ic_baseline_account_circle_24)
-                        .transform(new RoundedCorners(100))
+                        .transform(new RoundedCorners(300))
                         .diskCacheStrategy(DiskCacheStrategy.DATA)
                         .into(ivPostProfilePic);
             } else {

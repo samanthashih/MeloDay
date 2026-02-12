@@ -18,6 +18,6 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/meloday_logo" />
+         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

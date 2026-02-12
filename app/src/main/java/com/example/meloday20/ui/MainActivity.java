@@ -21,7 +21,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.example.meloday20.BuildConfig;
+//import com.example.meloday20.BuildConfig;
 import com.example.meloday20.R;
 import com.example.meloday20.ui.home.HomeFragment;
 import com.example.meloday20.ui.playlist.PlaylistFragment;
@@ -97,20 +97,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
-                switch (item.getItemId()) {
-                    case R.id.action_search:
-                        fragment = new SearchFragment();
-                        break;
-                    case R.id.action_playlist:
-                        fragment = new PlaylistFragment();
-                        break;
-                    case R.id.action_profile:
-                        fragment = new ProfileFragment();
-                        break;
-                    case R.id.action_home:
-                    default:
-                        fragment = new HomeFragment();
-                        break;
+                int itemId = item.getItemId();
+                if (itemId == R.id.action_search) {
+                    fragment = new SearchFragment();
+                } else if (itemId == R.id.action_playlist) {
+                    fragment = new PlaylistFragment();
+                } else if (itemId == R.id.action_profile) {
+                    fragment = new ProfileFragment();
+                } else {
+                    fragment = new HomeFragment();
                 }
                 fts.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;
